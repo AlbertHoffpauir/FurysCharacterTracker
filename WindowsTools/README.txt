@@ -39,5 +39,5 @@ AutoExport.ps1            The helper. Every 3 seconds it checks whether the save
 
 If you move this folder after turning Auto Export on, run Turn On Auto Export.cmd again from the new place.
 
-AI disclosure: most of this code was written with an AI coding assistant (Claude by Anthropic), working
+AI disclosure: this code was written with the assistance of an AI coding assistant (Claude by Anthropic), working
 from my designs and instructions. I test it on my own PC and maintain it.

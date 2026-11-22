@@ -1,6 +1,6 @@
 # Fury's Character Tracker
 
-**AI disclosure:** Most of this addon's code was written with an AI coding assistant (Claude by Anthropic), working from my designs and instructions. I test every release in game on my own characters before it goes up, and I maintain it.
+**AI disclosure:** This addon's code was written with the assistance of an AI coding assistant (Claude by Anthropic), working from my designs and instructions. I test every release in game on my own characters before it goes up, and I maintain it.
 
 An Elder Scrolls Online addon: your whole roster on one board. Skill lines, guild ranks, crafting, research, scribing, motifs, recipes, companions, riding and time played for every character, read from the game.
 

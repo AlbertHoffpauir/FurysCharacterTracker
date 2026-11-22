@@ -1,6 +1,6 @@
 # Fury's Character Tracker
 
-**AI disclosure:** Most of this addon's code was written with an AI coding assistant (Claude by Anthropic), working from my designs and instructions. I test every release in game on my own characters before it goes up, and I maintain it. Please report any problem in the comments.
+**AI disclosure:** This addon's code was written with the assistance of an AI coding assistant (Claude by Anthropic), working from my designs and instructions. I test every release in game on my own characters before it goes up, and I maintain it. Please report any problem in the comments.
 
 Your whole roster on one board: every character's skill lines, guild ranks, crafting, research,
 scribing, motifs, recipes, furnishing plans, companions, riding and time played, read straight
