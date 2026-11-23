@@ -4,56 +4,66 @@
 <meta charset="utf-8">
 <title>Fury's Character Tracker</title>
 <style>
-  /* Same windows, sizes, colors and layout as the in-game board (UI/Window.xml and friends). */
-  :root { --bg: #100c08; --edge: #96733a; --gold: #d4af37; --tile: #d4b038; --ink: #1a1207; --parch: #e3d4b5;
-          --muted: #968770; --dim: #736654; --pick: #9ec7f2; --btn: #e8dcc0; --btnoff: #7d7465; }
+  /* Same windows, sizes, colors and layout as the in-game board (UI/Window.xml and friends).
+     Colors are the Fury Night look shared by all of Fury's addons (UI/Theme.lua). --gold is the accent (violet). */
+  :root { --bg: #0f0e1f; --edge: #4a3d99; --gold: #a08cff; --tile: #a08cff; --ink: #07060e; --parch: #eceaf8;
+          --muted: #b4b0d8; --dim: #8a86b0; --pick: #5cc2ff; --btn: #eceaf8; --btnoff: #6e6a94;
+          --head: #5cc2ff; --warn: #ffc857; --glow: #1e1a44; --stripe: #16142c; --hover: #211d46;
+          --title-font: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif; }  /* local fonts only: the viewer never goes online */
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; }
-  body { background: #050403; color: var(--parch); font-family: "Univers LT Std", "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
+  body { background: #07060e; color: var(--parch); font-family: "Univers LT Std", "Roboto Condensed", "Arial Narrow", Arial, sans-serif;
          font-stretch: condensed; font-size: 17px; overflow: auto; }
-  .win { position: absolute; background: #100c08; border: 2px solid var(--edge); }
+  .win { position: absolute; background: var(--bg); border: 2px solid var(--edge); }
+  /* Title glow and violet line, like the game windows. */
+  .win::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: var(--bar, 46px); pointer-events: none;
+                 background: linear-gradient(to bottom, var(--glow), var(--bg)); border-bottom: 2px solid var(--gold); }
+  #details { --bar: 72px; } #brag { --bar: 92px; }
   /* Text can be selected and copied; buttons, titles and column headers can't, so clicking and dragging work like in game. */
   button, .title, .close, .head, .dragzone, .tile .p { user-select: none; }
-  .title { position: absolute; left: 18px; top: 10px; color: var(--gold); font-size: 30px; font-weight: 600; white-space: nowrap; }
-  .title small { color: var(--muted); font-size: 14px; font-weight: 400; margin-left: 14px; }
-  .close { position: absolute; z-index: 5; right: 12px; top: 10px; width: 26px; height: 26px; color: #bdb19a; font-size: 24px; line-height: 24px;
+  .title { position: absolute; left: 18px; top: 8px; padding-left: 34px; color: var(--parch); font-family: var(--title-font); font-size: 28px;
+           font-weight: 400; white-space: nowrap; text-shadow: 2px 2px 3px #000, 1px 1px 0 #000; }
+  .title::before { content: ""; position: absolute; left: 4px; top: 50%; width: 14px; height: 14px; margin-top: -9px;
+                   border: 2px solid var(--gold); transform: rotate(45deg); box-shadow: inset 0 0 0 3px var(--bg), inset 0 0 0 7px var(--gold); }
+  .title small { color: var(--muted); font-family: "Univers LT Std", "Roboto Condensed", "Arial Narrow", Arial, sans-serif; font-size: 14px; font-weight: 400; margin-left: 14px; text-shadow: none; }
+  .close { position: absolute; z-index: 5; right: 12px; top: 10px; width: 26px; height: 26px; color: var(--muted); font-size: 24px; line-height: 24px;
            text-align: center; cursor: pointer; }
   .close:hover { color: #fff; }
   button { position: absolute; height: 28px; border: 0; background: linear-gradient(to right, transparent, rgba(0,0,0,.6) 14%, rgba(0,0,0,.6) 86%, transparent);
            color: var(--btn); font: inherit; font-weight: 700; font-size: 16px; cursor: pointer; padding: 0 6px; white-space: nowrap; overflow: hidden; }
   button::after { content: ""; position: absolute; left: 6%; right: 6%; bottom: 0; height: 2px;
-                  background: linear-gradient(to right, transparent, #8a7a5a 20%, #8a7a5a 80%, transparent); }
+                  background: linear-gradient(to right, transparent, var(--edge) 20%, var(--edge) 80%, transparent); }
   button:hover:not(:disabled) { color: #fff; }
   button:disabled { color: var(--btnoff); cursor: default; }
   .small { color: var(--muted); font-size: 14px; white-space: pre; overflow: hidden; text-overflow: ellipsis; }
   .line { position: absolute; height: 1px; background: var(--edge); }
   .row { position: absolute; left: 0; height: 28px; }
-  .row.stripe::before { content: ""; position: absolute; inset: 0; background: rgba(255,255,255,.035); }
+  .row.stripe::before { content: ""; position: absolute; inset: 0; background: var(--stripe); }
   .cell { position: absolute; top: 2px; height: 24px; line-height: 24px; padding: 0 4px; text-align: center;
           white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .cell.left { text-align: left; }
   .cell.max { background: var(--tile); color: var(--ink); font-weight: 700; }
   .cell.dim { color: var(--dim); } .cell.pick { color: var(--pick); }
-  .head .cell { color: var(--gold); font-weight: 700; cursor: pointer; }
+  .head .cell { color: var(--head); font-weight: 700; font-size: 15px; cursor: pointer; }
   .totals .cell { color: var(--gold); font-weight: 700; }
   .list { position: absolute; overflow-y: auto; overflow-x: hidden; }
   .list .row { cursor: default; }
-  .list .row:hover::before { content: ""; position: absolute; inset: 0; background: rgba(212,175,55,.08); }
-  #tip { position: fixed; z-index: 10000; display: none; background: rgba(10,8,5,.96); border: 1px solid #6b5a3a; padding: 8px 12px;
+  .list .row:hover::before { content: ""; position: absolute; inset: 0; background: var(--hover); }
+  #tip { position: fixed; z-index: 10000; display: none; background: rgba(7,6,14,.97); border: 1px solid var(--edge); padding: 8px 12px;
          color: var(--parch); font-size: 16px; white-space: pre-line; max-width: 560px; pointer-events: none; box-shadow: 0 4px 16px #000; }
-  #menu { position: fixed; z-index: 10001; display: none; background: rgba(10,8,5,.98); border: 1px solid #6b5a3a; padding: 4px 0; min-width: 300px; }
-  #menu div { padding: 4px 14px; cursor: pointer; white-space: nowrap; } #menu div:hover { background: rgba(212,175,55,.15); }
+  #menu { position: fixed; z-index: 10001; display: none; background: rgba(7,6,14,.98); border: 1px solid var(--edge); padding: 4px 0; min-width: 300px; }
+  #menu div { padding: 4px 14px; cursor: pointer; white-space: nowrap; } #menu div:hover { background: var(--hover); }
   #menu .on { color: var(--gold); }
   /* brag card */
-  .tile { position: absolute; width: 219px; height: 104px; background: #21190f; border-top: 2px solid rgba(212,175,55,.85); text-align: center; }
+  .tile { position: absolute; width: 219px; height: 104px; background: var(--stripe); border-top: 2px solid var(--gold); text-align: center; }
   .tile .v { color: var(--gold); font-size: 34px; font-weight: 700; line-height: 44px; margin-top: 4px; }
   .tile .l { font-weight: 700; line-height: 22px; }
   .tile .n { color: var(--dim); font-size: 14px; line-height: 18px; text-align: left; padding: 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .tile .p { position: absolute; right: 8px; bottom: 10px; color: var(--gold); font-weight: 700; font-size: 15px; }
-  .tile .track { position: absolute; left: 8px; right: 8px; bottom: 6px; height: 4px; background: #382e1c; }
+  .tile .track { position: absolute; left: 8px; right: 8px; bottom: 6px; height: 4px; background: var(--hover); }
   .tile .bar { height: 4px; background: var(--gold); }
   .center { text-align: center; position: absolute; left: 0; right: 0; }
-  .dt-head { color: var(--gold); font-weight: 700; line-height: 22px; margin-bottom: 4px; }
+  .dt-head { color: var(--head); font-weight: 700; line-height: 22px; margin-bottom: 4px; }
   .dt-grid { display: grid; grid-template-columns: repeat(3, 300px); column-gap: 20px; }
   .dt-item { display: flex; justify-content: space-between; line-height: 22px; white-space: nowrap; }
   .dt-item .k { color: var(--muted); overflow: hidden; text-overflow: ellipsis; max-width: 196px; }
@@ -288,7 +298,7 @@ const craftColumn = (def) => ({ title: def.short, width: 96,
   tip: (n, c) => craftTip(c, def) });
 const SLOTS = { title: "Slots", width: 84, max: (c) => summary(c).slots || null, value: (n, c) => summary(c).busy,
   display: (v, c) => summary(c).slots ? `${v}/${summary(c).slots}` : "-", dim: (v, c) => !summary(c).slots,
-  tip: () => "Research slots busy right now, across the crafts that still have traits to learn.\nGold = every slot working. Counts down live, even for characters you are not on." };
+  tip: () => "Research slots busy right now, across the crafts that still have traits to learn.\nViolet = every slot working. Counts down live, even for characters you are not on." };
 const NEXT_DONE = { title: "Next done", width: 104, value: (n, c) => summary(c).next ?? Infinity,
   display: (v) => v === Infinity ? "-" : duration(v), dim: (v) => v === Infinity,
   tip: (n, c) => { const s = summary(c); return (s.next != null ? "Next research finishes in " + duration(s.next) : "Nothing researching") +
@@ -312,7 +322,7 @@ const tree = (i, title) => ({ title, width: 96,
   max: (c) => { const t = asList(c.cp)[i]; return t && t.spent + t.unspent > 0 ? t.spent + t.unspent : null; },
   value: (n, c) => { const t = asList(c.cp)[i]; return t ? t.spent : 0; },
   display: (v, c) => { const t = asList(c.cp)[i]; return t ? `${v}/${t.spent + t.unspent}` : "-"; },
-  tip: (n, c) => { const t = asList(c.cp)[i]; return t ? `${t.name}: ${t.spent} spent, ${t.unspent} not spent\nGold = every point in this tree spent` : "Not read yet"; } });
+  tip: (n, c) => { const t = asList(c.cp)[i]; return t ? `${t.name}: ${t.spent} spent, ${t.unspent} not spent\nViolet = every point in this tree spent` : "Not read yet"; } });
 function treeTitles() { const titles = []; for (const c of Object.values(ACC().data.characters)) asList(c.cp).forEach((t, i) => { titles[i] = titles[i] || t.name; }); return titles; }
 
 const VIEWS = [
@@ -403,7 +413,7 @@ function buildBoard() {
   setTip(gear, () => "Settings are in game: the gear on the board, Settings > Addons > Fury's Character Tracker, or /fct settings.");
   setTip(accountBtn, () => "The account and megaserver on the board. Every account that plays on this PC shows up here after it logs in once with the addon on.\nOther accounts show what they saved at their last logout.");
   VIEWS.forEach((v, i) => {
-    const b = add(board, "button", "", `left:${18 + i * 126}px;top:50px;width:120px`, esc(v.title));
+    const b = add(board, "button", "", `left:${18 + i * 126}px;top:56px;width:120px`, esc(v.title));
     b.dataset.view = v.id; b.onclick = () => { state.view = v.id; save(); refreshBoard(); };
     if (v.tip) setTip(b, () => v.tip);
   });
@@ -427,7 +437,7 @@ function buildBoard() {
     setTip(b, () => f.tip);
   });
   add(board, "div", "small", "position:absolute;right:20px;bottom:20px",
-      `<span style="color:var(--gold)">Gold</span> maxed  ·  light in progress  ·  <span style="color:var(--dim)">-</span> none  ·  <span style="color:var(--pick)">blue</span> pick  ·  click details  ·  right-click remove`);
+      `<span style="color:var(--gold)">Violet</span> maxed  ·  white in progress  ·  <span style="color:var(--dim)">-</span> none  ·  <span style="color:var(--pick)">blue</span> pick  ·  click details  ·  right-click remove`);
 }
 
 function paint(cell, col, name, c, m) {
@@ -559,8 +569,8 @@ function showBrag() {
     { v: comma(a.setPieces), l: "Set items collected", note: a.setPiecesTotal ? `of ${comma(a.setPiecesTotal)} (sticker book)` : "log in to read", p: pct(a.setPieces, a.setPiecesTotal) },
     { v: comma(a.outfitStyles), l: "Outfit styles", note: a.outfitStylesTotal ? `of ${comma(a.outfitStylesTotal)}` : "log in to read", p: pct(a.outfitStyles, a.outfitStylesTotal) },
   ];
-  add(w, "div", "dragzone", "position:absolute;left:10px;right:10px;top:10px;height:1px;background:#4a3a1c");
-  add(w, "div", "center dragzone", "top:22px;color:var(--gold);font-size:38px;font-weight:700", esc(ACC().account));
+  add(w, "div", "dragzone", "position:absolute;left:10px;right:10px;top:10px;height:1px;background:var(--edge)");
+  add(w, "div", "center dragzone", "top:18px;color:var(--parch);font-family:var(--title-font);font-size:38px;font-weight:400;text-shadow:2px 2px 3px #000", esc(ACC().account));
   const classes = Object.keys(s.classes).sort(), onAccount = asList(a.characterNames).length;
   const count = n < onAccount ? `${n} of ${onAccount} characters read (/fct todo)` : `${n} characters`;
   add(w, "div", "center dragzone", "top:70px", esc(`${count}  ·  ${classes.length} of ${CLASS_COUNT} classes  ·  ${ACC().world}`));
@@ -573,7 +583,7 @@ function showBrag() {
     if (t.p != null) { add(el, "div", "p", "", `${Math.floor(t.p * 100)}%`); add(add(el, "div", "track"), "div", "bar", `width:${(t.p * 100).toFixed(1)}%`); }
   });
   const complete = classes.length >= CLASS_COUNT && classes.every((c) => ROLE_KEYS.every((k) => s.classes[c][k]));
-  add(w, "div", "center", "top:568px;color:var(--gold);font-size:20px;font-weight:700", complete ? "Every class. Every role." : "Classes and roles played");
+  add(w, "div", "center", "top:566px;color:var(--parch);font-family:var(--title-font);font-size:22px;font-weight:400", complete ? "Every class. Every role." : "Classes and roles played");
   const cov = add(w, "div", "", "position:absolute;left:24px;top:600px;width:912px;height:56px;display:flex");
   for (const c of classes) add(cov, "div", "", "flex:1;text-align:center",
     `<div style="font-weight:700">${esc(c)}</div><div style="font-size:14px">${ROLE_KEYS.map((k) => `<span style="color:${s.classes[c][k] ? "var(--gold)" : "var(--dim)"}">${k}</span>`).join(" ")}</div>`);
@@ -595,14 +605,14 @@ function showTimers() {
   document.getElementById("timers")?.remove();
   const w = makeWindow("timers", 1000, 620, true);
   add(w, "div", "title", "", `Research timers<small>${esc(viewLabel(ACC()))}</small>`);
-  const sum = add(w, "div", "small", "position:absolute;left:20px;top:50px;width:960px;height:20px");
-  const G = "var(--gold)";
+  const sum = add(w, "div", "small", "position:absolute;left:20px;top:54px;width:960px;height:20px");
+  const G = "var(--warn)", H = "var(--head)";
   timerRow(w, 76, { name: "Character", craft: "Craft", item: "Item", trait: "Trait", left: "Time left", ends: "Finishes" },
-           { name: G, craft: G, item: G, trait: G, left: G, ends: G }, false, true).style.left = "18px";
+           { name: H, craft: H, item: H, trait: H, left: H, ends: H }, false, true).style.left = "18px";
   add(w, "div", "line", "left:20px;top:104px;width:960px");
   const list = add(w, "div", "list", "left:20px;top:109px;width:962px;height:467px");
   add(w, "div", "small", "position:absolute;left:20px;bottom:16px",
-      `<span style="color:var(--gold)">Gold</span> needs you (done or idle)  ·  light researching  ·  updates every 30 seconds  ·  /fct timers`);
+      `<span style="color:var(--warn)">Amber</span> needs you (done or idle)  ·  white researching  ·  updates every 30 seconds  ·  /fct timers`);
   const fill = () => {
     if (!document.body.contains(w)) return clearInterval(timer);
     const rows = timerRows(boardNames()), t = now();
@@ -662,8 +672,8 @@ function showDetails(name) {
   document.getElementById("details")?.remove();
   const [c, m] = get(name);
   const w = makeWindow("details", 1000, 720, true);
-  add(w, "div", "title", "top:14px;left:22px", esc(name));
-  add(w, "div", "small", "position:absolute;left:22px;top:52px;width:930px",
+  add(w, "div", "title", "top:8px;left:22px", esc(name));
+  add(w, "div", "small", "position:absolute;left:22px;top:48px;width:930px",
       esc(`${viewLabel(ACC())}  ·  Level ${c.level ?? "?"} ${c.race || ""} ${c.class || ""}  ·  ${c.alliance || ""}  ·  read from the game ${fmtDate(c.lastScan)}`));
   const box = add(w, "div", "", "position:absolute;left:22px;top:76px;right:14px;bottom:16px;overflow-y:auto");
   // Laid out in normal flow (a 3-column grid per section) so selected text copies one line at a time.

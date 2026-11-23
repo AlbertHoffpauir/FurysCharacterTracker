@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0
+- New look, "Fury Night", shared by all of Fury's addons: deep blue-black windows with an indigo frame, a soft glow behind the title, a violet line under it and a character icon beside it. Titles use the game's book font (Prose Antique).
+- Blue column headers, striped rows, and the row under the mouse lights up.
+- The "ready" color is now violet instead of gold; research timers that need you are amber.
+- The Brag window uses the same look, with a larger Prose Antique title.
+- Chat messages and the settings title use the new violet color.
+- Nothing about what the addon does or your settings has changed.
+
 ## 1.2.2
 - The offline viewer and Excel export helper (Windows scripts) are now a separate download, Fury's Character Tracker Windows Tools, linked on the addon page. ESOUI asks that addon downloads hold only addon files. Nothing changes in game; the Export to Excel button works as before.
 - Shorter description line in the addon manifest, so the game reads all of it.

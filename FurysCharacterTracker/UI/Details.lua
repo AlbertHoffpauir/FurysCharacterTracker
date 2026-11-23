@@ -6,10 +6,11 @@ local R = CT.Research
 local Details = {}
 CT.Details = Details
 
-local GOLD = { 0.83, 0.69, 0.22 }
-local PARCH = { 0.89, 0.83, 0.71 }
-local MUTED = { 0.59, 0.53, 0.44 }
-local DIM = { 0.45, 0.40, 0.33 }
+local T = CT.Theme                    -- Fury Night colors and fonts (UI/Theme.lua)
+local GOLD = T.RGB.VIOLET             -- done / maxed
+local PARCH = T.RGB.TEXT
+local MUTED = T.RGB.SUB
+local DIM = T.RGB.MUTED
 
 local COLUMNS, COL_W, COL_GAP, KEY_W, VALUE_W, LINE_H = 3, 300, 20, 196, 100, 22
 
@@ -145,7 +146,7 @@ function Details:Show(name)
     local width = COLUMNS * COL_W + (COLUMNS - 1) * COL_GAP
     for _, section in ipairs(self.Sections(name, c, m)) do
         n = n + 1
-        self:Put(n, section.title, "ZoFontGameBold", GOLD, 0, y, width)
+        self:Put(n, section.title, "ZoFontGameBold", T.RGB.BLUE, 0, y, width)
         y = y + LINE_H + 4
         for i, item in ipairs(section.items or {}) do
             local col = (i - 1) % COLUMNS

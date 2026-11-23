@@ -10,9 +10,10 @@ local TILE_W, TILE_H, GAP = 219, 104, 12
 local CLASS_COUNT = 7   -- Dragonknight, Sorcerer, Nightblade, Templar, Warden, Necromancer, Arcanist
 local ROLE_KEYS = { "Tank", "Healer", "DPS" }
 
-local GOLD = { 0.83, 0.69, 0.22 }
-local PARCH = { 0.89, 0.83, 0.71 }
-local DIM = { 0.45, 0.40, 0.33 }
+local T = CT.Theme                    -- Fury Night colors and fonts (UI/Theme.lua)
+local GOLD = T.RGB.VIOLET             -- the numbers and bars
+local PARCH = T.RGB.TEXT
+local DIM = T.RGB.MUTED
 
 -- Numbers ------------------------------------------------------------------------------
 
@@ -132,7 +133,7 @@ function Brag:Build()
     for i = 1, COLS * ROWS do
         local col, row = (i - 1) % COLS, zo_floor((i - 1) / COLS)
         local tile = WINDOW_MANAGER:CreateControl("FuryCTBragTile" .. i, FuryCTBragTiles, CT_TEXTURE)
-        tile:SetColor(0.13, 0.10, 0.06, 1)
+        T.Paint(tile, T.STRIPE)
         tile:SetDimensions(TILE_W, TILE_H)
         tile:SetAnchor(TOPLEFT, FuryCTBragTiles, TOPLEFT, col * (TILE_W + GAP), row * (TILE_H + GAP))
         local edge = WINDOW_MANAGER:CreateControl("FuryCTBragTile" .. i .. "Edge", tile, CT_TEXTURE)
@@ -153,7 +154,7 @@ function Brag:Build()
         pct:SetDimensions(56, 18)
         pct:SetAnchor(BOTTOMRIGHT, tile, BOTTOMRIGHT, -8, -12)
         local track = WINDOW_MANAGER:CreateControl("FuryCTBragTile" .. i .. "Track", tile, CT_TEXTURE)
-        track:SetColor(0.22, 0.18, 0.11, 1)
+        T.Paint(track, T.HOVER)
         track:SetDimensions(TILE_W - 16, 4)
         track:SetAnchor(BOTTOMLEFT, tile, BOTTOMLEFT, 8, -6)
         local bar = WINDOW_MANAGER:CreateControl("FuryCTBragTile" .. i .. "Bar", tile, CT_TEXTURE)
@@ -161,6 +162,7 @@ function Brag:Build()
         bar:SetAnchor(BOTTOMLEFT, tile, BOTTOMLEFT, 8, -6)
         self.tiles[i] = { value = value, label = label, note = note, pct = pct, track = track, bar = bar }
     end
+    FuryCTBragCoverageTitle:SetFont(T.FONT_SECTION)
     self.classes = {}
     local width = zo_floor(912 / CLASS_COUNT)
     for i = 1, CLASS_COUNT do
@@ -218,7 +220,7 @@ function Brag:Refresh()
         end
     end
 
-    -- Class x role coverage: gold role = you have a character playing it.
+    -- Class x role coverage: violet role = you have a character playing it.
     local everything = #s.classOrder >= CLASS_COUNT
     for i, slot in ipairs(self.classes) do
         local class = s.classOrder[i]
@@ -226,9 +228,9 @@ function Brag:Refresh()
             local parts = {}
             for _, key in ipairs(ROLE_KEYS) do
                 if s.classes[class][key] then
-                    parts[#parts + 1] = "|cD4AF37" .. key .. "|r"
+                    parts[#parts + 1] = "|cA08CFF" .. key .. "|r"
                 else
-                    parts[#parts + 1] = "|c5A4D3A" .. key .. "|r"
+                    parts[#parts + 1] = "|c4A4670" .. key .. "|r"
                     everything = false
                 end
             end

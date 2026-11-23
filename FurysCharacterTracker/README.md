@@ -21,9 +21,9 @@ from the game. Pick each character's role and gear, share a brag card, export to
   per item. Timers count down live for every character.
 - **Research timers** (button on the board, `/fct timers`, or a key in Controls): every research in progress,
   one line each, with character, craft, item, trait, time left and when it finishes, soonest first.
-  Finished and idle slots are listed at the top in gold. `/fct research` lists slots and timers in chat,
+  Finished and idle slots are listed at the top in amber. `/fct research` lists slots and timers in chat,
   and at login a line names any character whose research has finished.
-- **Gold tile** = maxed. Light text = in progress. Dim dash = not started.
+- **Violet tile** = maxed. White text = in progress. Dim dash = not started.
 - Hover any cell for details. Click a column title to sort; again to reverse; a third time for your order.
 - **Roles & gear**: click a blue cell for a dropdown. Role (Tank, Healer, DPS, any two, or all three),
   DPS gear and Tank/healer gear (Trial set, Crafted set, Overland set, Mixed, None), planned race.

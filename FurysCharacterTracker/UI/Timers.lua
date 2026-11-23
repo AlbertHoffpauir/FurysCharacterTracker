@@ -8,9 +8,10 @@ CT.Timers = Timers
 
 local ROW_TYPE = 1
 local UPDATE_MS = 30000
-local GOLD = { 0.83, 0.69, 0.22 }
-local PARCH = { 0.89, 0.83, 0.71 }
-local DIM = { 0.45, 0.40, 0.33 }
+local T = CT.Theme                    -- Fury Night colors and fonts (UI/Theme.lua)
+local GOLD = T.RGB.WARN               -- needs you: done or idle
+local PARCH = T.RGB.TEXT
+local DIM = T.RGB.MUTED
 
 local function Paint(label, text, rgb)
     label:SetText(text or "")
@@ -56,10 +57,10 @@ function Timers:Build()
     local header = FuryCTTimersHeader
     for child, text in pairs({ Name = "Character", Craft = "Craft", Item = "Item", Trait = "Trait", Left = "Time left", Ends = "Finishes" }) do
         local label = header:GetNamedChild(child)
-        label:SetFont("ZoFontGameBold")
-        Paint(label, text, GOLD)
+        label:SetFont(T.FONT_HEADER)
+        Paint(label, text, T.RGB.BLUE)
     end
-    FuryCTTimersLegend:SetText("|cD4AF37Gold|r needs you (done or idle)  ·  light researching  ·  updates every 30 seconds  ·  /fct timers")
+    FuryCTTimersLegend:SetText("|cFFC857Amber|r needs you (done or idle)  ·  white researching  ·  updates every 30 seconds  ·  /fct timers")
 
     local pos = CT.sv.timersWindow
     if pos then

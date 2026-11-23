@@ -21,7 +21,7 @@ function Settings:Build()
     local panel = {
         type = "panel",
         name = "Fury's Character Tracker",
-        displayName = "|cD4AF37Fury's Character Tracker|r",
+        displayName = "|cA08CFFFury's Character Tracker|r",
         author = "Furyous",
         version = CT.version,
         slashCommand = "/fctsettings",

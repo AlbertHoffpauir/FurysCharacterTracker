@@ -10,7 +10,7 @@ local CT = FuryCT
 
 CT.name = "FurysCharacterTracker"
 CT.displayName = "Fury's Character Tracker"
-CT.version = "1.2.2"
+CT.version = "1.3.0"
 
 CT.defaults = {
     characters = {},   -- [character name] = everything read from that character (see Core/Scan.lua)
@@ -40,6 +40,11 @@ local function OnAddOnLoaded(_, addonName)
 
     CT.Roster:Initialize()
     CT.Window:Initialize()
+    local T = CT.Theme
+    T.Window(FuryCTWindow, { bg = "BG" })
+    T.Window(FuryCTTimers, { bg = "BG" })
+    T.Window(FuryCTDetails, { bg = "BG", bar = 66 })
+    T.Window(FuryCTBrag, { bg = "BG", bar = 92, center = true, font = "$(ANTIQUE_FONT)|36|soft-shadow-thick" })
     CT.Settings:Build()
     CT.RegisterSlashCommands()
 end
