@@ -459,9 +459,13 @@ local function EnsureCells(row)
     local base = row:GetName()
     for i = 1, MAX_CELLS do
         local tile = WINDOW_MANAGER:CreateControl(base .. "Tile" .. i, row, CT_TEXTURE)
+        -- Above the row's stripe (level 3) and hover highlight (level 5), under the cell text.
+        tile:SetDrawLayer(DL_BACKGROUND)
+        tile:SetDrawLevel(8)
         tile:SetColor(GOLD[1], GOLD[2], GOLD[3], 0.9)
         tile:SetHidden(true)
         local label = WINDOW_MANAGER:CreateControl(base .. "Cell" .. i, row, CT_LABEL)
+        label:SetDrawLayer(DL_TEXT)
         label:SetFont("ZoFontGame")
         label:SetVerticalAlignment(TEXT_ALIGN_CENTER)
         label:SetWrapMode(TEXT_WRAP_MODE_ELLIPSIS)

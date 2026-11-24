@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.2
+- Fixed: the violet "maxed" tile was hidden on every other row and on the row under the mouse, leaving dark text on a dark row. The tile now shows on every row, on every tab of the board.
+
 ## 1.3.1
 - Code cleanup for the ESOUI addon check: the addon's one global table is now named FurysCharacterTracker (was FuryCT), and its window and control names start with FurysCharacterTracker_, so they can't clash with other addons.
 - Your roster, picks and settings carry over unchanged (saved variables keep their name), and so do your keybinds.

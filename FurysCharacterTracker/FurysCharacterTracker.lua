@@ -10,7 +10,7 @@ local CT = FurysCharacterTracker
 
 CT.name = "FurysCharacterTracker"
 CT.displayName = "Fury's Character Tracker"
-CT.version = "1.3.1"
+CT.version = "1.3.2"
 
 CT.defaults = {
     characters = {},   -- [character name] = everything read from that character (see Core/Scan.lua)
