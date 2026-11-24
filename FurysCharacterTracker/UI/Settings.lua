@@ -54,15 +54,23 @@ function Settings:Build()
           func = function() CT.Roster:ShowAll(); CT.Window:RefreshIfShown() end },
         { type = "description", text = "Key bindings for the board, brag card and research timers: Controls > Keybindings > Fury's Character Tracker." },
 
+        { type = "header", name = "Windows Tools" },
+        { type = "description",
+          text = "The offline viewer and the Excel export run outside the game, so ESOUI's rules keep them out of the addon download. " ..
+                 "They're a separate free zip: unzip it into any folder, for example Documents\\Elder Scrolls Online." },
+        { type = "button", name = "Get the Windows Tools",
+          tooltip = "Opens the download page on GitHub in your browser. The game asks before it opens.",
+          func = function() RequestOpenUnsafeURL(CT.toolsUrl) end },
+
         { type = "header", name = "Export to Excel (Windows)" },
         { type = "description",
-          text = "Needs Fury's Character Tracker Windows Tools, a separate download linked on the addon's ESOUI page. Turn On Auto Export.cmd there starts a small helper. " ..
+          text = "Needs the Windows Tools (button above). Turn On Auto Export.cmd there starts a small helper. " ..
                  "After that, Export to Excel saves ESO Characters.csv in Documents\\Elder Scrolls Online a few seconds after the UI reloads." },
         { type = "button", name = "Export to Excel now", warning = "Reloads the UI.", func = function() CT.RequestExport() end },
 
         { type = "header", name = "Offline viewer (Windows)" },
         { type = "description",
-          text = "Open Offline Viewer.cmd in the Windows Tools download shows everything saved, for every account and megaserver on this PC, in your browser with no game running. " ..
+          text = "Open Offline Viewer.cmd in the Windows Tools shows everything saved, for every account and megaserver on this PC, in your browser with no game running. " ..
                  "The game saves when you log out or /reloadui; run it again to see new data." },
     }
     self.panel = LAM:RegisterAddonPanel("FurysCharacterTracker_Settings", panel)

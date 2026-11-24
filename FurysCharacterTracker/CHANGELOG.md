@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.0
+- New button in Settings > Addons > Fury's Character Tracker: "Get the Windows Tools" opens the download page for the offline viewer and Excel export in your browser (the game asks first). /fct tools does the same, so there's no more hunting for the link on the addon page.
+
 ## 1.3.2
 - Fixed: the violet "maxed" tile was hidden on every other row and on the row under the mouse, leaving dark text on a dark row. The tile now shows on every row, on every tab of the board.
 

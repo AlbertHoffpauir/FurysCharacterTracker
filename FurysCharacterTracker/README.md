@@ -84,8 +84,9 @@ Requires LibAddonMenu-2.0.
 ## Windows Tools (optional, separate download)
 
 The offline viewer and the Excel export run outside the game, so they are not part of the addon download.
-They come as a separate free download, **Fury's Character Tracker Windows Tools**, linked on the addon's
-ESOUI page. Unzip it into any folder you like (for example Documents\Elder Scrolls Online). Every script is
+They come as a separate free download, **Fury's Character Tracker Windows Tools**: in game, click
+**Get the Windows Tools** under `/fct settings` or type `/fct tools` (the game asks before it opens your browser), or use the link on the
+addon's ESOUI page. Unzip it into any folder you like (for example Documents\Elder Scrolls Online). Every script is
 plain text you can open in Notepad; its own README says what each file does. The addon works fully in
 game without them.
 
