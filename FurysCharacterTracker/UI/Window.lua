@@ -2,7 +2,7 @@
 -- A column is { title =, width =, value = function(name, c, m) -> number or text,
 --               max = number or function(c) (makes it a progress cell), align =, tip =,
 --               pick = { field =, values = } (click for a dropdown of your own picks) }.
-local CT = FuryCT
+local CT = FurysCharacterTracker
 local U = CT.Util
 local Win = {}
 CT.Window = Win
@@ -337,19 +337,19 @@ end
 -- Setup -------------------------------------------------------------------------------
 
 function Win:Initialize()
-    self.control = FuryCTWindow
-    self.list = FuryCTWindowList
-    SCENE_MANAGER:RegisterTopLevel(FuryCTWindow, false)
-    FuryCTWindow:SetHandler("OnHide", HideTip)
+    self.control = FurysCharacterTracker_Window
+    self.list = FurysCharacterTracker_WindowList
+    SCENE_MANAGER:RegisterTopLevel(FurysCharacterTracker_Window, false)
+    FurysCharacterTracker_Window:SetHandler("OnHide", HideTip)
 
-    ZO_ScrollList_AddDataType(self.list, ROW_TYPE, "FuryCT_Row", ROW_HEIGHT, function(control, data)
+    ZO_ScrollList_AddDataType(self.list, ROW_TYPE, "FurysCharacterTracker_Row", ROW_HEIGHT, function(control, data)
         self:SetupRow(control, data)
     end)
 
     -- Column headers, made once and reused by every view.
     self.headers = {}
     for i = 1, MAX_CELLS do
-        local label = WINDOW_MANAGER:CreateControl("FuryCTWindowHeaderCol" .. i, FuryCTWindowHeader, CT_LABEL)
+        local label = WINDOW_MANAGER:CreateControl("FurysCharacterTracker_WindowHeaderCol" .. i, FurysCharacterTracker_WindowHeader, CT_LABEL)
         label:SetFont(T.FONT_HEADER)
         label:SetColor(HEAD[1], HEAD[2], HEAD[3], 1)
         label:SetVerticalAlignment(TEXT_ALIGN_CENTER)
@@ -362,10 +362,10 @@ function Win:Initialize()
     -- View buttons.
     local previous
     for i, view in ipairs(self.VIEWS) do
-        local button = WINDOW_MANAGER:CreateControlFromVirtual("FuryCTWindowView" .. i, FuryCTWindowViews, "ZO_DefaultButton")
+        local button = WINDOW_MANAGER:CreateControlFromVirtual("FurysCharacterTracker_WindowView" .. i, FurysCharacterTracker_WindowViews, "ZO_DefaultButton")
         button:SetDimensions(120, 28)
         button:SetText(view.title)
-        if previous then button:SetAnchor(LEFT, previous, RIGHT, 6, 0) else button:SetAnchor(LEFT, FuryCTWindowViews, LEFT, 0, 0) end
+        if previous then button:SetAnchor(LEFT, previous, RIGHT, 6, 0) else button:SetAnchor(LEFT, FurysCharacterTracker_WindowViews, LEFT, 0, 0) end
         button:SetHandler("OnClicked", function() self:Show(view.id) end)
         if view.tip then SetTip(button, function() return view.tip end) end
         view.button = button
@@ -387,22 +387,22 @@ function Win:Initialize()
     }
     previous = nil
     for i, def in ipairs(footer) do
-        local button = WINDOW_MANAGER:CreateControlFromVirtual("FuryCTWindowFooter" .. i, FuryCTWindowFooter, "ZO_DefaultButton")
+        local button = WINDOW_MANAGER:CreateControlFromVirtual("FurysCharacterTracker_WindowFooter" .. i, FurysCharacterTracker_WindowFooter, "ZO_DefaultButton")
         button:SetDimensions(150, 28)
         button:SetText(def.label)
-        if previous then button:SetAnchor(LEFT, previous, RIGHT, 8, 0) else button:SetAnchor(LEFT, FuryCTWindowFooter, LEFT, 0, 0) end
+        if previous then button:SetAnchor(LEFT, previous, RIGHT, 8, 0) else button:SetAnchor(LEFT, FurysCharacterTracker_WindowFooter, LEFT, 0, 0) end
         button:SetHandler("OnClicked", def.fn)
         SetTip(button, function() return def.tip end)
         previous = button
     end
 
-    FuryCTWindowLegend:SetText("|cA08CFFViolet|r maxed  ·  white in progress  ·  |c8A86B0-|r none  ·  |c5CC2FFblue|r pick  ·  click details  ·  right-click remove")
-    FuryCTWindowSubtitle:SetText("v" .. CT.version .. "  ·  /fct")
+    FurysCharacterTracker_WindowLegend:SetText("|cA08CFFViolet|r maxed  ·  white in progress  ·  |c8A86B0-|r none  ·  |c5CC2FFblue|r pick  ·  click details  ·  right-click remove")
+    FurysCharacterTracker_WindowSubtitle:SetText("v" .. CT.version .. "  ·  /fct")
 
     -- Which account and megaserver you are looking at.
-    local picker = WINDOW_MANAGER:CreateControlFromVirtual("FuryCTWindowAccount", FuryCTWindow, "ZO_DefaultButton")
+    local picker = WINDOW_MANAGER:CreateControlFromVirtual("FurysCharacterTracker_WindowAccount", FurysCharacterTracker_Window, "ZO_DefaultButton")
     picker:SetDimensions(300, 28)
-    picker:SetAnchor(TOPRIGHT, FuryCTWindow, TOPRIGHT, -52, 12)
+    picker:SetAnchor(TOPRIGHT, FurysCharacterTracker_Window, TOPRIGHT, -52, 12)
     picker:SetHandler("OnClicked", function(control) Win.PickAccount(control) end)
     SetTip(picker, function()
         return "The account and megaserver on the board. Every account that plays on this PC shows up here after it logs in once with the addon on.\nOther accounts show what they saved at their last logout."
@@ -410,7 +410,7 @@ function Win:Initialize()
     self.accountButton = picker
 
     -- Settings: the gear left of the account button.
-    local gear = WINDOW_MANAGER:CreateControl("FuryCTWindowSettings", FuryCTWindow, CT_BUTTON)
+    local gear = WINDOW_MANAGER:CreateControl("FurysCharacterTracker_WindowSettings", FurysCharacterTracker_Window, CT_BUTTON)
     gear:SetDimensions(32, 32)
     gear:SetAnchor(RIGHT, picker, LEFT, -10, 0)
     gear:SetNormalTexture("/esoui/art/chatwindow/chat_options_up.dds")
@@ -427,24 +427,24 @@ function Win:Initialize()
 end
 
 function Win.SavePosition()
-    CT.sv.window = { x = FuryCTWindow:GetLeft(), y = FuryCTWindow:GetTop() }
+    CT.sv.window = { x = FurysCharacterTracker_Window:GetLeft(), y = FurysCharacterTracker_Window:GetTop() }
 end
 
 -- Show / hide -------------------------------------------------------------------------
 
 function Win:Toggle()
-    if FuryCTWindow:IsHidden() then self:Show() else self:Hide() end
+    if FurysCharacterTracker_Window:IsHidden() then self:Show() else self:Hide() end
 end
 
 function Win:Show(viewId)
     if viewId then CT.sv.lastView = viewId end
-    SCENE_MANAGER:ShowTopLevel(FuryCTWindow)
-    CT.Raise(FuryCTWindow)
+    SCENE_MANAGER:ShowTopLevel(FurysCharacterTracker_Window)
+    CT.Raise(FurysCharacterTracker_Window)
     self:Refresh()
 end
 
 function Win:Hide()
-    SCENE_MANAGER:HideTopLevel(FuryCTWindow)
+    SCENE_MANAGER:HideTopLevel(FurysCharacterTracker_Window)
 end
 
 function Win:RefreshIfShown()
@@ -593,7 +593,7 @@ end
 
 -- Totals row: how many characters have each column maxed (or the sum, for plain numbers).
 function Win:SetupTotals(names)
-    local row = FuryCTWindowTotals
+    local row = FurysCharacterTracker_WindowTotals
     EnsureCells(row)
     LayoutCells(row, self.columns)
     for i, cell in ipairs(row.cells) do
@@ -660,7 +660,7 @@ function Win:Refresh()
         if column then
             local arrow = (sort and sort.col == i) and (sort.desc and " v" or " ^") or ""
             label:ClearAnchors()
-            label:SetAnchor(LEFT, FuryCTWindowHeader, LEFT, x + 4, 0)
+            label:SetAnchor(LEFT, FurysCharacterTracker_WindowHeader, LEFT, x + 4, 0)
             label:SetDimensions(column.width - 8, 26)
             label:SetHorizontalAlignment(column.align or TEXT_ALIGN_CENTER)
             label:SetText(column.title .. arrow)
@@ -719,5 +719,5 @@ function Win:Refresh()
     elseif view.id == "daily" then
         summary = summary .. "  ·  writs reset at " .. os.date("%I:%M %p", D.LastReset(CT.view.world) + 86400) .. " your time"
     end
-    FuryCTWindowSummary:SetText(summary)
+    FurysCharacterTracker_WindowSummary:SetText(summary)
 end

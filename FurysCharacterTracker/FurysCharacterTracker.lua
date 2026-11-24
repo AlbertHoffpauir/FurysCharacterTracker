@@ -5,12 +5,12 @@
 --   Core/Roster.lua  the stored roster: characters, manual fields, totals, export rows
 --   UI/              the board (/fct) and the brag card (/fct brag)
 
-FuryCT = FuryCT or {}
-local CT = FuryCT
+FurysCharacterTracker = {}
+local CT = FurysCharacterTracker
 
 CT.name = "FurysCharacterTracker"
 CT.displayName = "Fury's Character Tracker"
-CT.version = "1.3.0"
+CT.version = "1.3.1"
 
 CT.defaults = {
     characters = {},   -- [character name] = everything read from that character (see Core/Scan.lua)
@@ -41,10 +41,10 @@ local function OnAddOnLoaded(_, addonName)
     CT.Roster:Initialize()
     CT.Window:Initialize()
     local T = CT.Theme
-    T.Window(FuryCTWindow, { bg = "BG" })
-    T.Window(FuryCTTimers, { bg = "BG" })
-    T.Window(FuryCTDetails, { bg = "BG", bar = 66 })
-    T.Window(FuryCTBrag, { bg = "BG", bar = 92, center = true, font = "$(ANTIQUE_FONT)|36|soft-shadow-thick" })
+    T.Window(FurysCharacterTracker_Window, { bg = "BG" })
+    T.Window(FurysCharacterTracker_Timers, { bg = "BG" })
+    T.Window(FurysCharacterTracker_Details, { bg = "BG", bar = 66 })
+    T.Window(FurysCharacterTracker_Brag, { bg = "BG", bar = 92, center = true, font = "$(ANTIQUE_FONT)|36|soft-shadow-thick" })
     CT.Settings:Build()
     CT.RegisterSlashCommands()
 end
@@ -114,7 +114,7 @@ end
 function CT.SetView(entry)
     CT.view = entry
     CT.Window:Refresh()
-    if not FuryCTBrag:IsHidden() then CT.Brag:Refresh() end
+    if not FurysCharacterTracker_Brag:IsHidden() then CT.Brag:Refresh() end
     CT.Timers:RefreshIfShown()
 end
 

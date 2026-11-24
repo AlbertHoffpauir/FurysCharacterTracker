@@ -1,11 +1,11 @@
 <GuiXml>
     <Controls>
         <!-- Everything saved for one character. Left-click a character on the board. Filled in by Details.lua. -->
-        <TopLevelControl name="FuryCTDetails" hidden="true" mouseEnabled="true" movable="true" clampedToScreen="true">
+        <TopLevelControl name="FurysCharacterTracker_Details" hidden="true" mouseEnabled="true" movable="true" clampedToScreen="true">
             <Dimensions x="1000" y="720" />
             <Anchor point="CENTER" />
-            <OnMouseDown>FuryCT.Raise(self)</OnMouseDown>
-            <OnMoveStop>FuryCT.Details.SavePosition()</OnMoveStop>
+            <OnMouseDown>FurysCharacterTracker.Raise(self)</OnMouseDown>
+            <OnMoveStop>FurysCharacterTracker.Details.SavePosition()</OnMoveStop>
             <Controls>
                 <Backdrop name="$(parent)BG" centerColor="0F0E1F" edgeColor="4A3D99" alpha="1">
                     <AnchorFill />
@@ -19,7 +19,7 @@
                 </Label>
                 <Button name="$(parent)Close" inherits="ZO_CloseButton">
                     <Anchor point="TOPRIGHT" offsetX="-12" offsetY="12" />
-                    <OnClicked>FuryCT.Details:Hide()</OnClicked>
+                    <OnClicked>FurysCharacterTracker.Details:Hide()</OnClicked>
                 </Button>
                 <Control name="$(parent)Scroll" inherits="ZO_ScrollContainer">
                     <Anchor point="TOPLEFT" offsetX="22" offsetY="76" />

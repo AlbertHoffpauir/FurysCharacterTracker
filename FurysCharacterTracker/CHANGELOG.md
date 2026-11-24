@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1
+- Code cleanup for the ESOUI addon check: the addon's one global table is now named FurysCharacterTracker (was FuryCT), and its window and control names start with FurysCharacterTracker_, so they can't clash with other addons.
+- Your roster, picks and settings carry over unchanged (saved variables keep their name), and so do your keybinds.
+
 ## 1.3.0
 - New look, "Fury Night", shared by all of Fury's addons: deep blue-black windows with an indigo frame, a soft glow behind the title, a violet line under it and a character icon beside it. Titles use the game's book font (Prose Antique).
 - Blue column headers, striped rows, and the row under the mouse lights up.

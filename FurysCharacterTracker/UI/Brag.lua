@@ -1,6 +1,6 @@
 -- The brag card (/fct brag): the roster's best numbers on one screen, sized for a screenshot
 -- to share on Discord, like the Combat Metrics or SuperStar panels.
-local CT = FuryCT
+local CT = FurysCharacterTracker
 local U = CT.Util
 local Brag = {}
 CT.Brag = Brag
@@ -128,70 +128,70 @@ end
 
 function Brag:Build()
     if self.tiles then return end
-    SCENE_MANAGER:RegisterTopLevel(FuryCTBrag, false)
+    SCENE_MANAGER:RegisterTopLevel(FurysCharacterTracker_Brag, false)
     self.tiles = {}
     for i = 1, COLS * ROWS do
         local col, row = (i - 1) % COLS, zo_floor((i - 1) / COLS)
-        local tile = WINDOW_MANAGER:CreateControl("FuryCTBragTile" .. i, FuryCTBragTiles, CT_TEXTURE)
+        local tile = WINDOW_MANAGER:CreateControl("FurysCharacterTracker_BragTile" .. i, FurysCharacterTracker_BragTiles, CT_TEXTURE)
         T.Paint(tile, T.STRIPE)
         tile:SetDimensions(TILE_W, TILE_H)
-        tile:SetAnchor(TOPLEFT, FuryCTBragTiles, TOPLEFT, col * (TILE_W + GAP), row * (TILE_H + GAP))
-        local edge = WINDOW_MANAGER:CreateControl("FuryCTBragTile" .. i .. "Edge", tile, CT_TEXTURE)
+        tile:SetAnchor(TOPLEFT, FurysCharacterTracker_BragTiles, TOPLEFT, col * (TILE_W + GAP), row * (TILE_H + GAP))
+        local edge = WINDOW_MANAGER:CreateControl("FurysCharacterTracker_BragTile" .. i .. "Edge", tile, CT_TEXTURE)
         edge:SetColor(GOLD[1], GOLD[2], GOLD[3], 0.85)
         edge:SetDimensions(TILE_W, 2)
         edge:SetAnchor(TOPLEFT, tile, TOPLEFT, 0, 0)
-        local value = Label("FuryCTBragTile" .. i .. "Value", tile, "ZoFontWinH1", GOLD)
+        local value = Label("FurysCharacterTracker_BragTile" .. i .. "Value", tile, "ZoFontWinH1", GOLD)
         value:SetDimensions(TILE_W - 12, 44)
         value:SetAnchor(TOP, tile, TOP, 0, 6)
-        local label = Label("FuryCTBragTile" .. i .. "Label", tile, "ZoFontGameBold", PARCH)
+        local label = Label("FurysCharacterTracker_BragTile" .. i .. "Label", tile, "ZoFontGameBold", PARCH)
         label:SetDimensions(TILE_W - 12, 22)
         label:SetAnchor(TOP, value, BOTTOM, 0, 2)
-        local note = Label("FuryCTBragTile" .. i .. "Note", tile, "ZoFontGameSmall", DIM)
+        local note = Label("FurysCharacterTracker_BragTile" .. i .. "Note", tile, "ZoFontGameSmall", DIM)
         note:SetDimensions(TILE_W - 12, 18)
         note:SetAnchor(TOP, label, BOTTOM, 0, 0)
-        local pct = Label("FuryCTBragTile" .. i .. "Pct", tile, "ZoFontGameBold", GOLD)
+        local pct = Label("FurysCharacterTracker_BragTile" .. i .. "Pct", tile, "ZoFontGameBold", GOLD)
         pct:SetHorizontalAlignment(TEXT_ALIGN_RIGHT)
         pct:SetDimensions(56, 18)
         pct:SetAnchor(BOTTOMRIGHT, tile, BOTTOMRIGHT, -8, -12)
-        local track = WINDOW_MANAGER:CreateControl("FuryCTBragTile" .. i .. "Track", tile, CT_TEXTURE)
+        local track = WINDOW_MANAGER:CreateControl("FurysCharacterTracker_BragTile" .. i .. "Track", tile, CT_TEXTURE)
         T.Paint(track, T.HOVER)
         track:SetDimensions(TILE_W - 16, 4)
         track:SetAnchor(BOTTOMLEFT, tile, BOTTOMLEFT, 8, -6)
-        local bar = WINDOW_MANAGER:CreateControl("FuryCTBragTile" .. i .. "Bar", tile, CT_TEXTURE)
+        local bar = WINDOW_MANAGER:CreateControl("FurysCharacterTracker_BragTile" .. i .. "Bar", tile, CT_TEXTURE)
         bar:SetColor(GOLD[1], GOLD[2], GOLD[3], 1)
         bar:SetAnchor(BOTTOMLEFT, tile, BOTTOMLEFT, 8, -6)
         self.tiles[i] = { value = value, label = label, note = note, pct = pct, track = track, bar = bar }
     end
-    FuryCTBragCoverageTitle:SetFont(T.FONT_SECTION)
+    FurysCharacterTracker_BragCoverageTitle:SetFont(T.FONT_SECTION)
     self.classes = {}
     local width = zo_floor(912 / CLASS_COUNT)
     for i = 1, CLASS_COUNT do
-        local name = Label("FuryCTBragClass" .. i, FuryCTBragCoverage, "ZoFontGameBold", PARCH)
+        local name = Label("FurysCharacterTracker_BragClass" .. i, FurysCharacterTracker_BragCoverage, "ZoFontGameBold", PARCH)
         name:SetDimensions(width - 6, 24)
-        name:SetAnchor(TOPLEFT, FuryCTBragCoverage, TOPLEFT, (i - 1) * width, 0)
-        local roles = Label("FuryCTBragClass" .. i .. "Roles", FuryCTBragCoverage, "ZoFontGameSmall", DIM)
+        name:SetAnchor(TOPLEFT, FurysCharacterTracker_BragCoverage, TOPLEFT, (i - 1) * width, 0)
+        local roles = Label("FurysCharacterTracker_BragClass" .. i .. "Roles", FurysCharacterTracker_BragCoverage, "ZoFontGameSmall", DIM)
         roles:SetDimensions(width - 6, 22)
         roles:SetAnchor(TOP, name, BOTTOM, 0, 2)
         self.classes[i] = { name = name, roles = roles }
     end
     local pos = CT.sv.bragWindow
     if pos then
-        FuryCTBrag:ClearAnchors()
-        FuryCTBrag:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, pos.x, pos.y)
+        FurysCharacterTracker_Brag:ClearAnchors()
+        FurysCharacterTracker_Brag:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, pos.x, pos.y)
     end
 end
 
 function Brag.SavePosition()
-    CT.sv.bragWindow = { x = FuryCTBrag:GetLeft(), y = FuryCTBrag:GetTop() }
+    CT.sv.bragWindow = { x = FurysCharacterTracker_Brag:GetLeft(), y = FurysCharacterTracker_Brag:GetTop() }
 end
 
 function Brag:Refresh()
     local s = self:Compute()
-    FuryCTBragTitle:SetText(CT.view.account)
+    FurysCharacterTracker_BragTitle:SetText(CT.view.account)
     local onAccount = #CT.Roster:AccountCharacters()
     local count = (s.characters < onAccount) and string.format("%d of %d characters read (/fct todo)", s.characters, onAccount)
                                              or string.format("%d characters", s.characters)
-    FuryCTBragSubtitle:SetText(string.format("%s  ·  %d of %d classes  ·  %s", count, #s.classOrder, CLASS_COUNT, CT.view.world))
+    FurysCharacterTracker_BragSubtitle:SetText(string.format("%s  ·  %d of %d classes  ·  %s", count, #s.classOrder, CLASS_COUNT, CT.view.world))
 
     for i, t in ipairs(Tiles(s)) do
         local tile = self.tiles[i]
@@ -241,23 +241,23 @@ function Brag:Refresh()
             slot.roles:SetText("")
         end
     end
-    FuryCTBragCoverageTitle:SetText(everything and "Every class. Every role." or "Classes & roles")
+    FurysCharacterTracker_BragCoverageTitle:SetText(everything and "Every class. Every role." or "Classes & roles")
 
-    FuryCTBragFooterLeft:SetText(os.date("%B %d, %Y"))
-    FuryCTBragFooter:SetText("Fury's Character Tracker v" .. CT.version)
+    FurysCharacterTracker_BragFooterLeft:SetText(os.date("%B %d, %Y"))
+    FurysCharacterTracker_BragFooter:SetText("Fury's Character Tracker v" .. CT.version)
 end
 
 function Brag:Show()
     self:Build()
     self:Refresh()
-    SCENE_MANAGER:ShowTopLevel(FuryCTBrag)
-    CT.Raise(FuryCTBrag)
+    SCENE_MANAGER:ShowTopLevel(FurysCharacterTracker_Brag)
+    CT.Raise(FurysCharacterTracker_Brag)
 end
 
 function Brag:Hide()
-    SCENE_MANAGER:HideTopLevel(FuryCTBrag)
+    SCENE_MANAGER:HideTopLevel(FurysCharacterTracker_Brag)
 end
 
 function Brag:Toggle()
-    if FuryCTBrag:IsHidden() then self:Show() else self:Hide() end
+    if FurysCharacterTracker_Brag:IsHidden() then self:Show() else self:Hide() end
 end

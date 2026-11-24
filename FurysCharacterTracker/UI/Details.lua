@@ -1,6 +1,6 @@
 -- Character details: everything saved for one character, in sections. Left-click a character on the
 -- board. The offline viewer shows the same sections in the same order.
-local CT = FuryCT
+local CT = FurysCharacterTracker
 local U = CT.Util
 local R = CT.Research
 local Details = {}
@@ -97,25 +97,25 @@ end
 
 function Details:Build()
     if self.content then return end
-    SCENE_MANAGER:RegisterTopLevel(FuryCTDetails, false)
-    self.content = FuryCTDetailsScrollScrollChild
+    SCENE_MANAGER:RegisterTopLevel(FurysCharacterTracker_Details, false)
+    self.content = FurysCharacterTracker_DetailsScrollScrollChild
     self.labels = {}
     local pos = CT.sv.detailsWindow
     if pos then
-        FuryCTDetails:ClearAnchors()
-        FuryCTDetails:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, pos.x, pos.y)
+        FurysCharacterTracker_Details:ClearAnchors()
+        FurysCharacterTracker_Details:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, pos.x, pos.y)
     end
 end
 
 function Details.SavePosition()
-    CT.sv.detailsWindow = { x = FuryCTDetails:GetLeft(), y = FuryCTDetails:GetTop() }
+    CT.sv.detailsWindow = { x = FurysCharacterTracker_Details:GetLeft(), y = FurysCharacterTracker_Details:GetTop() }
 end
 
 -- Labels are reused between characters; the ones not needed this time are hidden.
 function Details:Label(index)
     local label = self.labels[index]
     if not label then
-        label = WINDOW_MANAGER:CreateControl("FuryCTDetailsText" .. index, self.content, CT_LABEL)
+        label = WINDOW_MANAGER:CreateControl("FurysCharacterTracker_DetailsText" .. index, self.content, CT_LABEL)
         self.labels[index] = label
     end
     label:SetHidden(false)
@@ -139,8 +139,8 @@ function Details:Show(name)
     local c, m = CT.Roster:Get(name)
     if not c then return end
     self:Build()
-    FuryCTDetailsTitle:SetText(name)
-    FuryCTDetailsSubtitle:SetText(string.format("%s  ·  Level %s %s %s  ·  %s  ·  read from the game %s", CT.ViewLabel(), c.level or "?",
+    FurysCharacterTracker_DetailsTitle:SetText(name)
+    FurysCharacterTracker_DetailsSubtitle:SetText(string.format("%s  ·  Level %s %s %s  ·  %s  ·  read from the game %s", CT.ViewLabel(), c.level or "?",
                                                 c.race or "", c.class or "", c.alliance or "", U.FormatDate(c.lastScan)))
     local n, y = 0, 0
     local width = COLUMNS * COL_W + (COLUMNS - 1) * COL_GAP
@@ -168,11 +168,11 @@ function Details:Show(name)
         y = y + 12
     end
     for i = n + 1, #self.labels do self.labels[i]:SetHidden(true) end
-    ZO_Scroll_ResetToTop(FuryCTDetailsScroll)
-    SCENE_MANAGER:ShowTopLevel(FuryCTDetails)
-    CT.Raise(FuryCTDetails)
+    ZO_Scroll_ResetToTop(FurysCharacterTracker_DetailsScroll)
+    SCENE_MANAGER:ShowTopLevel(FurysCharacterTracker_Details)
+    CT.Raise(FurysCharacterTracker_Details)
 end
 
 function Details:Hide()
-    SCENE_MANAGER:HideTopLevel(FuryCTDetails)
+    SCENE_MANAGER:HideTopLevel(FurysCharacterTracker_Details)
 end

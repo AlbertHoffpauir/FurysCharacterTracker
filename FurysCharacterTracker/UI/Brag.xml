@@ -1,11 +1,11 @@
 <GuiXml>
     <Controls>
         <!-- The brag card: one screen of best numbers, made for a screenshot. Filled in by Brag.lua. -->
-        <TopLevelControl name="FuryCTBrag" hidden="true" mouseEnabled="true" movable="true" clampedToScreen="true">
+        <TopLevelControl name="FurysCharacterTracker_Brag" hidden="true" mouseEnabled="true" movable="true" clampedToScreen="true">
             <Dimensions x="960" y="726" />
             <Anchor point="CENTER" />
-            <OnMouseDown>FuryCT.Raise(self)</OnMouseDown>
-            <OnMoveStop>FuryCT.Brag.SavePosition()</OnMoveStop>
+            <OnMouseDown>FurysCharacterTracker.Raise(self)</OnMouseDown>
+            <OnMoveStop>FurysCharacterTracker.Brag.SavePosition()</OnMoveStop>
             <Controls>
                 <Backdrop name="$(parent)BG" centerColor="0F0E1F" edgeColor="4A3D99" alpha="1">
                     <AnchorFill />
@@ -24,7 +24,7 @@
                 </Label>
                 <Button name="$(parent)Close" inherits="ZO_CloseButton">
                     <Anchor point="TOPRIGHT" offsetX="-12" offsetY="12" />
-                    <OnClicked>FuryCT.Brag:Hide()</OnClicked>
+                    <OnClicked>FurysCharacterTracker.Brag:Hide()</OnClicked>
                 </Button>
                 <Control name="$(parent)Tiles">
                     <Dimensions x="912" y="452" />

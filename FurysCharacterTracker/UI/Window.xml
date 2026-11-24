@@ -1,7 +1,7 @@
 <GuiXml>
     <Controls>
         <!-- One character per row. The cells are made in Window.lua, as many as the widest view needs. -->
-        <Control name="FuryCT_Row" virtual="true" mouseEnabled="true">
+        <Control name="FurysCharacterTracker_Row" virtual="true" mouseEnabled="true">
             <Dimensions x="1368" y="28" />
             <Controls>
                 <Texture name="$(parent)Stripe" color="16142C" layer="BACKGROUND" level="3" hidden="true">
@@ -13,11 +13,11 @@
             </Controls>
         </Control>
 
-        <TopLevelControl name="FuryCTWindow" hidden="true" mouseEnabled="true" movable="true" clampedToScreen="true">
+        <TopLevelControl name="FurysCharacterTracker_Window" hidden="true" mouseEnabled="true" movable="true" clampedToScreen="true">
             <Dimensions x="1420" y="760" />
             <Anchor point="CENTER" />
-            <OnMouseDown>FuryCT.Raise(self)</OnMouseDown>
-            <OnMoveStop>FuryCT.Window.SavePosition()</OnMoveStop>
+            <OnMouseDown>FurysCharacterTracker.Raise(self)</OnMouseDown>
+            <OnMoveStop>FurysCharacterTracker.Window.SavePosition()</OnMoveStop>
             <Controls>
                 <Backdrop name="$(parent)BG" centerColor="0F0E1F" edgeColor="4A3D99" alpha="1">
                     <AnchorFill />
@@ -31,7 +31,7 @@
                 </Label>
                 <Button name="$(parent)Close" inherits="ZO_CloseButton">
                     <Anchor point="TOPRIGHT" offsetX="-12" offsetY="12" />
-                    <OnClicked>FuryCT.Window:Hide()</OnClicked>
+                    <OnClicked>FurysCharacterTracker.Window:Hide()</OnClicked>
                 </Button>
                 <Control name="$(parent)Views">
                     <Dimensions x="1384" y="30" />
@@ -57,7 +57,7 @@
                     <Dimensions x="1384" y="1" />
                     <Anchor point="BOTTOMLEFT" offsetX="18" offsetY="-88" />
                 </Texture>
-                <Control name="$(parent)Totals" inherits="FuryCT_Row">
+                <Control name="$(parent)Totals" inherits="FurysCharacterTracker_Row">
                     <Dimensions x="1384" />
                     <Anchor point="TOPLEFT" relativeTo="$(parent)TotalsLine" relativePoint="BOTTOMLEFT" offsetY="4" />
                 </Control>

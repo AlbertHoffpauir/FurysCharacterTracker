@@ -1,4 +1,4 @@
-local CT = FuryCT
+local CT = FurysCharacterTracker
 local U = {}
 CT.Util = U
 
