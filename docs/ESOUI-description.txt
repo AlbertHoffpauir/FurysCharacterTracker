@@ -87,7 +87,7 @@ ESO shows each character only while you are logged in on it, and gives you no wa
 
 [SIZE="4"][FONT="Georgia"][COLOR="#5CC2FF"][B]Windows Tools[/B][/COLOR][/FONT][/SIZE]
 [COLOR="#B4B0D8"][I]Optional, separate download. The addon works fully in game without them.[/I][/COLOR]
-The offline viewer and the Excel export run outside the game, so ESOUI's rules keep them out of the addon zip. Get them here: [B][URL="https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-WindowsTools-1.3.0.zip"]Fury's Character Tracker Windows Tools[/URL][/B], and unzip them into any folder you like, for example Documents\Elder Scrolls Online. In game, the [B]Get the Windows Tools[/B] button under [FONT="Courier New"][B]/fct settings[/B][/FONT] (or [FONT="Courier New"][B]/fct tools[/B][/FONT]) opens the same download page in your browser.
+The offline viewer and the Excel export run outside the game, so ESOUI's rules keep them out of the addon zip. Get them here: [B][URL="https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-WindowsTools-1.4.1.zip"]Fury's Character Tracker Windows Tools[/URL][/B], and unzip them into any folder you like, for example Documents\Elder Scrolls Online. In game, the [B]Get the Windows Tools[/B] button under [FONT="Courier New"][B]/fct settings[/B][/FONT] (or [FONT="Courier New"][B]/fct tools[/B][/FONT]) opens the same download page in your browser.
 [COLOR="#A08CFF"][B]Offline viewer[/B][/COLOR]
 Everything the addon has saved, for every account and megaserver on your PC, in your web browser with the game closed. Same board as in game: tabs, columns, account button, brag card, research timers and character details.
 [LIST=1]
@@ -102,7 +102,8 @@ Everything the addon has saved, for every account and megaserver on your PC, in 
 [*][B]Turn Off Auto Export.cmd[/B] stops the helper; run it before you delete the tools folder. Without the helper, click Export to Excel, then run [B]ExportToExcel.cmd[/B] yourself.
 [*][B]Coming from 1.2.1 with Auto Export on?[/B] The scripts used to sit in the addon folder. Download the tools and run [B]Turn On Auto Export.cmd[/B] from there once.
 [/LIST]
-[SPOILER="What each tool file does"]
+[B]What each tool file does[/B]
+[SPOILER]
 All files are plain text (batch, PowerShell, HTML) you can open in Notepad. Full source: [URL="https://github.com/AlbertHoffpauir/FurysCharacterTracker/tree/main/WindowsTools"]WindowsTools on GitHub[/URL]. They only read the addon's saved data file (Documents\Elder Scrolls Online\live\SavedVariables\FurysCharacterTracker.lua) and never connect to the internet or touch the game's files.
 [LIST]
 [*][B]Open Offline Viewer.cmd / OfflineViewer.ps1:[/B] puts the saved data into a copy of Viewer\viewer.html, saves it as Fury's Character Tracker.html in Documents\Elder Scrolls Online and opens it.

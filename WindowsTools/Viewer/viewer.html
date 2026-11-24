@@ -176,8 +176,9 @@ try {
   ACCOUNTS.sort((a, b) => a.account.localeCompare(b.account) || a.world.localeCompare(b.world));
 } catch (e) { loadError = e; }
 
-const state = { acct: 0, view: "overview", sort: {}, showRemoved: false, pos: {} };
+const state = { acct: 0, view: "overview", sort: {}, showRemoved: false };
 try { Object.assign(state, JSON.parse(localStorage.getItem("fct-viewer2") || "{}")); } catch (e) {}
+delete state.pos;   // window spots saved by 1.4.0 and earlier: windows now always open centered
 const save = () => { try { localStorage.setItem("fct-viewer2", JSON.stringify(state)); } catch (e) {} };
 const ACC = () => ACCOUNTS[state.acct] || ACCOUNTS[0];
 
@@ -241,8 +242,11 @@ const WRIT_CRAFTS = [ { craft: 1, short: "Smith", name: "Blacksmithing" }, { cra
   { craft: 4, short: "Alchemy", name: "Alchemy" }, { craft: 3, short: "Enchant", name: "Enchanting" }, { craft: 5, short: "Provis", name: "Provisioning" } ];
 const WRIT_LABEL = ["-", "Started", "Deliver", "Done"];
 function lastReset(world, t = now()) { const hour = /EU/.test(world || "") ? 3 : 10; let r = t - t % 86400 + hour * 3600; if (r > t) r -= 86400; return r; }
+// Saved writs are keyed by craft type (1-7). When every key from 1 up is there, parseLua turns the
+// table into a list that starts at 0, so read it by its Lua key either way.
+const writEntry = (c, craft) => Array.isArray(c.writs) ? c.writs[craft - 1] : (c.writs || {})[craft];
 function writState(c, craft, world = ACC().world) {
-  const e = (c.writs || {})[craft]; if (!e) return 0;
+  const e = writEntry(c, craft); if (!e) return 0;
   if (e.state === 3) return e.at >= lastReset(world) ? 3 : 0;
   return e.state;
 }
@@ -306,7 +310,7 @@ const NEXT_DONE = { title: "Next done", width: 104, value: (n, c) => summary(c).
 const manual = (width, field, title, tip) => ({ title, width, pick: true, value: (n, c, m) => m[field] || "", tip: () => tip + "\n(Change it in game.)" });
 
 const writColumn = (def) => ({ title: def.short, width: 84, max: () => 3, value: (n, c) => writState(c, def.craft), display: (v) => WRIT_LABEL[v],
-  tip: (n, c) => { const st = writState(c, def.craft), e = (c.writs || {})[def.craft];
+  tip: (n, c) => { const st = writState(c, def.craft), e = writEntry(c, def.craft);
     return (st === 0 ? `${def.name} writ: not taken today` : `${def.name} writ: ${["", "started", "ready to deliver", "done today"][st]} (${dayClock(e.at)})`) +
            `\nWrits reset daily at ${clock(lastReset(ACC().world) + 86400)} your time.`; } });
 const WRITS_DONE = { title: "Done", width: 72, max: () => WRIT_CRAFTS.length, display: (v) => `${v}/${WRIT_CRAFTS.length}`,
@@ -379,16 +383,14 @@ let topZ = 10;
 function makeWindow(id, w, h, closable) {
   const el = document.createElement("div"); el.className = "win"; el.id = id;
   el.style.width = w + "px"; el.style.height = h + "px";
-  const p = state.pos[id];
-  el.style.left = (p ? p.x : Math.max(10, (innerWidth - w) / 2)) + "px";
-  el.style.top = (p ? p.y : Math.max(10, (innerHeight - h) / 2)) + "px";
+  centerWindow(el, w, h);
   document.body.appendChild(el);
   el.addEventListener("mousedown", (e) => {
     raise(el);
     if (e.target !== el && !e.target.classList.contains("title") && !e.target.classList.contains("dragzone")) return;
     const sx = e.clientX - el.offsetLeft, sy = e.clientY - el.offsetTop;
     const move = (ev) => { el.style.left = Math.max(0, ev.clientX - sx) + "px"; el.style.top = Math.max(0, ev.clientY - sy) + "px"; };
-    const up = () => { removeEventListener("mousemove", move); removeEventListener("mouseup", up); state.pos[id] = { x: el.offsetLeft, y: el.offsetTop }; save(); };
+    const up = () => { removeEventListener("mousemove", move); removeEventListener("mouseup", up); el.dataset.moved = "1"; };
     addEventListener("mousemove", move); addEventListener("mouseup", up);
   });
   if (closable) { const x = document.createElement("div"); x.className = "close"; x.textContent = "✕"; x.onclick = () => el.remove(); el.appendChild(x); }
@@ -397,6 +399,13 @@ function makeWindow(id, w, h, closable) {
   return el;
 }
 const raise = (el) => { el.style.zIndex = ++topZ; };
+// Every window opens in the middle of the browser and stays there when the browser is resized,
+// until you drag it.
+function centerWindow(el, w = el.offsetWidth, h = el.offsetHeight) {
+  el.style.left = Math.max(10, Math.round((innerWidth - w) / 2)) + "px";
+  el.style.top = Math.max(10, Math.round((innerHeight - h) / 2)) + "px";
+}
+addEventListener("resize", () => { for (const el of document.querySelectorAll(".win")) if (!el.dataset.moved) centerWindow(el); });
 function add(parent, tag, cls, css, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (css) e.style.cssText = css; if (html != null) e.innerHTML = html; parent.appendChild(e); return e; }
 
 // ---- The board (FuryCTWindow 1420 x 760) ---------------------------------------------------
