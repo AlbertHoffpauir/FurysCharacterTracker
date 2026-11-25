@@ -4,7 +4,7 @@ local U = CT.Util
 local X = CT.TEXT
 
 ZO_CreateStringId("SI_BINDING_NAME_FURYCT_WINDOW", "Open the character board")
-ZO_CreateStringId("SI_BINDING_NAME_FURYCT_NEEDS", "Show who needs me")
+ZO_CreateStringId("SI_BINDING_NAME_FURYCT_NEEDS", "Show the Todo List")
 ZO_CreateStringId("SI_BINDING_NAME_FURYCT_BRAG", "Show the brag card")
 ZO_CreateStringId("SI_BINDING_NAME_FURYCT_TIMERS", "Show research timers")
 
@@ -84,11 +84,11 @@ local function Slash(arg)
         CT.Window:Toggle()
     elseif CT.VIEW_BY_ID[arg] then
         CT.Window:Show(arg)
-    elseif arg == "needs" then
+    elseif arg == "todo" or arg == "needs" then
         CT.Needs:Toggle()
     elseif arg == "brag" then
         CT.Brag:Toggle()
-    elseif arg == "todo" or arg:match("^todo %d+$") then
+    elseif arg == "unread" or arg:match("^unread %d+$") then
         CT.Roster:PrintToDo(tonumber(arg:match("%d+")) or 7)
     elseif arg == "scan" then
         ReadNow()

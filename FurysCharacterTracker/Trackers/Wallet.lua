@@ -8,7 +8,7 @@
 local CT = FurysCharacterTracker
 local U = CT.Util
 
-local BAG_NEARLY_FULL = 10   -- "Who needs me" names a character with this many free slots or fewer
+local BAG_NEARLY_FULL = 10   -- the Todo List names a character with this many free slots or fewer
 
 -- Game only.
 local function Read(c, account)

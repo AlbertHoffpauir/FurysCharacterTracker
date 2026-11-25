@@ -28,7 +28,6 @@ for _, def in ipairs(Daily.CRAFTS) do IS_WRIT_CRAFT[def.craft] = true end
 
 Daily.NONE, Daily.STARTED, Daily.DELIVER, Daily.DONE = 0, 1, 2, 3
 Daily.LABEL = { [0] = "-", [1] = "Started", [2] = "Deliver", [3] = "Done" }
-Daily.ACTIVE_DAYS = 14   -- "Who needs me" lists a writ only if the character did that craft's writ this recently
 
 -- When today's reset happened on a megaserver.
 function Daily.LastReset(world, now)
@@ -225,20 +224,15 @@ CT.Track({
         end
         return { { title = "Daily", id = "daily", items = items } }
     end,
-    -- A character is listed if it handed in or took any writ in the last two weeks, and then for
-    -- every craft it is certified for: a writ skipped yesterday is still one to do today, and a
-    -- character that never does writs is not nagged. Until 1.5.2 has read a character's
-    -- certifications, all seven crafts count.
+    -- One writ for every craft the character is certified for, whether or not it did writs lately.
+    -- Until 1.5.2 or newer has read a character's certifications, all seven count if it ever had a
+    -- writ, and none if it never did.
     needs = function(e, now, world)
-        local cutoff = now - Daily.ACTIVE_DAYS * 86400
         local certified = Daily.Certified(e.c)
-        local active = false
-        for _, entry in pairs(e.c.writs or {}) do
-            if entry.at >= cutoff then active = true end
-        end
+        if not certified and next(e.c.writs or {}) == nil then return {} end
         local todo, deliver, total = 0, 0, 0
         for _, def in ipairs(Daily.CRAFTS) do
-            if active and (not certified or certified[def.craft]) then
+            if not certified or certified[def.craft] then
                 total = total + 1
                 local state = Daily.State(e.c, def.craft, world, now)
                 if state == Daily.DELIVER then deliver = deliver + 1 elseif state ~= Daily.DONE then todo = todo + 1 end

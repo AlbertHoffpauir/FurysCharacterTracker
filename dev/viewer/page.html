@@ -350,7 +350,7 @@ function showNeeds() {
     tip(tr, row.name + "\n" + row.text + (row.detail ? "\n" + row.detail : "") + "\n\nClick for this character's details.");
     return tr;
   });
-  listWindow("Who needs me", data.label, data.summary, ["Character", "Waiting on you", ""], rows, 760);
+  listWindow("Todo List", data.label, data.summary, ["Character", "Waiting on you", ""], rows, 760);
 }
 
 function showBrag() {

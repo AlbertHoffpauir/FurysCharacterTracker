@@ -13,7 +13,7 @@
 
 [B]Your whole roster at a glance.[/B] Skill and class lines, crafting, research, daily writs, skill points still to earn, wallet, worn gear, companions and progress over time, read straight from the game for every character you have. One list tells you who needs you today. Put your best numbers on a brag card, paste a tab into Discord, and take it all to Excel.
 [QUOTE][SIZE="3"][COLOR="#5CC2FF"][B]New here? Start here[/B][/COLOR][/SIZE]
-Log in on each character once. After that the board keeps itself up to date while you play, and the [B]Start here[/B] page explains everything on it in one screen: the colors, the tabs, the alert switches. [B]Who needs me[/B] then puts every writ to hand in, riding lesson, free research slot and full bag on one list, for every character.[/QUOTE]
+Log in on each character once. After that the board keeps itself up to date while you play, and the [B]Start here[/B] page explains everything on it in one screen: the colors, the tabs, the alert switches. The [B]Todo List[/B] then puts every writ to hand in, riding lesson, free research slot and full bag on one list, for every character.[/QUOTE]
 [LIST]
 [*][COLOR="#A08CFF"][B]Everything starts turned off.[/B][/COLOR]  The chat alerts, the login summary and opening the board at login are all off until you turn them on, with one click on the Start here page or in the settings. Updating keeps your settings as they were.
 [*][COLOR="#A08CFF"][B]Read only.[/B][/COLOR]  It reads what the game shows and never changes a character. Roles, gear picks and notes are your own; Wearing shows what a character had on when it was last read.
@@ -25,7 +25,7 @@ Log in on each character once. After that the board keeps itself up to date whil
 [SIZE="4"][FONT="Georgia"][COLOR="#5CC2FF"][B]At a glance[/B][/COLOR][/FONT][/SIZE]
 [QUOTE][LIST]
 [*][COLOR="#A08CFF"][B]Board:[/B][/COLOR]  Fourteen tabs of every character: skills, class lines, crafting, research, collections, wallet and more.
-[*][COLOR="#A08CFF"][B]Who needs me:[/B][/COLOR]  One list of writs to do or hand in, riding lessons, free research slots and full bags.
+[*][COLOR="#A08CFF"][B]Todo List:[/B][/COLOR]  One list of writs to do or hand in, riding lessons, free research slots and full bags.
 [*][COLOR="#A08CFF"][B]Daily:[/B][/COLOR]  Crafting writs, the riding lesson, dungeon and battleground rewards, trials this week, your Challenges.
 [*][COLOR="#A08CFF"][B]Skill points:[/B][/COLOR]  Where the points still to earn are: skyshards by zone, public dungeon group events, Alliance War rank.
 [*][COLOR="#A08CFF"][B]Progress:[/B][/COLOR]  What each character gained in the last 7 and 30 days.
@@ -67,9 +67,9 @@ Log in on each character once. After that the board keeps itself up to date whil
 [*][B]Roles & gear:[/B] click a blue cell to pick a role, gear and a planned race, write a note, and see the sets each character is wearing.
 [*][FONT="Courier New"][B]/fct class[/B][/FONT] (or any tab name; [FONT="Courier New"][B]traits[/B][/FONT] for Research, [FONT="Courier New"][B]points[/B][/FONT] for Skill points, [FONT="Courier New"][B]sets[/B][/FONT] for Roles & gear) opens straight to a tab.
 [/LIST]
-[COLOR="#A08CFF"][B]Who needs me[/B][/COLOR]
+[COLOR="#A08CFF"][B]Todo List[/B][/COLOR]
 [LIST]
-[*]One list of what your characters are waiting on you for: writs to do or hand in, riding lessons, free research slots and full bags. Button under the board, [FONT="Courier New"][B]/fct needs[/B][/FONT], or a key.
+[*]One list of what your characters are waiting on you for: writs to do or hand in, riding lessons, free research slots and full bags. Button under the board, [FONT="Courier New"][B]/fct todo[/B][/FONT], or a key.
 [/LIST]
 [COLOR="#A08CFF"][B]Research timers[/B][/COLOR]
 [LIST]
@@ -99,10 +99,10 @@ Log in on each character once. After that the board keeps itself up to date whil
 
 [SIZE="4"][FONT="Georgia"][COLOR="#5CC2FF"][B]Windows Tools[/B][/COLOR][/FONT][/SIZE]
 [COLOR="#B4B0D8"][I]Optional, separate download. The addon works fully in game without them.[/I][/COLOR]
-The offline viewer and the Excel export run outside the game, so ESOUI's rules keep them out of the addon zip. Get them here: [B][URL="https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-WindowsTools-1.5.3.zip"]Fury's Character Tracker Windows Tools 1.5.3[/URL][/B], and unzip them into any folder you like, for example Documents\Elder Scrolls Online. In game, the [B]Get the Windows Tools[/B] button in the settings (or [FONT="Courier New"][B]/fct tools[/B][/FONT]) opens the same download page in your browser.
+The offline viewer and the Excel export run outside the game, so ESOUI's rules keep them out of the addon zip. Get them here: [B][URL="https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-WindowsTools-1.5.5.zip"]Fury's Character Tracker Windows Tools 1.5.5[/URL][/B], and unzip them into any folder you like, for example Documents\Elder Scrolls Online. In game, the [B]Get the Windows Tools[/B] button in the settings (or [FONT="Courier New"][B]/fct tools[/B][/FONT]) opens the same download page in your browser.
 [B]Updating from 1.4.1 or older?[/B] Get the new tools too. The older tools cannot read what addon 1.5.0 saves.
 [COLOR="#A08CFF"][B]Offline viewer[/B][/COLOR]
-The same board in your web browser with the game closed, for every account and megaserver on your PC: every tab, Start here, Who needs me, research timers, the brag card, character details and Copy for Discord. It runs the addon's own board files, so it shows exactly what the game shows.
+The same board in your web browser with the game closed, for every account and megaserver on your PC: every tab, Start here, the Todo List, research timers, the brag card, character details and Copy for Discord. It runs the addon's own board files, so it shows exactly what the game shows.
 [LIST=1]
 [*]Log out, or type [FONT="Courier New"][B]/reloadui[/B][/FONT]. The game only writes its saved data at those moments.
 [*]Double-click [B]Open Offline Viewer.cmd[/B] in the tools folder. Your browser opens [B]Fury's Character Tracker.html[/B], which it also saves in Documents\Elder Scrolls Online.
@@ -139,15 +139,15 @@ The scripts are plain text (batch, PowerShell) you can open in Notepad. Full sou
 
 [SIZE="4"][FONT="Georgia"][COLOR="#5CC2FF"][B]Settings, commands and keys[/B][/COLOR][/FONT][/SIZE]
 [B]Settings:[/B] the gear at the top of the board, Settings > Addons > Fury's Character Tracker, or [FONT="Courier New"][B]/fct settings[/B][/FONT]. The alert switches, the login summary, opening the board at login, window positions, removed characters, the Windows Tools and the Excel export.
-[B]Keys:[/B] Controls > Keybindings > Fury's Character Tracker has the board, Who needs me, the brag card and the research timers.
+[B]Keys:[/B] Controls > Keybindings > Fury's Character Tracker has the board, the Todo List, the brag card and the research timers.
 [LIST]
 [*][FONT="Courier New"][B]/fct[/B][/FONT] open the board
 [*][FONT="Courier New"][B]/fct start[/B][/FONT] the Start here page
-[*][FONT="Courier New"][B]/fct needs[/B][/FONT] who needs me
+[*][FONT="Courier New"][B]/fct todo[/B][/FONT] the Todo List
 [*][FONT="Courier New"][B]/fct brag[/B][/FONT] the brag card
 [*][FONT="Courier New"][B]/fct timers[/B][/FONT] the research timers window
 [*][FONT="Courier New"][B]/fct research[/B][/FONT] research slots and timers on every character, in chat
-[*][FONT="Courier New"][B]/fct todo[/B][/FONT] characters never read, read by an older version, or not read in 7 days ([FONT="Courier New"][B]/fct todo 30[/B][/FONT] for 30 days)
+[*][FONT="Courier New"][B]/fct unread[/B][/FONT] characters never read, read by an older version, or not read in 7 days ([FONT="Courier New"][B]/fct unread 30[/B][/FONT] for 30 days)
 [*][FONT="Courier New"][B]/fct alerts on[/B][/FONT] | [FONT="Courier New"][B]off[/B][/FONT] chat alerts for research and riding lessons
 [*][FONT="Courier New"][B]/fct scan[/B][/FONT] read this character again now
 [*][FONT="Courier New"][B]/fct export[/B][/FONT] export to Excel
@@ -158,7 +158,7 @@ The scripts are plain text (batch, PowerShell) you can open in Notepad. Full sou
 
 [SIZE="4"][FONT="Georgia"][COLOR="#5CC2FF"][B]Questions[/B][/COLOR][/FONT][/SIZE]
 [B]I just updated. Why do some columns show a dash?[/B]
-The new columns fill in when a character is read by this version. Log in on each character once, a few seconds is enough. The line above the board says how many are left, and [FONT="Courier New"][B]/fct todo[/B][/FONT] names them.
+The new columns fill in when a character is read by this version. Log in on each character once, a few seconds is enough. The line above the board says how many are left, and [FONT="Courier New"][B]/fct unread[/B][/FONT] names them.
 
 [B]I play two accounts at once (two game clients). Why did one lose progress?[/B]
 The game keeps one saved-data file per addon for the whole PC. Each client reads it at login and writes its own copy back at logout or /reloadui, so the client that saves last wins. This happens to every addon that saves data across accounts. Let one client log out before the other logs in, or log a character in again on its own afterwards.

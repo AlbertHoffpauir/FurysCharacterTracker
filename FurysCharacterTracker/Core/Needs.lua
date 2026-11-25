@@ -1,5 +1,5 @@
 -- shared
--- "Who needs me": one list of what your characters are waiting on you for. Each file in Trackers/
+-- The Todo List: one list of what your characters are waiting on you for. Each file in Trackers/
 -- can add to it with a `needs` function: function(e, now, world) -> { { text =, detail =, order = } }.
 local CT = FurysCharacterTracker
 local Needs = {}

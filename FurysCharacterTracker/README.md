@@ -4,7 +4,7 @@
 
 Every character on your account, on one board: skill and class lines, crafting, research, daily writs,
 skill points still to earn, wallet, worn gear, companions and progress over time, read straight from
-the game. One list of who needs you, a brag card, copy for Discord, export to Excel.
+the game. A todo list, a brag card, copy for Discord, export to Excel.
 
 **Requires:** LibAddonMenu-2.0 (version 43 or newer). Install it separately; without it the addon will not load.
 
@@ -39,8 +39,8 @@ the settings. Updating from an older version keeps your settings as they were.
   riding, achievement points and hours played.
 - **Class**: level, race, alliance and the three class skill lines each character is using, with
   subclassing. Hover a line for the class it comes from. Lines in training and lines trained earlier
-  are listed beside them, with the character's class mastery once it is open. Class mastery has no
-  rank: hover it for its Class Mastery Points, and whether it is off because the character is subclassing.
+  are listed beside them. **Build** says Pure or Subclass: a pure class build has class mastery,
+  subclassing gives it up.
 - **Weapons, Armor, Guilds & AvA, World, Crafting**: the rank of every skill line.
 - **Research**: traits known per craft (Smith, Cloth, Wood, Jewelry), research slots in use, and the time
   until the next research finishes. Hover a craft for what is researching and every missing trait.
@@ -64,10 +64,9 @@ the settings. Updating from an older version keeps your settings as they were.
 
 ## The buttons under the board
 
-- **Who needs me** (`/fct needs`, or a key): one list of what your characters are waiting on you for.
+- **Todo List** (`/fct todo`, or a key): one list of what your characters are waiting on you for.
   Writs to do or hand in, riding lessons, free research slots and full bags.
-  Writs are listed for a character that did any writ in the last 14 days, one for every craft it is
-  certified for.
+  Writs are listed for every character, one for each craft it is certified for.
 - **Research timers** (`/fct timers`, or a key): every research in progress, one line each, with time left
   and when it finishes, soonest first. Finished and free slots are at the top in amber.
 - **Brag card** (`/fct brag`, or a key): your best numbers on one screen, sized for a screenshot. Hours
@@ -100,11 +99,11 @@ alerts together.
 
 - `/fct` open the board
 - `/fct start` the Start here page
-- `/fct needs` who needs me
+- `/fct todo` the Todo List
 - `/fct brag` the brag card
 - `/fct timers` the research timers window
 - `/fct research` research slots and timers, in chat
-- `/fct todo` characters never read, read by an older version, or not read in 7 days (`/fct todo 30` for 30 days)
+- `/fct unread` characters never read, read by an older version, or not read in 7 days (`/fct unread 30` for 30 days)
 - `/fct alerts on` | `off` chat alerts for research and riding lessons
 - `/fct scan` read this character again now
 - `/fct export` export to Excel
@@ -149,7 +148,7 @@ Documents\Elder Scrolls Online. Its own README says what each file does. The add
 game without them. Use Windows Tools 1.5.0 or newer with this version.
 
 **Offline viewer.** The same board in your browser with the game closed, for every account and
-megaserver on this PC: every tab, Start here, Who needs me, research timers, the brag card, details
+megaserver on this PC: every tab, Start here, the Todo List, research timers, the brag card, details
 and Copy for Discord. It runs the addon's own board files, so it shows exactly what the game shows.
 Log out or /reloadui (the game only saves then), then double-click **Open Offline Viewer.cmd**.
 

@@ -70,7 +70,7 @@ CT.Track({
           display = function(v) return U.Comma(v) end, tip = "Hours played (/played)", head = "Hours played on this character." },
         { key = "updated", title = "Updated", width = 96, value = function(e) return U.FormatDate(e.c.lastScan) end,
           head = "Updated: the last day this character was read from the game.",
-          tip = function(e) return "Read from the game " .. U.Ago(e.c.lastScan) .. ".\n/fct todo lists the characters that are out of date." end },
+          tip = function(e) return "Read from the game " .. U.Ago(e.c.lastScan) .. ".\n/fct unread lists the characters that are out of date." end },
     },
     summary = function(e)
         return { { "Achievement points", U.Comma(e.c.achievementPoints) }, { "Hours played", U.Comma(e.c.playedHours) } }

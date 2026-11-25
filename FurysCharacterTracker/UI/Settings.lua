@@ -65,7 +65,7 @@ function Settings:Build()
           tooltip = "Puts back every character you removed with right-click > Remove from board.",
           func = ShowRemoved },
         { type = "description",
-          text = "Key bindings for the board, Who needs me, the brag card and research timers: Controls > Keybindings > Fury's Character Tracker." },
+          text = "Key bindings for the board, the Todo List, the brag card and research timers: Controls > Keybindings > Fury's Character Tracker." },
 
         { type = "header", name = "Windows Tools" },
         { type = "description",

@@ -264,7 +264,7 @@ function UICheck()
     end
 
     -- Slash commands.
-    for _, command in ipairs({ "", "needs", "brag", "timers", "todo", "research", "start", "ids", "scan", "alerts on", "alerts off", "nonsense", "class", "wallet" }) do
+    for _, command in ipairs({ "", "needs", "brag", "timers", "todo", "unread", "research", "start", "ids", "scan", "alerts on", "alerts off", "nonsense", "class", "wallet" }) do
         SLASH_COMMANDS["/fct"](command)
     end
     for _, window in ipairs(CT.Windows()) do

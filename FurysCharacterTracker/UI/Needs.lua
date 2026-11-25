@@ -1,4 +1,4 @@
--- Who needs me (/fct needs): one list of what your characters are waiting on you for.
+-- Todo List (/fct todo): one list of what your characters are waiting on you for.
 -- The list itself is put together in Core/Needs.lua from what each file in Trackers/ reports.
 local CT = FurysCharacterTracker
 local Needs = CT.Needs
@@ -36,7 +36,7 @@ function Needs:Build()
         label:SetFont(T.FONT_HEADER)
         Paint(label, title[2], T.RGB.BLUE)
     end
-    FurysCharacterTracker_NeedsLegend:SetText("Writs, riding lessons, free research slots, full bags  ·  click a row for details  ·  /fct needs")
+    FurysCharacterTracker_NeedsLegend:SetText("Writs, riding lessons, free research slots, full bags  ·  click a row for details  ·  /fct todo")
     local pos = CT.sv.needsWindow
     if pos then
         FurysCharacterTracker_Needs:ClearAnchors()

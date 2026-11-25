@@ -20,8 +20,8 @@ X.START_TIP = "New here? One page on how the board works: getting your character
 
 -- Buttons under the board, left to right. `id` is what the window does when one is clicked.
 X.FOOTER = {
-    { id = "needs", label = "Who needs me",
-      tip = "One list of what your characters are waiting on you for: writs to do or hand in, riding lessons, free research slots, full bags.\n(also /fct needs)" },
+    { id = "needs", label = "Todo List",
+      tip = "One list of what your characters are waiting on you for: writs to do or hand in, riding lessons, free research slots, full bags.\n(also /fct todo)" },
     { id = "timers", label = "Research timers",
       tip = "Every research slot on this account: what is researching, time left, and slots that are free.\n(also /fct timers)" },
     { id = "brag", label = "Brag card",
@@ -47,14 +47,14 @@ X.EXPORT_SAVED = "Saved %s for export. If you have run Turn On Auto Export.cmd f
 X.HELP = {
     "/fct  open the board (also on a key: Controls > Keybindings > Fury's Character Tracker)",
     "/fct start  the Start here page: how the board works, in one page",
-    "/fct needs  who needs me: writs, riding lessons, research slots, full bags",
+    "/fct todo  the Todo List: writs, riding lessons, research slots, full bags",
     "/fct overview, class, weapons, armor, guilds, world, crafting, traits, daily, collections, points, wallet, progress, sets  open a tab",
     "/fct brag  the brag card: your best numbers on one screen, for a screenshot",
     "/fct timers  research timers window: what each character is researching and time left",
     "/fct research  research slots and timers in chat",
     "/fct settings  open the settings page (or the gear on the board)",
     "/fct alerts on | off  chat line when research or a riding lesson is ready on any character",
-    "/fct todo  characters never read, or not read in 7 days (/fct todo 30 for 30 days)",
+    "/fct unread  characters never read, or not read in 7 days (/fct unread 30 for 30 days)",
     "/fct scan  read this character again now",
     "/fct export  export to Excel (asks first, then reloads the UI; the Windows Tools write the file)",
     "/fct tools  get the Windows Tools (offline viewer, Excel export) from GitHub",
@@ -66,7 +66,7 @@ X.HELP = {
 X.START = {
     { title = "1. Get your characters on the board", lines = {
         "Log in on each character once. A few seconds is enough: the addon reads it right after login.",
-        { "Characters not read yet are the dim rows at the bottom of the board. /fct todo lists them in chat.",
+        { "Characters not read yet are the dim rows at the bottom of the board. /fct unread lists them in chat.",
           viewer = "Characters not read yet are the dim rows at the bottom of the board." },
         { "After that a character updates by itself whenever you play it. Nothing to click.",
           viewer = "The game saves when you log out or reload the UI. Open the offline viewer again after that to see what is new." },
@@ -92,7 +92,7 @@ X.START = {
     } },
     { title = "4. Alerts: everything starts turned off. Click a line to switch it.", switches = true },
     { title = "5. More", lines = {
-        "Who needs me: one list of writs to do, riding lessons, free research slots and full bags. Button under the board.",
+        "Todo List: one list of writs to do, riding lessons, free research slots and full bags. Button under the board.",
         { "Research timers, Brag card, Copy for Discord: buttons under the board. The gear at the top is Settings.",
           viewer = "Research timers, Brag card, Copy for Discord and Save for Excel: buttons under the board." },
         { "Keys for the board and its windows: Controls > Keybindings > Fury's Character Tracker.", viewer = false },

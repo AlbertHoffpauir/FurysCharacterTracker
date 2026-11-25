@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.5.5
+- **Who needs me is now the Todo List.** Open it with the button under the board, a key, or /fct todo.
+- The Todo List shows writs for every character that is certified for them, not only the ones that did writs lately.
+- The chat list of characters that still need a login moved from /fct todo to /fct unread.
+
+## 1.5.4
+- **Class** tab: class mastery is no longer listed as a line to track. It is not earned, it comes with a pure class build, so a new **Build** column says Pure or Subclass instead, and a character's details say which it is.
+
 ## 1.5.3
 - The export texts now say where Auto Export is turned on: it is the file Turn On Auto Export.cmd in the Windows Tools folder, not a setting in game.
 

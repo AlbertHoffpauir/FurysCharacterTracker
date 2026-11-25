@@ -35,7 +35,7 @@
                     <AnchorFill />
                     <Edge edgeSize="2" />
                 </Backdrop>
-                <Label name="$(parent)Title" font="ZoFontWinH2" color="ECEAF8" text="Who needs me">
+                <Label name="$(parent)Title" font="ZoFontWinH2" color="ECEAF8" text="Todo List">
                     <Anchor point="TOPLEFT" offsetX="18" offsetY="12" />
                 </Label>
                 <Label name="$(parent)Subtitle" font="ZoFontGameSmall" color="B4B0D8">

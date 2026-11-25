@@ -242,7 +242,7 @@ function Pages.Brag()
     end
 
     local onAccount = #CT.Roster:AccountRoster()
-    local count = (n < onAccount) and string.format("%d of %d characters read%s", n, onAccount, CT.live and " (/fct todo)" or "")
+    local count = (n < onAccount) and string.format("%d of %d characters read%s", n, onAccount, CT.live and " (/fct unread)" or "")
                                   or U.Count(n, "character")
     return {
         title = CT.view and CT.view.account or "",

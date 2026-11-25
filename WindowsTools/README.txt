@@ -1,4 +1,4 @@
-Fury's Character Tracker - Windows Tools 1.5.3
+Fury's Character Tracker - Windows Tools 1.5.5
 ===============================================
 
 Optional helpers for the ESO addon Fury's Character Tracker. They run outside the game, on Windows,
@@ -23,7 +23,7 @@ OfflineViewer.ps1         Reads the saved data (both megaserver folders, if you 
                           Documents\Elder Scrolls Online\Fury's Character Tracker.html and opens it in
                           your browser. It reads the saved data and writes that one file.
 Viewer\viewer.html        The page: the same board as in game, with every tab, the account picker,
-                          Start here, Who needs me, research timers, the brag card, character details,
+                          Start here, the Todo List, research timers, the brag card, character details,
                           Copy for Discord and Save for Excel. No game needed.
 
 The viewer shows exactly what the addon shows, because it runs the addon's own files. The page holds

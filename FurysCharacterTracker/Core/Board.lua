@@ -179,7 +179,7 @@ function Board.Summary(view, entries, unread)
     if never > 0 then parts[#parts + 1] = string.format("%d not read yet (the dim rows)%s", never, (home and old == 0) and ": log in on each once" or "") end
     if home and count > 0 and old == 0 and never == 0 then
         parts[#parts + 1] = "every character on this account is here"
-        parts[#parts + 1] = "/fct todo lists the out-of-date ones"
+        parts[#parts + 1] = "/fct unread lists the out-of-date ones"
     end
     local summary = table.concat(parts, "  ·  ")
     if view.id == "wallet" then

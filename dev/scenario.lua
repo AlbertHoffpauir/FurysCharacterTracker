@@ -60,7 +60,7 @@ local reset = D.LastReset(world, GetTimeStamp()) + 86400
 Check(D.State(C(), CRAFTING_TYPE_BLACKSMITHING, world, reset - 60) == D.DONE, "done writ gone before the reset")
 Check(D.State(C(), CRAFTING_TYPE_BLACKSMITHING, world, reset + 60) == D.NONE, "done writ still done after the reset")
 
--- Who needs me: the hand-in, the research slots, the bag.
+-- Todo List: the hand-in, the research slots, the bag.
 local texts = {}
 for _, row in ipairs(CT.Needs.Rows()) do if row.id == id then texts[#texts + 1] = row.text end end
 P("needs: %s", table.concat(texts, " | "))

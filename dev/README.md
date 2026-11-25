@@ -7,7 +7,7 @@ Nothing in this folder ships with the addon. It builds the offline viewer and te
 ## How the addon is laid out
 
 - Files whose first line is `-- shared` make no game calls when they load. The game runs them, and so does the offline viewer. They hold the rules of the board: what the tabs are, what every cell shows, every hover text.
-- `Trackers/` has one file per tracked thing (skills, research, writs, wallet and so on). Each says how to read it from the game, which events mean it changed, its columns, and what it adds to the details page, the Excel export and the Who needs me list.
+- `Trackers/` has one file per tracked thing (skills, research, writs, wallet and so on). Each says how to read it from the game, which events mean it changed, its columns, and what it adds to the details page, the Excel export and the Todo List.
 - `Data/Views.lua` lists the tabs and names the columns on each. `Data/Text.lua` holds the words on the windows.
 - `Game/` and `UI/` are game only: reading, alerts, startup, and the windows.
 
