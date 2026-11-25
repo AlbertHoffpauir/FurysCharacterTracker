@@ -170,6 +170,14 @@ Account-wide in the game's SavedVariables folder, separate for NA and EU. Nothin
 Matching works on any client language; the labels on the board are written in English.
 
 
+[SIZE="4"][FONT="Georgia"][COLOR="#5CC2FF"][B]More from Fury[/B][/COLOR][/FONT][/SIZE]
+[LIST]
+[*][URL="https://www.esoui.com/downloads/info5063.html"][B]Fury's Guild Management Toolset[/B][/URL]: an officer's toolkit: bank alerts, member and inactivity reports, trader week totals, raffles, event sign-ups and recruiting.
+[*][URL="https://www.esoui.com/downloads/info5099.html"][B]Fury's Inventory Ledger[/B][/URL]: every item you own in one list, across all your characters, the bank and your houses, with export to Excel.
+[*][URL="https://www.esoui.com/downloads/info5106.html"][B]Fury's Account Sync[/B][/URL]: make your other accounts on this PC match your main one: settings, keybinds, addon settings and builds.
+[/LIST]
+All free here on ESOUI and in Minion.
+
 [SIZE="4"][FONT="Georgia"][COLOR="#5CC2FF"][B]Bugs, ideas and source[/B][/COLOR][/FONT][/SIZE]
 Bug reports and ideas are welcome in the comments.
 Source code: [URL="https://github.com/AlbertHoffpauir/FurysCharacterTracker"]GitHub[/URL]  |  Windows Tools source: [URL="https://github.com/AlbertHoffpauir/FurysCharacterTracker/tree/main/WindowsTools"]GitHub[/URL]

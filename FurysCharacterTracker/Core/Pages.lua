@@ -76,6 +76,15 @@ function Pages.Start()
         end
         sections[#sections + 1] = section
     end
+    -- 1.5.7: the other Fury addons, the same lines as in every Fury addon (UI/Theme.lua). In game only.
+    if CT.live then
+        local more = { title = "6. " .. CT.Theme.MORE_TITLE, lines = {} }
+        for _, entry in ipairs(CT.Theme.More()) do
+            more.lines[#more.lines + 1] = { entry.name .. ": " .. entry.about .. "  Click for its ESOUI page (the game asks first).", more = entry.url }
+        end
+        more.lines[#more.lines + 1] = CT.Theme.MORE_FOOT
+        sections[#sections + 1] = more
+    end
     return sections
 end
 

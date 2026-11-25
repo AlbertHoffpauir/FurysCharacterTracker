@@ -163,6 +163,14 @@ Mac or no tools: the export rows are in the saved data file (texts starting `FCT
 
 `SavedVariables\FurysCharacterTracker.lua`, account-wide, separate for NA and EU. Nothing leaves your PC.
 
+## More from Fury
+
+- [Fury's Guild Management Toolset](https://www.esoui.com/downloads/info5063.html): an officer's toolkit: bank alerts, member and inactivity reports, trader week totals, raffles, event sign-ups and recruiting.
+- [Fury's Inventory Ledger](https://www.esoui.com/downloads/info5099.html): every item you own in one list, across all your characters, the bank and your houses, with export to Excel.
+- [Fury's Account Sync](https://www.esoui.com/downloads/info5106.html): make your other accounts on this PC match your main one: settings, keybinds, addon settings and builds.
+
+All free on ESOUI and in Minion.
+
 ## Credits
 
 - Settings page uses **LibAddonMenu-2.0** by Seerah and sirinsidiator.

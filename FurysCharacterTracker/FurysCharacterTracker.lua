@@ -19,7 +19,7 @@ local CT = FurysCharacterTracker
 
 CT.name = "FurysCharacterTracker"
 CT.displayName = "Fury's Character Tracker"
-CT.version = "1.5.6"
+CT.version = "1.5.7"
 -- The Windows Tools (offline viewer, Excel export) can't ship in the ESOUI zip; this page has the download.
 CT.toolsUrl = "https://github.com/AlbertHoffpauir/FurysCharacterTracker#downloads"
 

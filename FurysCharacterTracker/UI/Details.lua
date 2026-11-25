@@ -61,6 +61,8 @@ local function ClickOf(line)
         end
     elseif line.url then
         return function() RequestOpenUnsafeURL(CT.toolsUrl) end
+    elseif line.more then
+        return function() RequestOpenUnsafeURL(line.more) end
     end
 end
 

@@ -90,6 +90,7 @@ function Settings:Build()
                  "It has its own Start here page and a Save for Excel button. The game saves when you log out or /reloadui; run it again to see new data." },
     }
     for _, option in ipairs(rest) do options[#options + 1] = option end
+    CT.Theme.MoreOptions(options)   -- 1.5.7: the other Fury addons, at the very end
     self.panel = LAM:RegisterAddonPanel("FurysCharacterTracker_Settings", panel)
     LAM:RegisterOptionControls("FurysCharacterTracker_Settings", options)
 end
