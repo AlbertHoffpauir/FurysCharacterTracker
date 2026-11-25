@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.6
+- **One look across all of Fury's addons.** Every window now has the same header as the Guild Toolset: the name with its version, a **Start here** button right after it, the settings gear and the close button at the right, and a hover tip on each.
+- The version moved into the board's title, and the Start here button moved next to it.
+- Close buttons on every window have a hover tip.
+- Chat lines start with [Character Tracker]. `/fct help` starts with "commands:".
+- Keybinds are named "Open/close ..." like the other Fury addons. The settings page links to the addon's ESOUI page.
+
 ## 1.5.5
 - **Who needs me is now the Todo List.** Open it with the button under the board, a key, or /fct todo.
 - The Todo List shows writs for every character that is certified for them, not only the ones that did writs lately.

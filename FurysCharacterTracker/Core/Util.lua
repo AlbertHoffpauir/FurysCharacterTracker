@@ -6,7 +6,7 @@ CT.Util = U
 
 function U.Print(fmt, ...)
     local text = select("#", ...) > 0 and string.format(fmt, ...) or fmt
-    CHAT_ROUTER:AddSystemMessage("|cA08CFF[Characters]|r " .. text)
+    CHAT_ROUTER:AddSystemMessage("|cA08CFF[Character Tracker]|r " .. text)
 end
 
 function U.FormatDate(timestamp)

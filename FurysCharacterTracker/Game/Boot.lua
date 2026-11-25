@@ -3,10 +3,10 @@ local CT = FurysCharacterTracker
 local U = CT.Util
 local X = CT.TEXT
 
-ZO_CreateStringId("SI_BINDING_NAME_FURYCT_WINDOW", "Open the character board")
-ZO_CreateStringId("SI_BINDING_NAME_FURYCT_NEEDS", "Show the Todo List")
-ZO_CreateStringId("SI_BINDING_NAME_FURYCT_BRAG", "Show the brag card")
-ZO_CreateStringId("SI_BINDING_NAME_FURYCT_TIMERS", "Show research timers")
+ZO_CreateStringId("SI_BINDING_NAME_FURYCT_WINDOW", "Open/close the board")
+ZO_CreateStringId("SI_BINDING_NAME_FURYCT_NEEDS", "Open/close the Todo List")
+ZO_CreateStringId("SI_BINDING_NAME_FURYCT_BRAG", "Open/close the brag card")
+ZO_CreateStringId("SI_BINDING_NAME_FURYCT_TIMERS", "Open/close research timers")
 
 -- Windows -----------------------------------------------------------------------------------
 
@@ -109,7 +109,7 @@ local function Slash(arg)
     elseif arg == "ids" then
         CT.Scan:PrintIds()
     else
-        U.Print("%s v%s", CT.displayName, CT.version)
+        U.Print("%s v%s commands:", CT.displayName, CT.version)
         for _, line in ipairs(X.HELP) do U.Print(line) end
     end
 end
@@ -147,6 +147,11 @@ local function OnAddOnLoaded(_, addonName)
     T.Window(FurysCharacterTracker_Text, { bg = "BG" })
     T.Window(FurysCharacterTracker_Details, { bg = "BG", bar = 66 })
     T.Window(FurysCharacterTracker_Brag, { bg = "BG", bar = 92, center = true, font = "$(ANTIQUE_FONT)|36|soft-shadow-thick" })
+    -- 1.5.6: every close button says what it does, the same words in every Fury addon.
+    for _, win in ipairs({ FurysCharacterTracker_Window, FurysCharacterTracker_Timers, FurysCharacterTracker_Needs,
+                           FurysCharacterTracker_Text, FurysCharacterTracker_Details, FurysCharacterTracker_Brag }) do
+        T.CloseTip(win:GetNamedChild("Close"))
+    end
     CT.FitWindows()
     EVENT_MANAGER:RegisterForEvent(CT.name, EVENT_SCREEN_RESIZED, CT.FitWindows)
     -- Another account picked on the board: every open window shows that account.

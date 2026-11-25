@@ -165,7 +165,9 @@ function Win:Initialize()
     end
 
     FurysCharacterTracker_WindowLegend:SetText(X.LEGEND)
-    FurysCharacterTracker_WindowSubtitle:SetText("v" .. CT.version .. "  ·  /fct")
+    -- 1.5.6: the version sits in the title, and Start here right after it, as in every Fury addon.
+    T.SetTitle(FurysCharacterTracker_Window, CT.displayName, CT.version)
+    FurysCharacterTracker_WindowSubtitle:SetText("")
     SetTip(FurysCharacterTracker_WindowSummary, function() return self.summaryTip end)
 
     -- Which account and megaserver you are looking at.
@@ -183,9 +185,8 @@ function Win:Initialize()
     gear:SetHandler("OnClicked", function() CT.Settings:Open() end)
     SetTip(gear, function() return X.SETTINGS_TIP end)
 
-    -- Start here: the one-page guide, left of the gear.
-    local start = Button("FurysCharacterTracker_WindowStart", FurysCharacterTracker_Window, "Start here", 120, X.START_TIP, function() CT.Details:ShowStart() end)
-    start:SetAnchor(RIGHT, gear, LEFT, -10, 0)
+    -- Start here: the one-page guide, right after the title (Theme.lua), as in every Fury addon.
+    T.StartButton(FurysCharacterTracker_Window, function() CT.Details:ShowStart() end, X.START_TIP)
 
     local pos = CT.sv.window
     if pos then

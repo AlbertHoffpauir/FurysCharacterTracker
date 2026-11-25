@@ -37,6 +37,7 @@ function Settings:Build()
         displayName = "|cA08CFFFury's Character Tracker|r",
         author = "Furyous",
         version = CT.version,
+        website = "https://www.esoui.com/downloads/info5078.html",
         slashCommand = "/fctsettings",
         registerForRefresh = true,
     }
