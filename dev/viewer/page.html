@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fury's Character Tracker</title>
+<style>
+  /* The Fury Night look shared by all of Fury's addons (UI/Theme.lua in the addon). */
+  :root { --void: #07060e; --bg: #0f0e1f; --edge: #4a3d99; --violet: #a08cff; --ink: #07060e; --text: #eceaf8;
+          --sub: #b4b0d8; --dim: #8a86b0; --blue: #5cc2ff; --amber: #ffc857; --glow: #1e1a44; --stripe: #16142c; --hover: #211d46;
+          --title-font: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;   /* fonts already on the PC: the page never goes online */
+          --body-font: "Univers LT Std", "Roboto Condensed", "Segoe UI", Arial, sans-serif; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--void); color: var(--text); font-family: var(--body-font); font-size: 16px; }
+  #app { display: flex; flex-direction: column; height: 100%; min-width: 1100px; max-width: 1480px; margin: 0 auto;
+         background: var(--bg); border-left: 2px solid var(--edge); border-right: 2px solid var(--edge); }
+  header { display: flex; align-items: center; gap: 14px; padding: 10px 18px; border-bottom: 2px solid var(--violet);
+           background: linear-gradient(to bottom, var(--glow), var(--bg)); }
+  .gem { width: 14px; height: 14px; flex: none; border: 2px solid var(--violet); transform: rotate(45deg); margin: 0 8px 0 6px;
+         box-shadow: inset 0 0 0 3px var(--bg), inset 0 0 0 7px var(--violet); }
+  h1 { margin: 0; font-family: var(--title-font); font-size: 28px; font-weight: 400; white-space: nowrap; text-shadow: 2px 2px 3px #000; }
+  header small { color: var(--sub); font-size: 14px; white-space: nowrap; }
+  .grow { flex: 1; }
+  button, select { font: inherit; font-weight: 700; color: var(--text); height: 30px; border: 0; padding: 0 16px; cursor: pointer; white-space: nowrap;
+                   background: linear-gradient(to right, transparent, rgba(0,0,0,.6) 14%, rgba(0,0,0,.6) 86%, transparent);
+                   border-bottom: 2px solid var(--edge); }
+  button:hover, select:hover { color: #fff; border-bottom-color: var(--violet); }
+  select { background: rgba(0,0,0,.6); border: 1px solid var(--edge); padding: 0 8px; }
+  select option { background: var(--bg); color: var(--text); }
+  nav { display: flex; gap: 2px; padding: 8px 18px 0; border-bottom: 1px solid var(--edge); user-select: none; }
+  nav div { padding: 6px 11px 7px; color: var(--sub); font-weight: 700; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; }
+  nav div:hover { color: var(--text); }
+  nav div.on { color: var(--text); border-bottom-color: var(--violet); }
+  #summary { padding: 8px 20px 6px; color: var(--sub); font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #boardWrap { flex: 1; overflow: auto; margin: 0 18px; border-top: 1px solid var(--edge); border-bottom: 1px solid var(--edge); }
+  table { border-collapse: collapse; table-layout: fixed; }
+  th, td { height: 28px; padding: 2px 3px; text-align: center; white-space: nowrap; }
+  th.left, td.left { text-align: left; }
+  /* A cell's text sits in a box of its own, so the row stripe runs unbroken behind the tiles and bars. */
+  td div, th div { height: 24px; line-height: 24px; padding: 0 4px; overflow: hidden; text-overflow: ellipsis; }
+  thead th { position: sticky; top: 0; z-index: 2; background: var(--bg); color: var(--blue); font-size: 13.5px; letter-spacing: -0.2px; cursor: pointer; user-select: none;
+             box-shadow: 0 1px 0 var(--edge); }
+  thead th div { overflow: visible; }
+  thead th:hover { color: #fff; }
+  tbody tr:nth-child(even) { background: var(--stripe); }
+  tbody tr:hover { background: var(--hover); }
+  tbody td { cursor: default; }
+  td div.max { background: var(--violet); color: var(--ink); font-weight: 700; }
+  td div.dim { color: var(--dim); }
+  td div.pick { color: var(--blue); }
+  tr.unread td { color: var(--dim); text-align: left; }
+  tfoot td { position: sticky; bottom: 0; z-index: 2; background: var(--bg); color: var(--violet); font-weight: 700; box-shadow: 0 -1px 0 var(--edge); }
+  .list { border-collapse: collapse; } .list th { position: static; cursor: default; padding: 0 10px; box-shadow: none; font-size: 15px; }
+  .list th { color: var(--blue); text-align: left; }
+  .list td { padding: 0 10px; height: 26px; text-align: left; }
+  .list td.amber { color: var(--amber); } .list td.dim { color: var(--dim); } .list tr.click td { cursor: pointer; }
+  footer { padding: 10px 18px 12px; }
+  #buttons { display: flex; gap: 8px; }
+  #legend { margin-top: 10px; color: var(--sub); font-size: 14px; }
+  /* Windows that open over the board. */
+  #shade { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: none; align-items: center; justify-content: center; z-index: 50; }
+  .win { position: relative; display: flex; flex-direction: column; max-height: 92vh; background: var(--bg); border: 2px solid var(--edge); box-shadow: 0 10px 40px #000; }
+  .win .bar { padding: 10px 52px 10px 18px; border-bottom: 2px solid var(--violet); background: linear-gradient(to bottom, var(--glow), var(--bg)); }
+  .win .bar h2 { margin: 0; font-family: var(--title-font); font-size: 26px; font-weight: 400; text-shadow: 2px 2px 3px #000; }
+  .win .bar div { color: var(--sub); font-size: 14px; margin-top: 2px; }
+  .win .close { position: absolute; right: 12px; top: 8px; width: 30px; height: 30px; color: var(--sub); font-size: 26px; line-height: 28px; text-align: center; cursor: pointer; }
+  .win .close:hover { color: #fff; }
+  .win .body { padding: 14px 20px 18px; overflow: auto; }
+  .win .note { color: var(--sub); font-size: 14px; margin-bottom: 8px; }
+  .sec { color: var(--blue); font-weight: 700; margin: 14px 0 4px; } .sec:first-child { margin-top: 0; }
+  .grid { display: grid; grid-template-columns: repeat(3, 300px); column-gap: 20px; }
+  .item { display: flex; justify-content: space-between; gap: 8px; line-height: 22px; white-space: nowrap; }
+  .item .k { color: var(--sub); overflow: hidden; text-overflow: ellipsis; }
+  .item .v.done { color: var(--violet); font-weight: 700; } .item .v.dim { color: var(--dim); }
+  .line { line-height: 22px; color: var(--sub); max-width: 940px; white-space: pre-wrap; } .line.bold { color: var(--text); font-weight: 700; } .line.gold { color: var(--violet); }
+  /* Brag card: the same card as in game, sized for a screenshot. */
+  .tiles { display: grid; grid-template-columns: repeat(4, 219px); gap: 12px; }
+  .tile { position: relative; height: 104px; background: var(--stripe); border-top: 2px solid var(--violet); text-align: center; }
+  .tile .v { color: var(--violet); font-size: 34px; font-weight: 700; line-height: 44px; margin-top: 4px; }
+  .tile .l { font-weight: 700; line-height: 22px; }
+  .tile .n { color: var(--dim); font-size: 14px; line-height: 18px; padding: 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tile.pct .n { text-align: left; padding-right: 62px; }
+  .tile .p { position: absolute; right: 8px; bottom: 12px; color: var(--violet); font-weight: 700; font-size: 15px; }
+  .tile .track { position: absolute; left: 8px; right: 8px; bottom: 6px; height: 4px; background: var(--hover); }
+  .tile .fill { height: 4px; background: var(--violet); }
+  .cover { text-align: center; font-family: var(--title-font); font-size: 22px; margin: 18px 0 8px; }
+  .classes { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; } .classes b { display: block; } .classes span { font-size: 14px; }
+  .on { color: var(--violet); } .off { color: #4a4670; }
+  .bragfoot { display: flex; justify-content: space-between; color: var(--dim); font-size: 14px; margin-top: 14px; }
+  textarea { width: 780px; height: 380px; background: #0a0914; color: var(--text); border: 1px solid var(--edge); padding: 10px;
+             font-family: Consolas, "Courier New", monospace; font-size: 13px; white-space: pre; resize: none; }
+  .actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+  #tip { position: fixed; z-index: 100; display: none; max-width: 560px; padding: 8px 12px; background: rgba(7,6,14,.97); border: 1px solid var(--edge);
+         font-size: 15px; white-space: pre-line; pointer-events: none; box-shadow: 0 4px 16px #000; }
+  #menu { position: fixed; z-index: 101; display: none; min-width: 240px; padding: 4px 0; background: rgba(7,6,14,.98); border: 1px solid var(--edge); }
+  #menu div { padding: 5px 14px; cursor: pointer; white-space: nowrap; } #menu div:hover { background: var(--hover); }
+  #toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 102; display: none; padding: 10px 18px; background: var(--glow);
+           border: 1px solid var(--violet); }
+  #problem { padding: 40px; max-width: 760px; margin: 0 auto; line-height: 1.6; } #problem h2 { font-family: var(--title-font); font-weight: 400; }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <span class="gem"></span><h1>Fury's Character Tracker</h1><small id="version"></small>
+    <span class="grow"></span>
+    <small id="saved"></small>
+    <button id="startButton">Start here</button>
+    <select id="account"></select>
+  </header>
+  <nav id="tabs"></nav>
+  <div id="summary"></div>
+  <div id="boardWrap"><table id="board"></table></div>
+  <footer><div id="buttons"></div><div id="legend"></div></footer>
+</div>
+<div id="shade"></div>
+<div id="tip"></div>
+<div id="menu"></div>
+<div id="toast"></div>
+
+<script>/*FENGARI*/</script>
+<script>
+// The offline viewer. It draws; it decides nothing. What every cell says, the sort order, the
+// totals and every page come from the addon's own Lua files, which run right here in the page
+// (in Fengari, a Lua engine written in JavaScript). This page never goes online.
+
+// Filled in by OfflineViewer.ps1 each time you open it: the saved files it found, as text.
+const FILES = "__FCT_FILES__";
+// The addon's shared Lua files, put here when the Windows Tools were built.
+const LUA = /*LUA*/[];
+
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+// The game's color codes (|cRRGGBBtext|r) as colored text; its inline icons (|t...|t) are left out.
+const rich = (s) => esc(s || "").replace(/\|t[^|]*\|t ?/g, "")
+  .replace(/\|c([0-9a-fA-F]{6})(.*?)\|r/gs, '<span style="color:#$1">$2</span>').replace(/\|c[0-9a-fA-F]{6}|\|r/g, "");
+
+let api, boot, viewId = "overview", liveTimer;
+
+function problem(title, text) {
+  $("app").innerHTML = '<div id="problem"><h2>' + esc(title) + "</h2><p>" + text + "</p></div>";
+}
+
+function start() {
+  if (typeof FILES === "string") {
+    return problem("Open this page with the Windows Tools", "This is the page template. Run <b>Open Offline Viewer.cmd</b> in the Windows Tools folder: it puts your saved data in and opens the result.");
+  }
+  const now = Number((location.hash.match(/now=(\d+)/) || [])[1]) || 0;   // tests pin the clock
+  for (const file of LUA) fengari.load(file.text, "@" + file.name)();
+  if (now) fengari.load("VIEWER_NOW = " + now)();
+  // A Lua function called from JavaScript gets "this" first: the wrappers drop it.
+  const add = fengari.load("local _, text = ...; return FCT_AddSaved(text)");
+  let read = 0;
+  for (const file of FILES) { if (add(file.text)) read++; }
+  const call = fengari.load("local _, name, a, b = ...; return FCT_Api(name, a, b)");
+  api = (name, a, b) => JSON.parse(call(name, a, b));
+  boot = api("boot");
+  if (!read || !boot.accounts.length) {
+    return problem("No characters saved yet", "Log in on a character with Fury's Character Tracker turned on, then log out or type <b>/reloadui</b> (the game only saves then), and open the offline viewer again.");
+  }
+  $("version").textContent = "v" + boot.version + "  ·  offline viewer";
+  const newest = Math.max(...FILES.map((f) => f.time || 0));
+  if (newest) $("saved").textContent = "Saved by the game " + new Date(newest * 1000).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+  tip($("saved"), "When the game last wrote its saved file. The game saves when you log out or reload the UI.\nOpen the offline viewer again after that to see what is new.");
+  boot.accounts.forEach((label, i) => { const o = el("option", "", label); o.value = i + 1; $("account").append(o); });
+  $("account").onchange = () => { api("account", Number($("account").value)); draw(); };
+  tip($("account"), boot.accountTip);
+  $("startButton").onclick = () => showPage(api("start"));
+  tip($("startButton"), "New here? One page on how the board works: what the colors mean and what each tab is for.");
+  boot.views.forEach((view) => {
+    const tab = el("div", "", view.title);
+    tab.dataset.id = view.id;
+    tab.onclick = () => { viewId = view.id; draw(); };
+    tip(tab, view.tip);
+    $("tabs").append(tab);
+  });
+  const actions = { needs: showNeeds, timers: showTimers, brag: showBrag, copy: () => showCopy(api("discord", viewId)), export: saveForExcel };
+  for (const def of boot.footer) {
+    if (!actions[def.id]) continue;
+    const button = el("button", "", def.id === "export" ? "Save for Excel" : def.label);
+    button.id = "footer-" + def.id;
+    button.onclick = actions[def.id];
+    tip(button, def.id === "export" ? "Saves this account's characters as a file Excel opens: ESO Characters.csv, in your Downloads folder." : def.tip.replace(/\n\(also \/fct [a-z]+\)/, ""));
+    $("buttons").append(button);
+  }
+  $("legend").innerHTML = rich(boot.legend.replace("right-click for the menu", "right-click to copy for Discord"));
+  draw();
+}
+
+// ---- The board ----------------------------------------------------------------------------------
+
+function draw() {
+  hideTip();
+  const snap = api("board", viewId);
+  viewId = snap.id;
+  for (const tab of $("tabs").children) tab.classList.toggle("on", tab.dataset.id === viewId);
+  $("summary").textContent = snap.summary;
+  tip($("summary"), snap.summaryTip || snap.summary);
+  const needs = $("footer-needs");
+  if (needs) needs.textContent = boot.footer[0].label + (snap.needs ? " (" + snap.needs + ")" : "");
+
+  const table = $("board");
+  table.textContent = "";
+  const cols = el("colgroup");
+  let width = 6;
+  for (const column of snap.columns) { const c = el("col"); c.style.width = (column.width + 6) + "px"; cols.append(c); width += column.width + 6; }
+  table.style.width = width + "px";
+  const head = el("tr");
+  snap.columns.forEach((column) => {
+    const arrow = snap.sortKey === column.key ? (snap.sortDesc ? " ▼" : " ▲") : "";
+    const th = el("th", column.align === "left" ? "left" : "");
+    th.append(el("div", "", column.title + arrow));
+    th.onclick = () => { api("sort", viewId, column.key); draw(); };
+    tip(th, column.head);
+    head.append(th);
+  });
+  const thead = el("thead"); thead.append(head);
+  const body = el("tbody");
+  for (const row of snap.rows) {
+    const tr = el("tr");
+    row.cells.forEach((cell, i) => {
+      const column = snap.columns[i];
+      const td = el("td", column.align === "left" ? "left" : "");
+      const box = el("div", cell.maxed ? "max" : cell.pick ? "pick" : cell.dim ? "dim" : "", cell.text);
+      // How far along: a faint bar from the left edge of the cell, like in game.
+      if (cell.pct != null) box.style.background = "linear-gradient(to right, rgba(160,140,255,.24) " + Math.max(2, Math.round(cell.pct * 100)) + "%, transparent 0)";
+      td.append(box);
+      tip(td, cell.pick ? (cell.tip ? cell.tip + "\n\n" : "") + "Your own pick. It is changed in game." : cell.tip);
+      tr.append(td);
+    });
+    tr.onclick = () => showDetails(row.id);
+    tr.oncontextmenu = (event) => { event.preventDefault(); rowMenu(event, row); };
+    body.append(tr);
+  }
+  for (const info of snap.unread) {
+    const tr = el("tr", "unread");
+    const cells = [info.name, info.class, boot.unread].map((text) => { const td = el("td"); td.append(el("div", "", text)); return td; });
+    cells[2].colSpan = Math.max(1, snap.columns.length - 2);
+    tr.append(...cells);
+    tip(tr, info.tip.replace("\nRight-click to take it off the board.", ""));
+    body.append(tr);
+  }
+  const foot = el("tfoot"), totals = el("tr");
+  snap.totals.forEach((text, i) => { const td = el("td", snap.columns[i].align === "left" ? "left" : ""); td.append(el("div", "", text)); totals.append(td); });
+  foot.append(totals);
+  table.append(cols, thead, body, foot);
+
+  // Tabs with timers keep counting while the page is open.
+  clearInterval(liveTimer);
+  if (snap.live) liveTimer = setInterval(() => { if ($("shade").style.display !== "flex") draw(); }, 60000);
+}
+
+function rowMenu(event, row) {
+  const menu = $("menu");
+  menu.textContent = "";
+  const add = (label, fn) => { const item = el("div", "", label); item.onclick = () => { menu.style.display = "none"; fn(); }; menu.append(item); };
+  add("Details for " + row.name, () => showDetails(row.id));
+  add("Copy " + row.name + " for Discord", () => showCopy(api("discordCharacter", row.id)));
+  menu.style.display = "block";
+  menu.style.left = Math.min(event.clientX, innerWidth - menu.offsetWidth - 8) + "px";
+  menu.style.top = Math.min(event.clientY, innerHeight - menu.offsetHeight - 8) + "px";
+}
+document.addEventListener("click", () => { $("menu").style.display = "none"; });
+
+// ---- Hover text ---------------------------------------------------------------------------------
+
+function tip(node, text) { node.fctTip = text || ""; }
+function hideTip() { $("tip").style.display = "none"; }
+document.addEventListener("mousemove", (event) => {
+  let node = event.target, text = "";
+  while (node && node !== document) { if (node.fctTip) { text = node.fctTip; break; } node = node.parentNode; }
+  const box = $("tip");
+  if (!text) { box.style.display = "none"; return; }
+  if (box.fctText !== text) { box.innerHTML = rich(text); box.fctText = text; }
+  box.style.display = "block";
+  box.style.left = Math.min(event.clientX + 18, innerWidth - box.offsetWidth - 8) + "px";
+  box.style.top = Math.min(event.clientY + 18, innerHeight - box.offsetHeight - 8) + "px";
+});
+
+// ---- Windows over the board -------------------------------------------------------------------
+
+function openWindow(title, subtitle, width) {
+  const shade = $("shade");
+  shade.textContent = "";
+  const win = el("div", "win"), bar = el("div", "bar"), close = el("div", "close", "×"), body = el("div", "body");
+  if (width) win.style.width = width + "px";
+  bar.append(el("h2", "", title));
+  if (subtitle) bar.append(el("div", "", subtitle));
+  close.onclick = closeWindow;
+  tip(close, "Close (Esc)");
+  win.append(bar, close, body);
+  shade.append(win);
+  shade.style.display = "flex";
+  hideTip();
+  return body;
+}
+function closeWindow() { $("shade").style.display = "none"; $("shade").textContent = ""; }
+$("shade").addEventListener("mousedown", (event) => { if (event.target === $("shade")) closeWindow(); });
+document.addEventListener("keydown", (event) => { if (event.key === "Escape") { closeWindow(); $("menu").style.display = "none"; } });
+
+// A details page or the Start here page: blocks of "key  value" items and lines of text.
+function showPage(page) {
+  if (!page) return;
+  const body = openWindow(page.title, page.subtitle, 1004);
+  for (const section of page.sections) {
+    body.append(el("div", "sec", section.title));
+    if (section.items.length) {
+      const grid = el("div", "grid");
+      for (const item of section.items) {
+        const row = el("div", "item");
+        row.append(el("span", "k", item.key), el("span", "v" + (item.done ? " done" : item.dim ? " dim" : ""), item.value));
+        grid.append(row);
+      }
+      body.append(grid);
+    }
+    for (const line of section.lines) body.append(el("div", "line" + (line.bold ? " bold" : "") + (line.gold ? " gold" : ""), line.text));
+  }
+}
+function showDetails(id) { showPage(api("details", id)); }
+
+function listWindow(title, subtitle, summary, heads, rows, width) {
+  const body = openWindow(title, subtitle, width);
+  body.append(el("div", "note", summary));
+  const table = el("table", "list"), head = el("tr");
+  for (const text of heads) head.append(el("th", "left", text));
+  if (rows.length) table.append(head);
+  for (const row of rows) table.append(row);
+  body.append(table);
+  return body;
+}
+
+function showTimers() {
+  const data = api("timers");
+  const rows = data.rows.map((row) => {
+    const tr = el("tr"), amber = row.waiting ? "amber" : "";
+    tr.append(el("td", "", row.name), el("td", "", row.craft), el("td", amber, row.item), el("td", amber, row.trait), el("td", amber, row.left),
+              el("td", row.waiting ? "amber" : "dim", row.ends));
+    return tr;
+  });
+  listWindow("Research timers", data.label, data.summary, ["Character", "Craft", "Item", "Trait", "Time left", "Finishes"], rows);
+}
+
+function showNeeds() {
+  const data = api("needs");
+  const rows = data.rows.map((row) => {
+    const tr = el("tr", "click");
+    tr.append(el("td", "", row.first ? row.name : ""), el("td", "amber", row.text), el("td", "dim", row.detail));
+    tr.onclick = () => showDetails(row.id);
+    tip(tr, row.name + "\n" + row.text + (row.detail ? "\n" + row.detail : "") + "\n\nClick for this character's details.");
+    return tr;
+  });
+  listWindow("Who needs me", data.label, data.summary, ["Character", "Waiting on you", ""], rows, 760);
+}
+
+function showBrag() {
+  const card = api("brag");
+  const body = openWindow(card.title, card.subtitle, 960);
+  const tiles = el("div", "tiles");
+  for (const t of card.tiles) {
+    const tile = el("div", "tile" + (t.pct != null ? " pct" : ""));
+    tile.append(el("div", "v", t.value), el("div", "l", t.label), el("div", "n", t.note || ""));
+    if (t.pct != null) {
+      const track = el("div", "track"), fill = el("div", "fill");
+      fill.style.width = Math.round(t.pct * 100) + "%";
+      track.append(fill);
+      tile.append(el("div", "p", t.pctText), track);
+    }
+    tiles.append(tile);
+  }
+  const classes = el("div", "classes");
+  for (const c of card.classes) {
+    const box = el("div");
+    box.append(el("b", "", c.name));
+    for (const role of c.roles) box.append(el("span", role.on ? "on" : "off", role.key + "  "));
+    classes.append(box);
+  }
+  const foot = el("div", "bragfoot");
+  foot.append(el("span", "", card.date), el("span", "", card.credit));
+  body.append(tiles, el("div", "cover", card.coverageTitle), classes, foot);
+}
+
+function showCopy(data) {
+  if (!data) return;
+  const body = openWindow("Copy for Discord", "", 824);
+  const note = el("div", "note", data.note.replace("Press Ctrl+C to copy, then paste into Discord.", "Click Copy, then paste into Discord."));
+  const box = el("textarea");
+  box.value = data.text; box.readOnly = true;
+  const actions = el("div", "actions"), copy = el("button", "", "Copy");
+  copy.onclick = () => {
+    box.select();
+    const done = () => toast("Copied. Paste it into Discord with Ctrl+V.");
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(data.text).then(done, () => { document.execCommand("copy"); done(); });
+    else { document.execCommand("copy"); done(); }
+  };
+  tip(copy, "Copies all of the text.");
+  actions.append(copy);
+  body.append(note, box, actions);
+  box.select();
+}
+
+// The same columns the game's own Export to Excel writes, as a CSV file in the Downloads folder.
+function saveForExcel() {
+  const data = api("export");
+  if (data.rows.length < 2) return toast("No characters to save yet.");
+  const csv = data.rows.map((row) => row.map((cell) => '"' + String(cell).replace(/"/g, '""') + '"').join(",")).join("\r\n") + "\r\n";
+  const link = el("a");
+  link.href = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv" }));   // the mark at the start tells Excel the text is UTF-8
+  link.download = "ESO Characters " + data.label.replace(/\s*·\s*/g, " ").replace(/[^\w@ -]/g, "") + ".csv";
+  document.body.append(link); link.click(); link.remove();
+  setTimeout(() => URL.revokeObjectURL(link.href), 5000);
+  toast("Saved " + link.download + " to your Downloads folder (" + (data.rows.length - 1) + " characters).");
+}
+
+let toastTimer;
+function toast(text) {
+  const box = $("toast");
+  box.textContent = text; box.style.display = "block";
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { box.style.display = "none"; }, 5000);
+}
+
+try { start(); }
+catch (error) {
+  problem("The viewer could not read the saved data", "Download the Windows Tools again so they match your addon version, then run Open Offline Viewer.cmd. If it still happens, report it on the addon's page with this line:<br><br><code>" + esc(error && error.message || error) + "</code>");
+}
+</script>
+</body>
+</html>

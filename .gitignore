@@ -1,0 +1,8 @@
+# Never in the repository: saved variables, logs, test output, the API documentation copy
+__pycache__/
+out/
+dev/ref/
+*.sv.lua
+SavedVariables/
+*.log
+*.state

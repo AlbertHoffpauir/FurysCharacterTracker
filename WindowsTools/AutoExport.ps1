@@ -5,16 +5,18 @@
 #   Turn On Auto Export.cmd   starts it now and every time you sign in to Windows (no admin needed)
 #   Turn Off Auto Export.cmd  stops it and removes it from startup
 #
-# How it works: the Export button saves a timestamp and reloads the UI, which makes ESO write
-# SavedVariables. This watches that file; when it holds a newer timestamp than the last export,
-# it runs ExportToExcel.ps1. It checks every few seconds and uses next to no CPU.
+# How it works: the Export button saves a timestamp and reloads the UI, which makes ESO write its
+# saved data. This watches that file (in the live and liveeu game folders); when one holds a newer
+# timestamp than the last export, it runs ExportToExcel.ps1. It checks every few seconds and uses
+# next to no CPU.
 
 param([switch]$On, [switch]$Off, [switch]$Watch)
 
 $dir       = Split-Path -Parent $MyInvocation.MyCommand.Path
 $docs      = [Environment]::GetFolderPath('MyDocuments')
-$savedVars = Join-Path $docs 'Elder Scrolls Online\live\SavedVariables\FurysCharacterTracker.lua'
 $outDir    = Join-Path $docs 'Elder Scrolls Online'
+# The NA game folder (live) and the EU one (liveeu): whichever of them is there.
+$savedVars = foreach ($folder in 'live', 'liveeu') { Join-Path $outDir "$folder\SavedVariables\FurysCharacterTracker.lua" }
 $outFile   = Join-Path $outDir 'ESO Characters.csv'
 $stateFile = Join-Path $dir 'AutoExport.state'
 $logFile   = Join-Path $dir 'AutoExport.log'
@@ -63,19 +65,28 @@ $mutex = New-Object System.Threading.Mutex($false, 'FurysCharacterTrackerAutoExp
 if (-not $created) { exit 0 }   # already running
 
 Log 'Watching for exports'
-$lastWrite = [datetime]::MinValue
+$lastWrite = @{}
 while ($true) {
     Start-Sleep -Seconds 3
     try {
-        if (-not (Test-Path -LiteralPath $savedVars)) { continue }
-        $write = (Get-Item -LiteralPath $savedVars).LastWriteTimeUtc
-        if ($write -eq $lastWrite) { continue }
-        $lastWrite = $write
+        $changed = $false
+        foreach ($path in $savedVars) {
+            if (-not (Test-Path -LiteralPath $path)) { continue }
+            $write = (Get-Item -LiteralPath $path).LastWriteTimeUtc
+            if ($lastWrite[$path] -ne $write) { $lastWrite[$path] = $write; $changed = $true }
+        }
+        if (-not $changed) { continue }
         Start-Sleep -Seconds 2   # let ESO finish writing the file
 
-        $m = [regex]::Match([System.IO.File]::ReadAllText($savedVars), '\["exportRequestedAt"\]\s*=\s*(\d+)')
-        if (-not $m.Success) { continue }
-        $requested = [long]$m.Groups[1].Value
+        # The newest export request of any account in any of the files.
+        $requested = 0L
+        foreach ($path in $savedVars) {
+            if (-not (Test-Path -LiteralPath $path)) { continue }
+            foreach ($m in [regex]::Matches([System.IO.File]::ReadAllText($path), '\["exportRequestedAt"\]\s*=\s*(\d+)')) {
+                $value = [long]$m.Groups[1].Value
+                if ($value -gt $requested) { $requested = $value }
+            }
+        }
         $done = 0L
         if (Test-Path -LiteralPath $stateFile) { [long]::TryParse((Get-Content -LiteralPath $stateFile -Raw).Trim(), [ref]$done) | Out-Null }
         if ($requested -le $done) { continue }
@@ -85,7 +96,7 @@ while ($true) {
         try { [System.IO.File]::Open($outFile, 'OpenOrCreate', 'ReadWrite', 'None').Dispose() }
         catch { $target = Join-Path $outDir ("ESO Characters {0}.csv" -f (Get-Date -Format 'yyyy-MM-dd HHmm')) }
 
-        & (Join-Path $dir 'ExportToExcel.ps1') -SavedVars $savedVars -OutFile $target -NoOpen | Out-Null
+        & (Join-Path $dir 'ExportToExcel.ps1') -OutFile $target -NoOpen | Out-Null
         Set-Content -LiteralPath $stateFile -Value $requested
         Log "Exported to $target"
     }

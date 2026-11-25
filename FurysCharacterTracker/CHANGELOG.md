@@ -1,5 +1,57 @@
 # Changelog
 
+## 1.5.3
+- The export texts now say where Auto Export is turned on: it is the file Turn On Auto Export.cmd in the Windows Tools folder, not a setting in game.
+
+## 1.5.2
+- **Class mastery** is shown the way the game counts it. It is not a skill line with a rank, so it no longer shows as 1 / 50: the Class tab lists it as "(mastery)", and the hover and the character details show its Class Mastery Points and whether it is off because the character is subclassing. Only the character's own class mastery is listed, once it is open.
+- **Public dungeons** on the Skill points tab now counts group events, the thing that gives the skill point. It used to count dungeons finished in the zone guide, which goes by their quests, so a character could show 31 of 36 with every group event done. Hover a cell for the group events still to do.
+- **Who needs me** counts a writ for every craft the character is certified for, so a writ you skipped yesterday is still on the list today. A character is listed for writs if it did any writ in the last 14 days. Until you log in on a character once to read its certifications, all seven count.
+- Nothing reloads the UI without asking: /fct export and the export button in the settings now show the same warning as the button on the board, with Cancel.
+- **Skill points** tab: the Guilds and World columns are gone from it. They count maxed skill lines, not skill points, and they are still on the Overview tab.
+- Log in once on a character with class mastery to read its points; until then it shows as open.
+
+## 1.5.0
+A big update: easier for a new player, lighter on the game, and a lot more on the board. Your characters, picks and settings carry over. **Log in on each character once** to fill the new columns; until then they show a dash, and the line above the board says how many are left.
+
+New player friendly
+- **Start here** page: getting your characters on the board, what the colors mean, what each tab is for, and the alert switches, on one page. It opens once on a new install; after that use the Start here button on the board or /fct start.
+- Every character on the account is on the board from the first login. The ones not read yet are dim rows that say what to do: log in on each once.
+- **Everything starts turned off** on a new install: the research and riding alerts, the login summary and opening the board at login. Turn each on with one click on the Start here page or in the settings. If you already use the addon, your settings stay exactly as they are.
+- Plainer words everywhere, and a hover text on every tab, column title, cell and button.
+
+New on the board
+- **Class** tab: level, race, alliance and the three class skill lines each character is using, with subclassing (hover a line for the class it comes from). Other class lines the character has trained are listed beside them.
+- **Skill points** tab: where the points still to earn are. Skyshards (hover for the zones that still have some), public dungeon group events and Alliance War rank.
+- **Progress** tab: what each character gained in the last 7 and 30 days: gold, hours played, skill points, achievement points and traits. It starts counting with this version.
+- **Daily** tab: crafting writs are now found on every game language. New columns for the daily dungeon and battleground rewards and for trial quests handed in this week. The line above shows your daily and weekly Challenges.
+- **Roles & gear** tab: a Wearing column shows the sets each character had on when it was last read (hover for every slot), and a Note column holds anything you want to remember about a character.
+- **Wallet & CP** tab: the line above now also shows what the whole account shares, such as Undaunted Keys, Seals of Endeavor, Archival Fortunes, Crown Gems and Crowns.
+- **Companions**: hover the Companions cell for each companion's level, and open a character's details for rapport. Both show for a companion once you have had it out.
+- **Who needs me** (button under the board, /fct needs, or a key): one list of what your characters are waiting on you for. Writs to do or hand in, riding lessons, free research slots and full bags.
+- **Your own row order**: right-click a row, Move up or Move down. A third click on a column title goes back to your order.
+- **Copy for Discord**: the tab you are looking at, or one character from its right-click menu, as text ready to paste into Discord.
+- Character details now have a daily checklist, class lines, skill points still to earn, worn gear and progress over time.
+- A renamed character keeps its row.
+
+Looks
+- Flat tabs across the top, a bar behind each number that shows how far along it is, and class and alliance icons.
+- The board, details, Who needs me, research timers and brag card windows share one look and remember where you put them. Reset window positions in the settings puts them back.
+
+Lighter on the game
+- After the first read, the addon reads only what changed. A skill rank-up re-reads the skill lines and nothing else, about one twentieth of the work of a full read.
+- Nothing is read while you are in combat; it waits until the fight is over.
+- A burst of changes (learning twenty recipes in a row) is one read, not twenty.
+- The rows for the Excel file are built once, when you log out, instead of after every read.
+
+Windows Tools 1.5.0 (separate download, /fct tools)
+- **Get the new tools with this version.** The 1.4.1 tools cannot read what 1.5.0 saves.
+- The offline viewer now runs the addon's own board files, so it shows exactly what the game shows: every tab, Start here, Who needs me, research timers, the brag card, details and Copy for Discord.
+- New **Save for Excel** button in the viewer: a CSV of the account on screen, with no export or reload in game.
+- The viewer and the Excel export read both megaserver folders (live for NA, liveeu for EU).
+- The Excel file has an Account and a Server column in front, and one row per character for every account.
+- The viewer includes Fengari, an open-source Lua engine (MIT license), to run the addon's files in your browser.
+
 ## 1.4.1
 - Windows Tools 1.4.1, offline viewer fixes:
   - Fixed: on the Daily tab, a character who had turned in all seven writs showed Jewelry as not done (6/7), and when the first few writs were done the others could land in the wrong columns. The viewer now reads every writ under its own craft, the same as in game.
