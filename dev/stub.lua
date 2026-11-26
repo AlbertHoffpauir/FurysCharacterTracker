@@ -28,6 +28,7 @@ local explicit = {
     SetHandler = function(self, name, fn) self.handlers[name] = fn end,
     GetHandler = function(self, name) return self.handlers[name] end,
     GetLeft = function() return 10 end, GetTop = function() return 10 end,
+    GetRight = function() return -400 end,   -- far left, so a title bar always has room for the Fury icons
     GetWidth = function(self) return self.w end, GetHeight = function(self) return self.h end,
     SetDimensions = function(self, w, h) self.w, self.h = w, h end,
     SetWidth = function(self, w) self.w = w end, SetHeight = function(self, h) self.h = h end,
@@ -76,7 +77,9 @@ WINDOW_MANAGER = {
         if parent and name:find("$(parent)", 1, true) then name = name:gsub("%$%(parent%)", parent.__name) end
         return GetControl(name)
     end,
+    CreateTopLevelWindow = function(_, name) return GetControl(name) end,
     CreateControlFromVirtual = function(_, name, parent, template)
+        if parent and name:find("$(parent)", 1, true) then name = name:gsub("%$%(parent%)", parent.__name) end
         if not ESO_TEMPLATES[template] and not tostring(template):match("^FurysCharacterTracker_") then Problem("template not known to the harness: " .. tostring(template)) end
         return GetControl(name)
     end,
@@ -122,8 +125,34 @@ function ZO_ScrollList_Commit(list)
 end
 function ZO_Scroll_ResetToTop() end
 -- Templates from the game's own UI source that the windows are built from.
-ESO_TEMPLATES = { ZO_DefaultButton = true, ZO_MultiLineEditBackdrop_Keyboard = true, ZO_DefaultEditMultiLineForBackdrop = true }
+ESO_TEMPLATES = { ZO_DefaultButton = true, ZO_CloseButton = true, ZO_CheckButton = true, ZO_MultiLineEditBackdrop_Keyboard = true, ZO_DefaultEditMultiLineForBackdrop = true }
 function ZO_ScrollList_RefreshVisible(list) ZO_ScrollList_Commit(list) end
+
+-- Check boxes, the HUD scenes and their fragments (the Fury sidebar in the shared library).
+function ZO_CheckButton_SetLabelText(check, text) check.label = text end
+function ZO_CheckButton_SetToggleFunction(check, fn) check.toggle = fn end
+function ZO_CheckButton_SetCheckState(check, on) check.checked = on end
+ZO_HUDFadeSceneFragment = {}
+ZO_HUDFadeSceneFragment.__index = ZO_HUDFadeSceneFragment
+function ZO_HUDFadeSceneFragment:New(control) return setmetatable({ control = control, reasons = {} }, self) end
+function ZO_HUDFadeSceneFragment:SetHiddenForReason(reason, hidden)
+    self.reasons[reason] = hidden or nil
+    self.control.hidden = next(self.reasons) ~= nil
+end
+local function StubScene()
+    local scene = { fragments = {} }
+    function scene:AddFragment(fragment) self.fragments[fragment] = true end
+    function scene:RemoveFragment(fragment) self.fragments[fragment] = nil end
+    return scene
+end
+HUD_SCENE = StubScene()
+HUD_UI_SCENE = StubScene()
+MOUSE_BUTTON_INDEX_RIGHT = 2
+
+function ZO_PreHookHandler(control, name, fn)
+    local old = control.handlers[name]
+    control.handlers[name] = function(...) fn(...); if old then return old(...) end end
+end
 
 SHOWN = {}
 SCENE_MANAGER = {

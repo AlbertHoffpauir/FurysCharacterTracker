@@ -198,6 +198,8 @@ function Win:Initialize()
 
     -- Start here: the one-page guide, right after the title (Theme.lua), as in every Fury addon.
     T.StartButton(FurysCharacterTracker_Window, function() CT.Details:ShowStart() end, X.START_TIP)
+    -- The other Fury addons, one click each, in the title bar (Theme.lua).
+    T.TitleIcons(FurysCharacterTracker_Window, gear)
 
     local pos = CT.sv.window
     if pos then
