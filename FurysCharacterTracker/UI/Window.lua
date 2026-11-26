@@ -85,14 +85,26 @@ Win.Button = Button
 function Win:BuildTabs()
     self.tabs = {}
     local parent, x = FurysCharacterTracker_WindowViews, 0
+    -- 1.7.0: with one more tab the row can run out of room, so the space around each title
+    -- shrinks until every tab fits.
+    local pad, textWidth, labels = 22, 0, {}
     for i, view in ipairs(CT.VIEWS) do
-        local label = WINDOW_MANAGER:CreateControl("FurysCharacterTracker_WindowTab" .. i, parent, CT_LABEL)
-        label:SetFont("$(BOLD_FONT)|16|soft-shadow-thin")
-        label:SetText(view.title)
+        local probe = WINDOW_MANAGER:CreateControl("FurysCharacterTracker_WindowTab" .. i, parent, CT_LABEL)
+        probe:SetFont("$(BOLD_FONT)|16|soft-shadow-thin")
+        probe:SetText(view.title)
+        textWidth = textWidth + zo_round(probe:GetTextWidth())
+        labels[i] = probe
+    end
+    local room = parent:GetWidth()
+    if room > 0 and textWidth + #CT.VIEWS * (pad + 2) > room then
+        pad = math.max(8, math.floor((room - textWidth) / #CT.VIEWS) - 2)
+    end
+    for i, view in ipairs(CT.VIEWS) do
+        local label = labels[i]
         label:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
         label:SetVerticalAlignment(TEXT_ALIGN_CENTER)
         label:SetMouseEnabled(true)
-        local width = zo_round(label:GetTextWidth()) + 22
+        local width = zo_round(label:GetTextWidth()) + pad
         label:SetDimensions(width, 30)
         label:SetAnchor(LEFT, parent, LEFT, x, 0)
         -- The violet line under the tab you are on.
@@ -146,7 +158,6 @@ function Win:Initialize()
 
     -- Buttons under the board (the list is in Data/Text.lua).
     local actions = {
-        needs = function() CT.Needs:Toggle() end,
         timers = function() CT.Timers:Toggle() end,
         brag = function() CT.Brag:Toggle() end,
         copy = function() CT.TextWindow:ShowCopy(CT.Pages.DiscordTable(CurrentView().id)) end,
@@ -157,7 +168,7 @@ function Win:Initialize()
     local previous
     self.footer = {}
     for i, def in ipairs(X.FOOTER) do
-        local width = 44 + 8 * #def.label + (def.id == "needs" and 34 or 0)
+        local width = 44 + 8 * #def.label
         local button = Button("FurysCharacterTracker_WindowFooter" .. i, FurysCharacterTracker_WindowFooter, def.label, width, def.tip, actions[def.id])
         if previous then button:SetAnchor(LEFT, previous, RIGHT, 8, 0) else button:SetAnchor(LEFT, FurysCharacterTracker_WindowFooter, LEFT, 0, 0) end
         self.footer[def.id] = button
@@ -268,7 +279,7 @@ local function PaintCell(cell, column, e)
     if look.pct then cell.bar:SetWidth(math.max(2, zo_round(column.width * math.min(1, look.pct)))) end
     cell.label:SetText(text)
     cell.label:SetFont(look.maxed and "ZoFontGameBold" or "ZoFontGame")
-    local rgb = (look.maxed and INK) or (look.pick and PICK) or (look.dim and DIM) or TEXT
+    local rgb = (look.maxed and INK) or (look.warn and T.RGB.WARN) or (look.pick and PICK) or (look.dim and DIM) or TEXT
     cell.label:SetColor(rgb[1], rgb[2], rgb[3], 1)
 end
 
@@ -491,8 +502,6 @@ function Win:Refresh()
 
     self.footer.removed:SetHidden(not CT.Roster:AnyHidden())
     self.footer.scan:SetHidden(not CT.IsHome())
-    local needs = #CT.Needs.Rows()
-    self.footer.needs:SetText(needs > 0 and string.format("%s (%d)", X.FOOTER[1].label, needs) or X.FOOTER[1].label)
     self.accountButton:SetText(CT.ViewLabel() .. "  v")
 
     local summary

@@ -48,6 +48,7 @@
   td div.max { background: var(--violet); color: var(--ink); font-weight: 700; }
   td div.dim { color: var(--dim); }
   td div.pick { color: var(--blue); }
+  td div.warn { color: var(--amber); }
   tr.unread td { color: var(--dim); text-align: left; }
   tfoot td { position: sticky; bottom: 0; z-index: 2; background: var(--bg); color: var(--violet); font-weight: 700; box-shadow: 0 -1px 0 var(--edge); }
   .list { border-collapse: collapse; } .list th { position: static; cursor: default; padding: 0 10px; box-shadow: none; font-size: 15px; }
@@ -175,7 +176,7 @@ function start() {
     tip(tab, view.tip);
     $("tabs").append(tab);
   });
-  const actions = { needs: showNeeds, timers: showTimers, brag: showBrag, copy: () => showCopy(api("discord", viewId)), export: saveForExcel };
+  const actions = { timers: showTimers, brag: showBrag, copy: () => showCopy(api("discord", viewId)), export: saveForExcel };
   for (const def of boot.footer) {
     if (!actions[def.id]) continue;
     const button = el("button", "", def.id === "export" ? "Save for Excel" : def.label);
@@ -195,10 +196,8 @@ function draw() {
   const snap = api("board", viewId);
   viewId = snap.id;
   for (const tab of $("tabs").children) tab.classList.toggle("on", tab.dataset.id === viewId);
-  $("summary").textContent = snap.summary;
-  tip($("summary"), snap.summaryTip || snap.summary);
-  const needs = $("footer-needs");
-  if (needs) needs.textContent = boot.footer[0].label + (snap.needs ? " (" + snap.needs + ")" : "");
+  $("summary").innerHTML = rich(snap.summary);
+  tip($("summary"), snap.summaryTip || $("summary").textContent);
 
   const table = $("board");
   table.textContent = "";
@@ -222,7 +221,7 @@ function draw() {
     row.cells.forEach((cell, i) => {
       const column = snap.columns[i];
       const td = el("td", column.align === "left" ? "left" : "");
-      const box = el("div", cell.maxed ? "max" : cell.pick ? "pick" : cell.dim ? "dim" : "", cell.text);
+      const box = el("div", cell.maxed ? "max" : cell.warn ? "warn" : cell.pick ? "pick" : cell.dim ? "dim" : "", cell.text);
       // How far along: a faint bar from the left edge of the cell, like in game.
       if (cell.pct != null) box.style.background = "linear-gradient(to right, rgba(160,140,255,.24) " + Math.max(2, Math.round(cell.pct * 100)) + "%, transparent 0)";
       td.append(box);
@@ -242,7 +241,7 @@ function draw() {
     body.append(tr);
   }
   const foot = el("tfoot"), totals = el("tr");
-  snap.totals.forEach((text, i) => { const td = el("td", snap.columns[i].align === "left" ? "left" : ""); td.append(el("div", "", text)); totals.append(td); });
+  snap.totals.forEach((text, i) => { const td = el("td", snap.columns[i].align === "left" ? "left" : ""); const div = el("div"); div.innerHTML = rich(text); td.append(div); totals.append(td); });
   foot.append(totals);
   table.append(cols, thead, body, foot);
 
@@ -339,18 +338,6 @@ function showTimers() {
     return tr;
   });
   listWindow("Research timers", data.label, data.summary, ["Character", "Craft", "Item", "Trait", "Time left", "Finishes"], rows);
-}
-
-function showNeeds() {
-  const data = api("needs");
-  const rows = data.rows.map((row) => {
-    const tr = el("tr", "click");
-    tr.append(el("td", "", row.first ? row.name : ""), el("td", "amber", row.text), el("td", "dim", row.detail));
-    tr.onclick = () => showDetails(row.id);
-    tip(tr, row.name + "\n" + row.text + (row.detail ? "\n" + row.detail : "") + "\n\nClick for this character's details.");
-    return tr;
-  });
-  listWindow("Todo List", data.label, data.summary, ["Character", "Waiting on you", ""], rows, 760);
 }
 
 function showBrag() {

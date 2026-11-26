@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.7.3
+- **New Weekly tab.** The weekly leaderboards. The first two columns are this week's trial (some weeks a group arena) and this week's arena challenge, titled with the names the game gives them, then Infinite Archive (solo and duo) and battlegrounds. Each row shows which characters ran what this week, and the reward tier earned in the Cyrodiil home campaign. The bottom row is the account's best score and place on each leaderboard, because a leaderboard keeps one entry per account. Amber means the score is outside the top 500, where the leaderboard rewards go, or has no place, so you can see which run to redo. The line above the columns counts down to the reset and lists what needs a better run. Log in on a character to read its account's scores.
+- The Weekly tab asks the game for this week's leaderboards by itself, a few seconds after you log in, so the names, scores and places fill in without opening the game's leaderboard window (about 15 seconds).
+- **Daily tab tidied.** Class and Trials moved out to make room. New **Free slots** column (free research slots, amber when one is waiting) and the daily Tales of Tribute reward next to the dungeon and battleground ones.
+- **The Todo List is gone.** The Daily tab shows the same things in a better layout. Its button and key went with it. `/fct todo` now opens the Daily tab.
+- Daily tab: the hover texts now say that the first random dungeon and battleground of the day carry a large XP bonus.
+- Amber is now a color on the board: something is waiting on you.
+- The tab row makes room by itself when a tab is added.
+- Windows Tools 1.7.3: the offline viewer has the Weekly tab and the tidied Daily tab.
+
+## 1.5.8
+- **One shared library file.** Chat lines, the welcome line and confirm pop-ups now come from the same file every Fury addon carries, next to the look, Start here and More from Fury, so all of them stay identical. Nothing changes in how the addon works, and it still needs no other addon.
+
 ## 1.5.7
 - **More from Fury.** The Start here page and the settings page now end with a short list of my other addons; click one on the Start here page, or its button in the settings, to open its ESOUI page (the game asks first). No chat lines, no pop-ups.
 

@@ -9,9 +9,11 @@ local CT = FurysCharacterTracker
 local U = CT.Util
 
 local REWARDS = {
-    { id = "dungeon", title = "Dungeon", what = "random dungeon" },
-    { id = "battleground", title = "Battleground", what = "battleground" },
-    { id = "tribute", title = "Tribute", what = "Tales of Tribute" },
+    { id = "dungeon", title = "Dungeon", what = "random dungeon",
+      bonus = "The first random dungeon of the day, normal or veteran, pays a large XP bonus on top of the reward." },
+    { id = "battleground", title = "Battleground", what = "battleground",
+      bonus = "The first battleground of the day pays a large XP bonus on top of the reward." },
+    { id = "tribute", title = "Tribute", what = "Tales of Tribute match" },
 }
 local TRIAL_DAYS = 7
 local TRIALS_KEPT = 20
@@ -57,14 +59,17 @@ CT.ChallengeText = ChallengeText
 
 local function RewardColumn(def)
     return { key = "reward." .. def.id, title = def.title, width = 96,
-             head = string.format("Today's reward for a %s from the group finder.\nDone = earned, with the time until it can be earned again. Ready = waiting to be earned.", def.what),
+             head = string.format("Today's reward for a %s from the group finder.%s\nDone = earned, with the time until it can be earned again. Ready = waiting to be earned.",
+                                  def.what, def.bonus and ("\n" .. def.bonus) or ""),
              value = function(e) return RewardIn(e.c, def.id) or -1 end,
              display = function(v) return v < 0 and "-" or (v == 0 and "Ready" or "Done") end,
              dim = function(v) return v < 0 end, gold = function(v) return v > 0 end,
              tip = function(e)
                  local left = RewardIn(e.c, def.id)
                  if not left then return "Not read yet: log in on this character once." end
-                 if left == 0 then return string.format("The daily %s reward is waiting.", def.what) end
+                 if left == 0 then
+                     return string.format("The daily %s reward is waiting%s.", def.what, def.bonus and ", with its large XP bonus" or "")
+                 end
                  return string.format("Daily %s reward earned. The next one is ready in %s.", def.what, U.Duration(left))
              end }
 end
@@ -134,7 +139,8 @@ CT.Track({
         for _, def in ipairs(REWARDS) do
             local left = RewardIn(e.c, def.id, now)
             if left then
-                items[#items + 1] = { "Daily " .. def.what .. " reward", left == 0 and "Ready" or "Done", done = left > 0 }
+                items[#items + 1] = { "Daily " .. def.what .. (def.bonus and " reward and XP bonus" or " reward"),
+                                      left == 0 and "Ready" or "Done", done = left > 0 }
             end
         end
         local trials = #RecentTrials(e.c, now)

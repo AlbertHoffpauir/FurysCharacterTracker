@@ -245,6 +245,23 @@ columns[#columns + 1] = {
     dim = function(_, e) local _, slots = Research.Summary(e.c); return slots == 0 end,
     tip = "Research slots busy right now, across the crafts that still have traits to learn.\nViolet = every slot working. Counts down live, even for characters you are not on." }
 columns[#columns + 1] = {
+    key = "researchFree", title = "Free slots", width = 84, bar = false,
+    head = "Free slots: research slots with nothing in them, or with research that has finished.\nAmber = a slot is waiting for you. A dash = every slot is working, or nothing is left to research.",
+    value = function(e)
+        local free = 0
+        for _, item in ipairs((Research.Idle(e.c, GetTimeStamp()))) do free = free + item.count end
+        return free
+    end,
+    display = function(v) return v > 0 and U.Whole(v) or "-" end,
+    dim = function(v) return v == 0 end, warn = function(v) return v > 0 end,
+    tip = function(e)
+        local idle = Research.Idle(e.c, GetTimeStamp())
+        if #idle == 0 then return "No free research slot." end
+        local lines = { "Free research slots" }
+        for _, item in ipairs(idle) do lines[#lines + 1] = string.format("  %s: %d", Research.CraftName(item.def.craft), item.count) end
+        return table.concat(lines, "\n")
+    end }
+columns[#columns + 1] = {
     key = "researchNext", title = "Next done", width = 104, bar = false,
     head = "Next done: time until this character's next research finishes.",
     value = function(e) local _, _, nextIn = Research.Summary(e.c); return nextIn or math.huge end,
@@ -326,16 +343,4 @@ CT.Track({
         return { section }
     end,
     export = { { "Research", function(e) return e.c.research end } },
-    needs = function(e, now)
-        local idle, finished = Research.Idle(e.c, now)
-        if #idle == 0 then return nil end
-        local free, where = 0, {}
-        for _, item in ipairs(idle) do
-            free = free + item.count
-            where[#where + 1] = item.def.short .. " " .. item.count
-        end
-        local detail = table.concat(where, ", ")
-        if finished > 0 then detail = detail .. string.format("  ·  %d finished since it was last read", finished) end
-        return { { text = U.Count(free, "research slot") .. " free", detail = detail, order = 3 } }
-    end,
 })

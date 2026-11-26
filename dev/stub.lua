@@ -139,6 +139,7 @@ function ClearMenu() MENU = {} end
 function AddMenuItem(label, fn) MENU[#MENU + 1] = { label = label, fn = fn } end
 function ShowMenu() end
 DIALOGS, DIALOG_SHOWN = {}, false
+GAMEPAD_DIALOGS = { BASIC = 1 }
 ESO_Dialogs = DIALOGS
 function ZO_Dialogs_RegisterCustomDialog(name, info) DIALOGS[name] = info end
 function ZO_Dialogs_ShowDialog(name, data, params) DIALOG_SHOWN = { name = name, data = data, params = params } end
@@ -295,6 +296,39 @@ Api("GetTimedActivityType", function(i) return GAME.challenges[i][1] end)
 Api("GetTimedActivityProgress", function(i) return GAME.challenges[i][2] end)
 Api("GetTimedActivityMaxProgress", function(i) return GAME.challenges[i][3] end)
 Api("GetTimedActivityTypeResetTimeS", function(kind) return BASE_NOW + (kind == TIMED_ACTIVITY_TYPE_DAILY and 30000 or 300000) end)
+-- Weekly leaderboards: the trial of the week ranked, the group arena started, Maelstrom with a
+-- score and no place, Vateshran not run, Archive solo ranked, a battleground score, a campaign tier.
+Api("GetRaidOfTheWeekTimes", function() return 200000, 200000 end)
+Api("GetNumRaidLeaderboards", function(category) return category == RAID_CATEGORY_TRIAL and 12 or 4, true end)
+Api("GetRaidOfTheWeekLeaderboardInfo", function(category) return category == RAID_CATEGORY_TRIAL and "Sunspire^N" or "Blackrose Prison^N", 77 end)
+Api("GetRaidOfTheWeekLeaderboardLocalPlayerInfo", function(category) if category == RAID_CATEGORY_TRIAL then return 42, 187654 end return 0, 0 end)
+Api("GetPlayerRaidOfTheWeekParticipationInfo", function(category) return category == RAID_CATEGORY_TRIAL, category == RAID_CATEGORY_TRIAL end)
+Api("GetPlayerRaidOfTheWeekProgressInfo", function(category) if category == RAID_CATEGORY_TRIAL then return false, true end return true, false end)
+local CHALLENGES = { 21, 22, 23, 24 }
+local CHALLENGE_NAMES = { [21] = "Dragonstar Arena^N", [22] = "Zone 677^N", [23] = "Zone 1227^N", [24] = "Blackrose Prison^N" }
+Api("GetNextRaidLeaderboardId", function(_, last)
+    if not last then return CHALLENGES[1] end
+    for i, id in ipairs(CHALLENGES) do if id == last then return CHALLENGES[i + 1] end end
+end)
+Api("GetRaidLeaderboardName", function(id) return CHALLENGE_NAMES[id] end)
+Api("GetRaidLeaderboardLocalPlayerInfo", function(id) if id == 22 then return 0, 512345 end if id == 23 then return 612, 88000 end return 0, 0 end)
+Api("GetPlayerRaidParticipationInfo", function(id) return id == 22, id == 22 end)
+Api("GetPlayerRaidProgressInfo", function(id) return false, id == 22 end)
+Api("QueryRaidLeaderboardData", function() return LEADERBOARD_DATA_READY end)
+Api("QueryEndlessDungeonLeaderboardData", function() return LEADERBOARD_DATA_RESPONSE_PENDING end)
+Api("QueryBattlegroundLeaderboardData", function() return LEADERBOARD_DATA_READY end)
+Api("GetEndlessDungeonOfTheWeekTimes", function() return 150000, 150000 end)
+Api("GetEndlessDungeonOfTheWeekLeaderboardLocalPlayerInfo", function(groupType) if groupType == ENDLESS_DUNGEON_GROUP_TYPE_SOLO then return 7, 98765 end return 0, 0 end)
+Api("GetPlayerEndlessDungeonOfTheWeekParticipationInfo", function(groupType) return groupType == ENDLESS_DUNGEON_GROUP_TYPE_SOLO, groupType == ENDLESS_DUNGEON_GROUP_TYPE_SOLO end)
+Api("GetPlayerEndlessDungeonOfTheWeekProgressInfo", function(groupType) return false, groupType == ENDLESS_DUNGEON_GROUP_TYPE_SOLO end)
+Api("GetNextBattlegroundLeaderboardType", function(last) if not last then return BATTLEGROUND_LEADERBOARD_TYPE_COMPETITIVE end end)
+Api("ShouldShowLeaderboardForBattlegroundLeaderboardType", function() return true end)
+Api("GetBattlegroundLeaderboardLocalPlayerInfo", function() return 0, 1500 end)
+Api("GetBattlegroundLeaderboardsSchedule", function() return 100000, 100000 end)
+Api("GetAssignedCampaignId", function() return 102 end)
+Api("GetSecondsUntilCampaignEnd", function() return 400000 end)
+Api("GetPlayerCampaignRewardTierInfo", function() return 2, 12000, 50000 end)
+Api("GetCampaignName", function() return "Gray Host^N" end)
 -- Worn gear: five pieces of one set, two of another, a ring with no set, an empty off hand.
 BAG_BACKPACK, BAG_BANK, BAG_SUBSCRIBER_BANK, BAG_WORN = 1, 2, 6, 0
 EQUIP_SLOT_HEAD, EQUIP_SLOT_NECK, EQUIP_SLOT_CHEST, EQUIP_SLOT_SHOULDERS, EQUIP_SLOT_MAIN_HAND, EQUIP_SLOT_OFF_HAND = 0, 1, 2, 3, 4, 5

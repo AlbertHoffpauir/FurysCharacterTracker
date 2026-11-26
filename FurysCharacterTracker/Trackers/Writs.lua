@@ -224,25 +224,4 @@ CT.Track({
         end
         return { { title = "Daily", id = "daily", items = items } }
     end,
-    -- One writ for every craft the character is certified for, whether or not it did writs lately.
-    -- Until 1.5.2 or newer has read a character's certifications, all seven count if it ever had a
-    -- writ, and none if it never did.
-    needs = function(e, now, world)
-        local certified = Daily.Certified(e.c)
-        if not certified and next(e.c.writs or {}) == nil then return {} end
-        local todo, deliver, total = 0, 0, 0
-        for _, def in ipairs(Daily.CRAFTS) do
-            if not certified or certified[def.craft] then
-                total = total + 1
-                local state = Daily.State(e.c, def.craft, world, now)
-                if state == Daily.DELIVER then deliver = deliver + 1 elseif state ~= Daily.DONE then todo = todo + 1 end
-            end
-        end
-        local list = {}
-        if deliver > 0 then list[#list + 1] = { text = U.Count(deliver, "writ") .. " ready to hand in", order = 1 } end
-        if todo > 0 then
-            list[#list + 1] = { text = U.Count(todo, "writ") .. " to do today", detail = string.format("%d of %d done", total - todo - deliver, total), order = 1 }
-        end
-        return list
-    end,
 })

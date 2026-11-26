@@ -14,8 +14,10 @@
 --   display  function(value, e) -> the text shown instead of the plain value
 --   dim      function(value, e) -> true to show the cell dim
 --   gold     function(value, e) -> true to show the cell as maxed
+--   warn     function(value, e) -> true to show the cell amber: it wants your attention
 --   bar      false: no progress bar behind an in-progress value
 --   tip      hover text of a cell: text or function(e)
+--   foot     function(entries) -> the text of the bottom row for this column
 --   sum      true: the totals row adds the column up (total = function(sum) -> text, optional)
 --   pick     { field =, values = }: click for a dropdown of your own picks
 --   note     true: click to edit the note
@@ -51,7 +53,7 @@ local function Max(column, e)
     return column.max
 end
 
--- What one cell shows: { text =, maxed =, dim =, pick =, pct = (0 to 1, in progress), value = }.
+-- What one cell shows: { text =, maxed =, dim =, warn =, pick =, pct = (0 to 1, in progress), value = }.
 function Board.Cell(column, e)
     local value = column.value(e)
     local max = Max(column, e)
@@ -75,7 +77,8 @@ function Board.Cell(column, e)
     local pick = column.pick ~= nil or column.note == true
     if pick and text == "" then text = "-" end
     if maxed then dim, pct = false, nil end
-    return { text = text, maxed = maxed, dim = dim, pick = pick, pct = pct, value = value }
+    local warn = (not maxed) and column.warn ~= nil and column.warn(value, e) == true
+    return { text = text, maxed = maxed, dim = dim, warn = warn, pick = pick, pct = pct, value = value }
 end
 
 function Board.Tip(column, e)
@@ -142,6 +145,8 @@ function Board.Totals(view, columns, entries)
         local text = ""
         if i == 1 then
             text = view.totals or "Maxed on"
+        elseif column.foot then
+            text = column.foot(entries)
         elseif column.sum then
             local sum = 0
             for _, e in ipairs(entries) do sum = sum + (column.value(e) or 0) end
@@ -189,6 +194,8 @@ function Board.Summary(view, entries, unread)
         summary = U.Count(count, "character") .. "  ·  writs reset at " .. os.date("%I:%M %p", CT.Daily.LastReset(CT.view.world, now) + 86400) .. " your time"
         local challenges = CT.ChallengeText(data, now)
         if challenges then summary = summary .. "  ·  " .. challenges end
+    elseif view.id == "weekly" then
+        summary = U.Count(count, "character") .. "  ·  " .. CT.WeeklySummary(GetTimeStamp())
     elseif view.id == "progress" and count > 0 then
         -- Until some character has a line from an earlier day, every cell is a dash: say why.
         local today, compared = CT.History.Day(GetTimeStamp()), false

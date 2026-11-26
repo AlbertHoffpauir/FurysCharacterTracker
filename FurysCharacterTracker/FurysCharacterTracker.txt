@@ -1,8 +1,8 @@
-## Title: |cA08CFFFury's Character Tracker|r |c8A86B0v1.5.7|r
-## Description: Every character on one board: skill and class lines, crafting, research, daily writs, skill points still to earn, wallet, gear, companions and progress over time, read when you log in. A todo list, a brag card, copy for Discord, export to Excel.
+## Title: |cA08CFFFury's Character Tracker|r |c8A86B0v1.7.3|r
+## Description: Every character on one board: skill and class lines, crafting, research, daily writs, weekly leaderboards, skill points still to earn, wallet, gear, companions and progress over time, read when you log in. A brag card, copy for Discord, export to Excel.
 ## Author: Furyous
-## Version: 1.5.7
-## AddOnVersion: 157
+## Version: 1.7.3
+## AddOnVersion: 173
 ## APIVersion: 101051 101052
 ## SavedVariables: FuryCT_SV
 ## DependsOn: LibAddonMenu-2.0>=43
@@ -25,13 +25,13 @@ Trackers/Companions.lua
 Trackers/Writs.lua
 Trackers/Riding.lua
 Trackers/Activities.lua
+Trackers/Weekly.lua
 Trackers/Wallet.lua
 Trackers/Collections.lua
 Trackers/Gear.lua
 Trackers/Progress.lua
 Data/Views.lua
 Core/Board.lua
-Core/Needs.lua
 Core/Pages.lua
 Game/Scan.lua
 Game/Alerts.lua
@@ -44,8 +44,6 @@ UI/Timers.xml
 UI/Timers.lua
 UI/Details.xml
 UI/Details.lua
-UI/Needs.xml
-UI/Needs.lua
 UI/Text.xml
 UI/Text.lua
 UI/Settings.lua

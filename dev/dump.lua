@@ -52,8 +52,6 @@ function FCT_Dump(withStart)
         local lines = {}
         for i, row in ipairs(rows) do lines[i] = CT.Pages.TimerRow(row, now) end
         Block("--- timers", { summary = CT.Pages.TimersSummary(rows), rows = rows, lines = lines })
-        local needs, characters = CT.Needs.Rows(now)
-        Block("--- needs", { summary = CT.Needs.Summary(needs, characters), rows = needs })
         for _, e in ipairs(CT.Roster:List()) do
             local title, subtitle = CT.Pages.DetailsHeader(e)
             Block("--- details " .. e.name, { title = title, subtitle = subtitle, sections = CT.Pages.Details(e) })

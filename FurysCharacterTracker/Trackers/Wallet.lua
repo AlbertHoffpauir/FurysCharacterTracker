@@ -8,7 +8,6 @@
 local CT = FurysCharacterTracker
 local U = CT.Util
 
-local BAG_NEARLY_FULL = 10   -- the Todo List names a character with this many free slots or fewer
 
 -- Game only.
 local function Read(c, account)
@@ -131,10 +130,4 @@ CT.Track({
         { "Alliance Points", function(e) return e.c.ap end }, { "Writ vouchers", function(e) return e.c.vouchers end },
         { "Bag used", function(e) return e.c.bagUsed end }, { "Bag size", function(e) return e.c.bagSize end },
     },
-    needs = function(e)
-        local c = e.c
-        if c.bagSize and c.bagSize - (c.bagUsed or 0) <= BAG_NEARLY_FULL then
-            return { { text = "Bag nearly full", detail = string.format("%d of %d slots used", c.bagUsed, c.bagSize), order = 6 } }
-        end
-    end,
 })

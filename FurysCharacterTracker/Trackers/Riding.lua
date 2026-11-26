@@ -45,9 +45,4 @@ CT.Track({
         return { { title = "Daily", id = "daily", items = { { "Riding lesson", ready and "Ready" or "at " .. U.DayTime(readyAt), done = not ready } } } }
     end,
     export = { { "Riding", function(e) return e.c.riding end } },
-    needs = function(e, now)
-        if e.c.ridingReadyAt and e.c.ridingReadyAt <= now then
-            return { { text = "Riding lesson ready", detail = string.format("riding %d of %d", e.c.riding or 0, e.c.ridingMax or CT.RIDING_MAX), order = 2 } }
-        end
-    end,
 })

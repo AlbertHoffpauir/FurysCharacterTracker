@@ -12,7 +12,7 @@ const path = require('path');
   await page.goto('file://' + path.resolve(html) + (now ? '#now=' + now : ''));
   const shot = (name) => page.screenshot({ path: path.join(out, name + '.png') });
   await shot('board-overview');
-  for (const tab of ['class', 'traits', 'daily', 'points', 'wallet', 'progress', 'sets']) {
+  for (const tab of ['class', 'traits', 'daily', 'weekly', 'points', 'wallet', 'progress', 'sets']) {
     await page.click(`nav div[data-id="${tab}"]`);
     await shot('board-' + tab);
   }
@@ -20,7 +20,7 @@ const path = require('path');
   await page.click('thead th:nth-child(4)');
   await page.hover('tbody tr:nth-child(3) td:nth-child(5)');
   await shot('sorted-and-tip');
-  for (const [button, name] of [['#startButton', 'start'], ['#footer-needs', 'needs'], ['#footer-timers', 'timers'], ['#footer-brag', 'brag'], ['#footer-copy', 'copy']]) {
+  for (const [button, name] of [['#startButton', 'start'], ['#footer-timers', 'timers'], ['#footer-brag', 'brag'], ['#footer-copy', 'copy']]) {
     await page.click(button);
     await shot('window-' + name);
     await page.keyboard.press('Escape');

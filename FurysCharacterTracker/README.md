@@ -3,8 +3,8 @@
 **AI disclosure:** This addon's code was written with the assistance of an AI coding assistant (Claude by Anthropic), working from my designs and instructions. I test every release in game on my own characters before it goes up, and I maintain it. Please report any problem in the comments.
 
 Every character on your account, on one board: skill and class lines, crafting, research, daily writs,
-skill points still to earn, wallet, worn gear, companions and progress over time, read straight from
-the game. A todo list, a brag card, copy for Discord, export to Excel.
+weekly leaderboards, skill points still to earn, wallet, worn gear, companions and progress over time, read straight from
+the game. A brag card, copy for Discord, export to Excel.
 
 **Requires:** LibAddonMenu-2.0 (version 43 or newer). Install it separately; without it the addon will not load.
 
@@ -45,9 +45,11 @@ the settings. Updating from an older version keeps your settings as they were.
 - **Research**: traits known per craft (Smith, Cloth, Wood, Jewelry), research slots in use, and the time
   until the next research finishes. Hover a craft for what is researching and every missing trait.
   Timers count down for every character, not just the one you are on.
-- **Daily**: crafting writs since today's reset (started, ready to hand in, done), the next riding
-  lesson, the daily dungeon and battleground rewards, and trial quests handed in this week. The line
-  above shows your daily and weekly Challenges. Writs are found on every game language.
+- **Daily**: what each character can still do today. Crafting writs since today's reset (started,
+  ready to hand in, done), the next riding lesson, free research slots, and the first random dungeon,
+  battleground and Tales of Tribute match of the day (reward and large XP bonus). The line above shows
+  your daily and weekly Challenges. Writs are found on every game language.
+- **Weekly**: the weekly leaderboards. The first two columns are this week's trial (some weeks a group arena) and this week's arena challenge, and their titles are the names the game gives them. Then Infinite Archive (solo and duo), battlegrounds, and the reward tier earned in the Cyrodiil home campaign. Each row shows which characters ran what this week. The bottom row is the account's best score and place on each leaderboard: a leaderboard keeps one entry per account, and its rewards go to the top 500. Amber = a score outside the top 500 or with no place, so you know which run to redo. The line above counts down to the reset and lists what needs a better run. Everything empties by itself when the week turns over.
 - **Collections**: recipes, furnishing plans, motifs, scribing, riding, companions and time played.
 - **Skill points**: where the points still to earn are. Skyshards (hover for the zones that still have
   some), public dungeon group events (hover for the ones still to do) and Alliance War rank.
@@ -64,9 +66,6 @@ the settings. Updating from an older version keeps your settings as they were.
 
 ## The buttons under the board
 
-- **Todo List** (`/fct todo`, or a key): one list of what your characters are waiting on you for.
-  Writs to do or hand in, riding lessons, free research slots and full bags.
-  Writs are listed for every character, one for each craft it is certified for.
 - **Research timers** (`/fct timers`, or a key): every research in progress, one line each, with time left
   and when it finishes, soonest first. Finished and free slots are at the top in amber.
 - **Brag card** (`/fct brag`, or a key): your best numbers on one screen, sized for a screenshot. Hours
@@ -99,7 +98,6 @@ alerts together.
 
 - `/fct` open the board
 - `/fct start` the Start here page
-- `/fct todo` the Todo List
 - `/fct brag` the brag card
 - `/fct timers` the research timers window
 - `/fct research` research slots and timers, in chat
@@ -145,10 +143,10 @@ They come as a separate free download, **Fury's Character Tracker Windows Tools*
 **Get the Windows Tools** in the settings or type `/fct tools` (the game asks before it opens your
 browser), or use the link on the addon's ESOUI page. Unzip it into any folder you like, for example
 Documents\Elder Scrolls Online. Its own README says what each file does. The addon works fully in
-game without them. Use Windows Tools 1.5.0 or newer with this version.
+game without them. Use Windows Tools 1.5.0 or newer with this version; 1.7.3 has the Weekly tab.
 
 **Offline viewer.** The same board in your browser with the game closed, for every account and
-megaserver on this PC: every tab, Start here, the Todo List, research timers, the brag card, details
+megaserver on this PC: every tab, Start here, research timers, the brag card, details
 and Copy for Discord. It runs the addon's own board files, so it shows exactly what the game shows.
 Log out or /reloadui (the game only saves then), then double-click **Open Offline Viewer.cmd**.
 

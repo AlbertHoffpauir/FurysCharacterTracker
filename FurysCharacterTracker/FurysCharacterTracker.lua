@@ -5,8 +5,7 @@
 --   Data/        text shown on screen, the skill lines, the tabs of the board
 --   Core/        helpers, the list of tracked things, the roster, history, the board's rules, the pages
 --   Trackers/    ONE FILE PER TRACKED THING: how to read it from the game, which game events make
---                it stale, its board columns, its details lines, its export columns, what it
---                adds to the Todo List
+--                it stale, its board columns, its details lines, its export columns
 --   Game/        what only runs in game: reading (Scan), alerts, startup and slash commands
 --   UI/          the windows
 --
@@ -19,7 +18,7 @@ local CT = FurysCharacterTracker
 
 CT.name = "FurysCharacterTracker"
 CT.displayName = "Fury's Character Tracker"
-CT.version = "1.5.7"
+CT.version = "1.7.3"
 -- The Windows Tools (offline viewer, Excel export) can't ship in the ESOUI zip; this page has the download.
 CT.toolsUrl = "https://github.com/AlbertHoffpauir/FurysCharacterTracker#downloads"
 
@@ -43,7 +42,7 @@ CT.live = false
 
 -- What a read of a character gathers. Raise it when a new version reads something more: the board
 -- then says which characters need one login to fill the new columns (each read stamps c.v).
-CT.READ_VERSION = 2
+CT.READ_VERSION = 3
 
 -- Saved data version ------------------------------------------------------------------------
 -- Each step runs once, in order, on data saved before it existed. A change to the shape of the

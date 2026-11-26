@@ -10,7 +10,7 @@ CT.TEXT = X
 X.CRAFTS = { [1] = "Blacksmithing", [2] = "Clothing", [3] = "Enchanting", [4] = "Alchemy", [5] = "Provisioning",
              [6] = "Woodworking", [7] = "Jewelry Crafting" }
 
-X.LEGEND = "|cA08CFFViolet|r maxed  ·  bar = how far along  ·  |c8A86B0-|r none  ·  |c5CC2FFblue|r your pick  ·  click a name for details  ·  right-click for the menu"
+X.LEGEND = "|cA08CFFViolet|r maxed  ·  bar = how far along  ·  |c8A86B0-|r none  ·  |c5CC2FFblue|r your pick  ·  |cFFC857amber|r waiting on you  ·  click a name for details  ·  right-click for the menu"
 X.UNREAD = "Not read yet. Log in on this character once and its row fills in."
 X.UNREAD_TIP = "Not read yet. Log in on this character once, a few seconds is enough, and the addon reads everything about it.\nRight-click to take it off the board."
 X.SORT_TIP = "Click to sort by this column. Click again to reverse, a third time for your own order."
@@ -20,8 +20,6 @@ X.START_TIP = "New here? One page on how the board works: getting your character
 
 -- Buttons under the board, left to right. `id` is what the window does when one is clicked.
 X.FOOTER = {
-    { id = "needs", label = "Todo List",
-      tip = "One list of what your characters are waiting on you for: writs to do or hand in, riding lessons, free research slots, full bags.\n(also /fct todo)" },
     { id = "timers", label = "Research timers",
       tip = "Every research slot on this account: what is researching, time left, and slots that are free.\n(also /fct timers)" },
     { id = "brag", label = "Brag card",
@@ -47,8 +45,7 @@ X.EXPORT_SAVED = "Saved %s for export. If you have run Turn On Auto Export.cmd f
 X.HELP = {
     "/fct  open the board (also on a key: Controls > Keybindings > Fury's Character Tracker)",
     "/fct start  the Start here page: how the board works, in one page",
-    "/fct todo  the Todo List: writs, riding lessons, research slots, full bags",
-    "/fct overview, class, weapons, armor, guilds, world, crafting, traits, daily, collections, points, wallet, progress, sets  open a tab",
+    "/fct overview, class, weapons, armor, guilds, world, crafting, traits, daily, weekly, collections, points, wallet, progress, sets  open a tab",
     "/fct brag  the brag card: your best numbers on one screen, for a screenshot",
     "/fct timers  research timers window: what each character is researching and time left",
     "/fct research  research slots and timers in chat",
@@ -72,7 +69,7 @@ X.START = {
           viewer = "The game saves when you log out or reload the UI. Open the offline viewer again after that to see what is new." },
     } },
     { title = "2. Read the board", lines = {
-        "Violet tile = maxed.   A bar behind a number = how far along.   Dim dash = not started.   Blue = your own pick.",
+        "Violet tile = maxed.   A bar behind a number = how far along.   Dim dash = not started.   Blue = your own pick.   Amber = waiting on you.",
         "Hover any cell, or any column title, for what it means. Click a column title to sort by it.",
         { "Click a character for everything saved about it. Right-click a row for its menu: details, move up or down, note, copy, remove.",
           viewer = "Click a character for everything saved about it. Right-click a row to copy it for Discord. Picks, notes and your row order are changed in game." },
@@ -83,7 +80,8 @@ X.START = {
         "Class: level, race, alliance, the three class skill lines each character uses, and other class lines it has trained.",
         "Weapons, Armor, Guilds & AvA, World, Crafting: the rank of every skill line.",
         "Research: traits known in each craft, research slots in use, time until the next one finishes.",
-        "Daily: crafting writs done today, the riding lesson, and the daily dungeon and battleground rewards.",
+        "Daily: what each character can still do today. Crafting writs, the riding lesson, free research slots, and the first random dungeon, battleground and Tribute match of the day (reward and large XP bonus).",
+        "Weekly: the weekly leaderboards (the weekly trial and weekly arena, named in the column titles, Infinite Archive, battlegrounds). Each row shows who ran what; the bottom row is the account's best score and place. Amber = outside the top 500, where the rewards go.",
         "Collections: recipes, furnishing plans, motifs, scribing, companions and hours played.",
         "Skill points: where the points still to earn are: skyshards, public dungeon group events, Alliance War rank.",
         "Wallet & CP: gold and other currencies, bag space, Champion Points. The bank is on the line above.",
@@ -92,7 +90,6 @@ X.START = {
     } },
     { title = "4. Alerts: everything starts turned off. Click a line to switch it.", switches = true },
     { title = "5. More", lines = {
-        "Todo List: one list of writs to do, riding lessons, free research slots and full bags. Button under the board.",
         { "Research timers, Brag card, Copy for Discord: buttons under the board. The gear at the top is Settings.",
           viewer = "Research timers, Brag card, Copy for Discord and Save for Excel: buttons under the board." },
         { "Keys for the board and its windows: Controls > Keybindings > Fury's Character Tracker.", viewer = false },

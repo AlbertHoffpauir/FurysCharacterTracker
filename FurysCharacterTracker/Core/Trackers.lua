@@ -13,7 +13,6 @@
 --   summary   function(e): items for the "Progress" block of the details window
 --   sections  function(e): its own blocks in the details window
 --   export    { { "Column title", function(e) return value end }, ... } for the Excel export
---   needs     function(e, now, world): what this character needs from you today, for the Todo List
 --
 -- `e` is a board entry: { id =, name =, c = saved character, m = your picks }.
 -- To track something new: add a file here, list it in the manifest, and name its column keys in

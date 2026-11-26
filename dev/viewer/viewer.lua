@@ -1,6 +1,6 @@
 -- The offline viewer's Lua side. The page asks for what to draw with FCT_Api("board", "overview")
 -- and gets JSON back. Everything it hands out comes from the addon's own files (Core/Board.lua,
--- Core/Pages.lua, Core/Needs.lua and the files in Trackers/), so the page shows what the game shows.
+-- Core/Pages.lua and the files in Trackers/), so the page shows what the game shows.
 local CT = FurysCharacterTracker
 local accounts = {}
 local api = {}
@@ -43,7 +43,6 @@ end
 function api.board(viewId)
     local snap = CT.Board.Snapshot(viewId, true)
     CT.Prefs().lastView = snap.id
-    snap.needs = #CT.Needs.Rows()
     snap.label = CT.ViewLabel()
     return snap
 end
@@ -74,11 +73,6 @@ function api.timers()
     local rows, lines = CT.Research.Rows(CT.Data(), now), {}
     for i, row in ipairs(rows) do lines[i] = CT.Pages.TimerRow(row, now) end
     return { label = CT.ViewLabel(), summary = CT.Pages.TimersSummary(rows), rows = lines }
-end
-
-function api.needs()
-    local rows, characters = CT.Needs.Rows()
-    return { label = CT.ViewLabel(), summary = CT.Needs.Summary(rows, characters), rows = rows }
 end
 
 function api.discord(viewId)

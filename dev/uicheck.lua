@@ -121,19 +121,6 @@ function UICheck()
             P("    %s | %s | %s | %s | %s | %s", c.Name.text, c.Craft.text, c.Item.text, c.Trait.text, c.Left.text, c.Ends.text)
         end
         CT.Timers:Hide()
-        CT.Needs:Show()
-        P("  [needs] %s", FurysCharacterTracker_NeedsSummary.text)
-        local needs = CT.Needs.Rows()
-        local shown = FurysCharacterTracker_NeedsList.rows or {}
-        if #shown ~= #needs then Problem("needs window has %d rows, expected %d", #shown, #needs) end
-        for r, row in ipairs(shown) do
-            local c = row.children
-            P("    %s | %s | %s", c.Name.text, c.What.text, c.Detail.text)
-            Same("needs row " .. r, c.What.text, needs[r].text)
-            if not Tip(row) then Problem("needs row %d has no hover text", r) end
-        end
-        if shown[1] then Click(shown[1]) end
-        CT.Needs:Hide()
         for _, e in ipairs(CT.Roster:List()) do
             CT.Details:Show(e.id)
             Same("details title", FurysCharacterTracker_DetailsTitle.text, e.name)
@@ -218,7 +205,7 @@ function UICheck()
     for id, button in pairs(win.footer) do
         if not Tip(button) then Problem("footer button %s has no hover text", id) end
     end
-    for _, name in ipairs({ "FurysCharacterTracker_WindowStart", "FurysCharacterTracker_WindowSettings", "FurysCharacterTracker_WindowAccount" }) do
+    for _, name in ipairs({ "FurysCharacterTracker_WindowStartHere", "FurysCharacterTracker_WindowSettings", "FurysCharacterTracker_WindowAccount" }) do
         if not Tip(CONTROLS[name]) then Problem("%s has no hover text", name) end
     end
     for i, tab in ipairs(win.tabs) do
@@ -264,7 +251,7 @@ function UICheck()
     end
 
     -- Slash commands.
-    for _, command in ipairs({ "", "needs", "brag", "timers", "todo", "unread", "research", "start", "ids", "scan", "alerts on", "alerts off", "nonsense", "class", "wallet" }) do
+    for _, command in ipairs({ "", "brag", "timers", "todo", "unread", "research", "start", "ids", "scan", "alerts on", "alerts off", "nonsense", "class", "wallet" }) do
         SLASH_COMMANDS["/fct"](command)
     end
     for _, window in ipairs(CT.Windows()) do

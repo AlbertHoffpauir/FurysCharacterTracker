@@ -2,12 +2,12 @@
 
 **AI disclosure:** This addon's code was written with the assistance of an AI coding assistant (Claude by Anthropic), working from my designs and instructions. I test every release in game on my own characters before it goes up, and I maintain it.
 
-An Elder Scrolls Online addon: every character on your account, on one board. Skill and class lines, crafting, research, daily writs, skill points still to earn, wallet, worn gear, companions and progress over time, read from the game. One list of who needs you, a brag card, copy for Discord, export to Excel. Everything that can be turned off starts turned off.
+An Elder Scrolls Online addon: every character on your account, on one board. Skill and class lines, crafting, research, daily writs, weekly leaderboards, skill points still to earn, wallet, worn gear, companions and progress over time, read from the game. A brag card, copy for Discord, export to Excel. Everything that can be turned off starts turned off.
 
 ## Downloads
 
-- **The addon:** get it from ESOUI or Minion. The same files are in [`FurysCharacterTracker/`](FurysCharacterTracker/) here, and as [FurysCharacterTracker-1.5.7.zip](https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-1.5.7.zip).
-- **Windows Tools** (optional): offline viewer and Excel export. **[Download FurysCharacterTracker-WindowsTools-1.5.5.zip](https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-WindowsTools-1.5.5.zip)**. Unzip it into any folder, for example Documents\Elder Scrolls Online. Source: [`WindowsTools/`](WindowsTools/), and [README.txt](WindowsTools/README.txt) says what every file does. Use tools 1.5.0 or newer with addon 1.5.0 or newer; older tools cannot read what 1.5.0 saves.
+- **The addon:** get it from ESOUI or Minion. The same files are in [`FurysCharacterTracker/`](FurysCharacterTracker/) here, and as [FurysCharacterTracker-1.7.3.zip](https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-1.7.3.zip).
+- **Windows Tools** (optional): offline viewer and Excel export. **[Download FurysCharacterTracker-WindowsTools-1.7.3.zip](https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-WindowsTools-1.7.3.zip)**. Unzip it into any folder, for example Documents\Elder Scrolls Online. Source: [`WindowsTools/`](WindowsTools/), and [README.txt](WindowsTools/README.txt) says what every file does. Use tools 1.5.0 or newer with addon 1.5.0 or newer; older tools cannot read what 1.5.0 saves.
 
 The tools are plain-text scripts (batch, PowerShell) and one HTML page. They only read the addon's saved data file on your PC and never connect to the internet.
 
@@ -35,4 +35,4 @@ All free on ESOUI and in Minion.
 - Game API details from the ESOUI wiki and ZeniMax's ESO UI source code.
 - The offline viewer includes **Fengari** ([fengari.io](https://fengari.io)), a Lua engine in JavaScript by Benoit Giannangeli and Daurnimator, MIT license ([license text](WindowsTools/Viewer/Fengari%20LICENSE.txt)).
 
-License: MIT (see [LICENSE](LICENSE)).
+License: free to use and share for noncommercial purposes under the [PolyForm Noncommercial License 1.0.0](LICENSE). Selling it, or any other commercial use, needs a separate license from me: open an issue here on GitHub or send me a private message on ESOUI.

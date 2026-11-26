@@ -10,7 +10,7 @@ local LAM = LibAddonMenu2
 -- Puts every window back in the middle of the screen.
 local function ResetWindows()
     local sv = CT.sv
-    sv.window, sv.bragWindow, sv.timersWindow, sv.detailsWindow, sv.needsWindow = nil, nil, nil, nil, nil
+    sv.window, sv.bragWindow, sv.timersWindow, sv.detailsWindow = nil, nil, nil, nil
     for _, window in ipairs(CT.Windows()) do
         window[1]:ClearAnchors()
         window[1]:SetAnchor(CENTER, GuiRoot, CENTER, 0, 0)
@@ -66,7 +66,7 @@ function Settings:Build()
           tooltip = "Puts back every character you removed with right-click > Remove from board.",
           func = ShowRemoved },
         { type = "description",
-          text = "Key bindings for the board, the Todo List, the brag card and research timers: Controls > Keybindings > Fury's Character Tracker." },
+          text = "Key bindings for the board, the brag card and research timers: Controls > Keybindings > Fury's Character Tracker." },
 
         { type = "header", name = "Windows Tools" },
         { type = "description",

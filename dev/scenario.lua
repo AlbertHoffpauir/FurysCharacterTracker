@@ -12,6 +12,8 @@ local function Calls(fn) local before = CALLS; fn(); return CALLS - before end
 
 Check(C() ~= nil, "the character was not read at login")
 P("login read: %d game calls", CALLS)
+-- Let the weekly leaderboards be asked for and read (Trackers/Weekly.lua) before the timing checks.
+Advance(20000)
 
 -- One rank up reads the skills again, and nothing else.
 CALLED = {}
@@ -60,11 +62,6 @@ local reset = D.LastReset(world, GetTimeStamp()) + 86400
 Check(D.State(C(), CRAFTING_TYPE_BLACKSMITHING, world, reset - 60) == D.DONE, "done writ gone before the reset")
 Check(D.State(C(), CRAFTING_TYPE_BLACKSMITHING, world, reset + 60) == D.NONE, "done writ still done after the reset")
 
--- Todo List: the hand-in, the research slots, the bag.
-local texts = {}
-for _, row in ipairs(CT.Needs.Rows()) do if row.id == id then texts[#texts + 1] = row.text end end
-P("needs: %s", table.concat(texts, " | "))
-Check(#texts >= 3, "who needs me lists %d things for the test character", #texts)
 
 -- A trial quest finished shows on the Daily tab for a week.
 Fire(EVENT_QUEST_COMPLETE, "Assaulting the Citadel^n", 50, 0, 0, 0, QUEST_TYPE_RAID, 0)
@@ -111,14 +108,14 @@ GAME.skillsReady = true
 
 -- Export: a reload is asked for first; the rows have no tabs or line breaks inside a cell.
 Click(CT.Window.footer.export)
-Check(DIALOG_SHOWN and DIALOG_SHOWN.name == "FURYSCHARACTERTRACKER_EXPORT", "Export to Excel did not ask first")
-DIALOGS.FURYSCHARACTERTRACKER_EXPORT.buttons[1].callback()
+Check(DIALOG_SHOWN and DIALOG_SHOWN.name:find("^FURY_CHARACTERTRACKER_CONFIRM") ~= nil, "Export to Excel did not ask first")
+DIALOGS[DIALOG_SHOWN.name].buttons[1].callback({ data = DIALOG_SHOWN.data })
 Check(RELOADS == 1 and CT.sv.exportPending, "the export did not reload")
 -- /fct export asks too: nothing reloads the UI without a warning and a way to cancel.
 DIALOG_SHOWN = nil
 SLASH_COMMANDS["/fct"]("export")
 Check(RELOADS == 1, "/fct export reloaded the UI without asking")
-Check(DIALOG_SHOWN and DIALOG_SHOWN.name == "FURYSCHARACTERTRACKER_EXPORT", "/fct export did not ask first")
+Check(DIALOG_SHOWN and DIALOG_SHOWN.name:find("^FURY_CHARACTERTRACKER_CONFIRM") ~= nil, "/fct export did not ask first")
 local width
 for i, row in ipairs(CT.sv.exportRows) do
     local _, tabs = row:gsub("\t", "")
