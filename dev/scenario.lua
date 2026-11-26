@@ -57,6 +57,11 @@ Check(D.State(C(), CRAFTING_TYPE_BLACKSMITHING, world) == D.DONE, "handing in th
 GAME.journal[5] = nil
 Fire(EVENT_QUEST_REMOVED, false, 5, "Enchanter Writ", 1, 1, 5400); Advance(500)
 Check(D.State(C(), CRAFTING_TYPE_ENCHANTING, world) == D.NONE, "an abandoned writ still shows")
+-- 1.8.5: a writ handed in without the game's "quest removed" event reaching the addon is still
+-- done at the next read (here the Alchemy writ, at Deliver, leaves the journal silently).
+GAME.journal[6] = nil
+Fire(EVENT_QUEST_COMPLETE, "Alchemist Writ", 50, 0, 0, 0, QUEST_TYPE_CRAFTING, 0); Advance(500)
+Check(D.State(C(), CRAFTING_TYPE_ALCHEMY, world) == D.DONE, "an alchemy writ handed in without the removed event is not done (%s)", tostring(D.State(C(), CRAFTING_TYPE_ALCHEMY, world)))
 -- Done lasts until the daily reset, then it is a new day.
 local reset = D.LastReset(world, GetTimeStamp()) + 86400
 Check(D.State(C(), CRAFTING_TYPE_BLACKSMITHING, world, reset - 60) == D.DONE, "done writ gone before the reset")

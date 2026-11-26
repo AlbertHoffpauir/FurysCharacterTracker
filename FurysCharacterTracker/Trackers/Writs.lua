@@ -158,8 +158,17 @@ local function Read(c)
             end
         end
     end
+    -- 1.8.5: a writ of today that was in the journal and is gone was handed in, even when the game's
+    -- "quest removed" event was missed (an abandoned writ is cleared by that event, below).
+    local today = Daily.LastReset(CT.home and CT.home.world)
     for craft, entry in pairs(previous or {}) do
-        if not inJournal[craft] and entry.state == Daily.DONE then writs[craft] = entry end
+        if not inJournal[craft] then
+            if entry.state == Daily.DONE then
+                writs[craft] = entry
+            elseif entry.at >= today then
+                writs[craft] = { state = Daily.DONE, at = GetTimeStamp() }
+            end
+        end
     end
     c.writs = writs
     ReadCertified(c)
@@ -182,6 +191,13 @@ local function Start(queue, current)
         c.writs = c.writs or {}
         c.writs[craft] = isCompleted and { state = Daily.DONE, at = GetTimeStamp() } or nil
         queue(true)
+    end)
+    -- 1.8.5: read the writs again whenever any quest is finished or removed, and once more on the
+    -- way out (logout, character switch, reload), so a hand-in is never missed.
+    Register("Complete", EVENT_QUEST_COMPLETE, function() queue(true) end)
+    EVENT_MANAGER:RegisterForEvent(CT.name .. "WritOut", EVENT_PLAYER_DEACTIVATED, function()
+        local c = current()
+        if c then Read(c) end
     end)
 end
 
