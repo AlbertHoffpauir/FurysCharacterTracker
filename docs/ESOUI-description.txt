@@ -10,7 +10,7 @@
 
 [CENTER][SIZE="6"][FONT="Georgia"][COLOR="#A08CFF"][B]Fury's Character Tracker[/B][/COLOR][/FONT][/SIZE]
 [SIZE="3"][COLOR="#5CC2FF"][I]Every character on your account, on one board.[/I][/COLOR][/SIZE][/CENTER]
-[CENTER][SIZE="1"][COLOR="#B4B0D8"]FURY'S ADDONS[/COLOR]   [URL="https://www.esoui.com/downloads/info5063.html"]Guild Management Toolset[/URL]   |   [COLOR="#A08CFF"][B]Character Tracker[/B][/COLOR]   |   [URL="https://www.esoui.com/downloads/info5099.html"]Inventory Ledger[/URL]   |   [URL="https://www.esoui.com/downloads/info5106.html"]Account Sync[/URL]   |   [URL="https://www.esoui.com/downloads/info5115.html"]Quality of Life[/URL][/SIZE][/CENTER]
+[CENTER][SIZE="1"][COLOR="#B4B0D8"]FURY'S ADDONS[/COLOR]   [URL="https://www.esoui.com/downloads/info5063.html"]Guild Toolset[/URL]   |   [COLOR="#A08CFF"][B]Character Tracker[/B][/COLOR]   |   [URL="https://www.esoui.com/downloads/info5099.html"]Inventory Ledger[/URL]   |   [URL="https://www.esoui.com/downloads/info5106.html"]Account Sync[/URL]   |   [URL="https://www.esoui.com/downloads/info5115.html"]Quality of Life[/URL][/SIZE][/CENTER]
 
 [B]Your whole roster at a glance.[/B] Skill and class lines, crafting, research, daily writs, skill points still to earn, wallet, worn gear, companions and progress over time, read straight from the game for every character you have. The Daily and Weekly tabs tell you who still has something to do. Put your best numbers on a brag card, paste a tab into Discord, and take it all to Excel.
 [QUOTE][SIZE="3"][COLOR="#5CC2FF"][B]New here? Start here[/B][/COLOR][/SIZE]
@@ -97,7 +97,7 @@ Log in on each character once. After that the board keeps itself up to date whil
 
 [SIZE="4"][FONT="Georgia"][COLOR="#5CC2FF"][B]Windows Tools[/B][/COLOR][/FONT][/SIZE]
 [COLOR="#B4B0D8"][I]Optional, separate download. The addon works fully in game without them.[/I][/COLOR]
-The offline viewer and the Excel export run outside the game, so ESOUI's rules keep them out of the addon zip. Get them here: [B][URL="https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-WindowsTools-1.7.5.zip"]Fury's Character Tracker Windows Tools 1.7.5[/URL][/B], and unzip them into any folder you like, for example Documents\Elder Scrolls Online. In game, the [B]Get the Windows Tools[/B] button in the settings (or [FONT="Courier New"][B]/fct tools[/B][/FONT]) opens the same download page in your browser.
+The offline viewer and the Excel export run outside the game, so ESOUI's rules keep them out of the addon zip. Get them here: [B][URL="https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-WindowsTools-1.7.6.zip"]Fury's Character Tracker Windows Tools 1.7.6[/URL][/B], and unzip them into any folder you like, for example Documents\Elder Scrolls Online. In game, the [B]Get the Windows Tools[/B] button in the settings (or [FONT="Courier New"][B]/fct tools[/B][/FONT]) opens the same download page in your browser.
 [B]Updating from 1.4.1 or older?[/B] Get the new tools too. The older tools cannot read what addon 1.5.0 saves.
 [COLOR="#A08CFF"][B]Offline viewer[/B][/COLOR]
 The same board in your web browser with the game closed, for every account and megaserver on your PC: every tab, Start here, research timers, the brag card, character details and Copy for Discord. It runs the addon's own board files, so it shows exactly what the game shows.
@@ -169,7 +169,7 @@ Matching works on any client language; the labels on the board are written in En
 
 [SIZE="4"][FONT="Georgia"][COLOR="#5CC2FF"][B]More from Fury[/B][/COLOR][/FONT][/SIZE]
 [LIST]
-[*][URL="https://www.esoui.com/downloads/info5063.html"][B]Fury's Guild Management Toolset[/B][/URL]: an officer's toolkit: bank alerts, member and inactivity reports, trader week totals, raffles, event sign-ups and recruiting.
+[*][URL="https://www.esoui.com/downloads/info5063.html"][B]Fury's Guild Toolset[/B][/URL]: an officer's toolkit: bank alerts, member and inactivity reports, trader week totals, raffles, event sign-ups and recruiting.
 [*][URL="https://www.esoui.com/downloads/info5099.html"][B]Fury's Inventory Ledger[/B][/URL]: every item you own in one list, across all your characters, the bank and your houses, with export to Excel.
 [*][URL="https://www.esoui.com/downloads/info5106.html"][B]Fury's Account Sync[/B][/URL]: make your other accounts on this PC match your main one: settings, keybinds, addon settings and builds.
 [*][URL="https://www.esoui.com/downloads/info5115.html"][B]Fury's Quality of Life[/B][/URL]: small comforts for everyday play: Select all when you deconstruct, a fishing bite alert with the right bait, a queue alert and a lock for everything you wear.
@@ -180,4 +180,4 @@ All free here on ESOUI and in Minion.
 Bug reports and ideas are welcome in the comments.
 Source code: [URL="https://github.com/AlbertHoffpauir/FurysCharacterTracker"]GitHub[/URL]  |  Windows Tools source: [URL="https://github.com/AlbertHoffpauir/FurysCharacterTracker/tree/main/WindowsTools"]GitHub[/URL]
 
-[CENTER][SIZE="1"][COLOR="#B4B0D8"]FURY'S ADDONS[/COLOR]   [URL="https://www.esoui.com/downloads/info5063.html"]Guild Management Toolset[/URL]   |   [COLOR="#A08CFF"][B]Character Tracker[/B][/COLOR]   |   [URL="https://www.esoui.com/downloads/info5099.html"]Inventory Ledger[/URL]   |   [URL="https://www.esoui.com/downloads/info5106.html"]Account Sync[/URL]   |   [URL="https://www.esoui.com/downloads/info5115.html"]Quality of Life[/URL][/SIZE][/CENTER]
+[CENTER][SIZE="1"][COLOR="#B4B0D8"]FURY'S ADDONS[/COLOR]   [URL="https://www.esoui.com/downloads/info5063.html"]Guild Toolset[/URL]   |   [COLOR="#A08CFF"][B]Character Tracker[/B][/COLOR]   |   [URL="https://www.esoui.com/downloads/info5099.html"]Inventory Ledger[/URL]   |   [URL="https://www.esoui.com/downloads/info5106.html"]Account Sync[/URL]   |   [URL="https://www.esoui.com/downloads/info5115.html"]Quality of Life[/URL][/SIZE][/CENTER]

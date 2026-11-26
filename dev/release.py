@@ -15,7 +15,9 @@ ROOT = os.path.dirname(DEV)
 ADDON = os.path.join(ROOT, "FurysCharacterTracker")
 TOOLS = os.path.join(ROOT, "WindowsTools")
 
-ADDON_EXTRAS = ["README.md", "CHANGELOG.md"]            # in the zip, not in the manifest
+ADDON_EXTRAS = ["README.md", "CHANGELOG.md",
+                # the one key of the Fury addons menu, an embedded library with its own manifest
+                "FurysAddonMenu/FurysAddonMenu.txt", "FurysAddonMenu/FurysAddonMenu.lua", "FurysAddonMenu/Bindings.xml"]            # in the zip, not in the manifest
 ADDON_TYPES = (".lua", ".xml", ".txt", ".md")           # ESOUI: addon files only, no scripts or pages
 CRLF_TYPES = (".ps1", ".cmd", ".txt")                   # Windows Tools text opens in Notepad
 
