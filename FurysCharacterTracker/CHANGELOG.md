@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.7.5
+- **More from Fury** now lists Fury's Quality of Life, a new addon of small comforts: Select all on the deconstruct screens, a fishing bite alert with the right bait, a queue alert and a lock for everything you wear.
+- Windows Tools 1.7.5: no change, same version number as the addon.
+
+## 1.7.4
+- **The Fury addons menu.** Type `/fury`, or set the key "Open the Fury addons menu" (under this addon in Controls > Keybindings), for a small window that lists every Fury addon you have installed, each with an Open and a Settings button.
+- Windows Tools 1.7.4: no change, same version number as the addon.
+
 ## 1.7.3
 - **New Weekly tab.** The weekly leaderboards. The first two columns are this week's trial (some weeks a group arena) and this week's arena challenge, titled with the names the game gives them, then Infinite Archive (solo and duo) and battlegrounds. Each row shows which characters ran what this week, and the reward tier earned in the Cyrodiil home campaign. The bottom row is the account's best score and place on each leaderboard, because a leaderboard keeps one entry per account. Amber means the score is outside the top 500, where the leaderboard rewards go, or has no place, so you can see which run to redo. The line above the columns counts down to the reset and lists what needs a better run. Log in on a character to read its account's scores.
 - The Weekly tab asks the game for this week's leaderboards by itself, a few seconds after you log in, so the names, scores and places fill in without opening the game's leaderboard window (about 15 seconds).

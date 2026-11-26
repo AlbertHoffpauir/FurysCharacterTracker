@@ -143,7 +143,7 @@ They come as a separate free download, **Fury's Character Tracker Windows Tools*
 **Get the Windows Tools** in the settings or type `/fct tools` (the game asks before it opens your
 browser), or use the link on the addon's ESOUI page. Unzip it into any folder you like, for example
 Documents\Elder Scrolls Online. Its own README says what each file does. The addon works fully in
-game without them. Use Windows Tools 1.5.0 or newer with this version; 1.7.3 has the Weekly tab.
+game without them. Use Windows Tools 1.5.0 or newer with this version; 1.7.5 has the Weekly tab.
 
 **Offline viewer.** The same board in your browser with the game closed, for every account and
 megaserver on this PC: every tab, Start here, research timers, the brag card, details
@@ -166,6 +166,7 @@ Mac or no tools: the export rows are in the saved data file (texts starting `FCT
 - [Fury's Guild Management Toolset](https://www.esoui.com/downloads/info5063.html): an officer's toolkit: bank alerts, member and inactivity reports, trader week totals, raffles, event sign-ups and recruiting.
 - [Fury's Inventory Ledger](https://www.esoui.com/downloads/info5099.html): every item you own in one list, across all your characters, the bank and your houses, with export to Excel.
 - [Fury's Account Sync](https://www.esoui.com/downloads/info5106.html): make your other accounts on this PC match your main one: settings, keybinds, addon settings and builds.
+- [Fury's Quality of Life](https://www.esoui.com/downloads/info5115.html): small comforts for everyday play: Select all when you deconstruct, a fishing bite alert with the right bait, a queue alert and a lock for everything you wear.
 
 All free on ESOUI and in Minion.
 
