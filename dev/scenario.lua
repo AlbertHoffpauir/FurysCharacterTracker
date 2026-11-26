@@ -62,6 +62,15 @@ Check(D.State(C(), CRAFTING_TYPE_ENCHANTING, world) == D.NONE, "an abandoned wri
 GAME.journal[6] = nil
 Fire(EVENT_QUEST_COMPLETE, "Alchemist Writ", 50, 0, 0, 0, QUEST_TYPE_CRAFTING, 0); Advance(500)
 Check(D.State(C(), CRAFTING_TYPE_ALCHEMY, world) == D.DONE, "an alchemy writ handed in without the removed event is not done (%s)", tostring(D.State(C(), CRAFTING_TYPE_ALCHEMY, world)))
+-- 1.8.5: an English writ name wins over a quest ID remembered under the wrong craft.
+CT.sv.writQuestIds[7777] = CRAFTING_TYPE_PROVISIONING
+GAME.journal[8] = { id = 7777, name = "Alchemist Writ", type = "craft", daily = true, conditions = { "Craft an Essence of Health: 0 / 1" } }
+Fire(EVENT_QUEST_ADDED, 8); Advance(500)
+Check(D.State(C(), CRAFTING_TYPE_ALCHEMY, world) ~= D.NONE and D.State(C(), CRAFTING_TYPE_ALCHEMY, world) ~= D.DONE, "an alchemy writ under a wrong remembered ID is not read as alchemy")
+GAME.journal[8] = nil
+Fire(EVENT_QUEST_REMOVED, true, 8, "Alchemist Writ", 1, 1, 7777); Advance(500)
+Check(D.State(C(), CRAFTING_TYPE_ALCHEMY, world) == D.DONE, "that alchemy writ handed in is not done")
+Check(CT.sv.writQuestIds[7777] == CRAFTING_TYPE_ALCHEMY, "the wrong remembered ID was not corrected")
 -- Done lasts until the daily reset, then it is a new day.
 local reset = D.LastReset(world, GetTimeStamp()) + 86400
 Check(D.State(C(), CRAFTING_TYPE_BLACKSMITHING, world, reset - 60) == D.DONE, "done writ gone before the reset")
