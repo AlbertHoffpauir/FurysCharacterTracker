@@ -548,7 +548,7 @@ setmetatable(_G, { __index = function(t, key)
     end
     if PY_IS_CONST(key) then nextConst = nextConst + 1; rawset(t, key, nextConst); return nextConst end
     if PY_IS_FUNC(key) then error("ESO API used but not stood in for by the harness: " .. key, 2) end
-    if key == "FuryCT_SV" or key == "STRINGS" then return nil end
+    if key == "FuryCT_SV" or key == "STRINGS" or key == "FurysAddonMenu_SV" or key == "FurysAddonMenu" then return nil end
     Problem("global not in the ESO API documentation: " .. key)
     return nil
 end })
