@@ -1,4 +1,4 @@
-Fury's Character Tracker - Windows Tools 1.8.7
+Fury's Character Tracker - Windows Tools 1.8.8
 ===============================================
 
 Optional helpers for the ESO addon Fury's Character Tracker. They run outside the game, on Windows,
