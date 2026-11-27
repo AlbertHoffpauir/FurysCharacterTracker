@@ -142,51 +142,45 @@ P("export header: %s", (CT.sv.exportRows[1]:gsub("\t", " | ")))
 
 UICheck()
 
--- The Fury sidebar and addons list (the optional library Fury's Addons Menu; skipped when the
--- run leaves it out). The sidebar starts turned off; /fury shows it, its icon opens the board,
--- and the list's buttons and boxes work.
-local bar, menu = nil, rawget(_G, "FurysAddonMenu")
-if not menu then
-    Check(SLASH_COMMANDS["/fury"] == nil, "/fury exists without Fury's Addons Menu")
-else
-    bar = GetControl("FurysAddonMenuBar")
-    Check(menu.entries["Fury's Character Tracker"] ~= nil, "the tracker is not on the Fury addons list")
-    Check(bar:IsHidden(), "the Fury sidebar is not off on a new install")
-    SLASH_COMMANDS["/fury"]("")
-    Check(not bar:IsHidden(), "/fury did not show the Fury sidebar")
-    FurysCharacterTracker_Window:SetHidden(true)
-    GetControl("FurysAddonMenuBarIcon1").handlers.OnClicked(nil, 1)
-    Check(not FurysCharacterTracker_Window:IsHidden(), "the sidebar's icon did not open the board")
-    SLASH_COMMANDS["/fury"]("menu")
-    local menuWindow = GetControl("FurysAddonMenuWindow")
-    Check(not menuWindow:IsHidden(), "/fury menu did not open the Fury addons list")
-    Check(GetControl("FurysAddonMenuWindowBarShown").checked == true, "the list does not show that the sidebar is on")
-    GetControl("FurysAddonMenuWindowBarAcross").toggle(nil, true)
-    Check(bar.w > bar.h, "the horizontal box did not lay the sidebar out as a row")
-    Check(next(HUD_UI_SCENE.fragments) ~= nil, "the sidebar is not shown in cursor mode")
-    Check(next(HUD_SCENE.fragments) == nil, "the sidebar shows without the cursor although that box is off")
-    GetControl("FurysAddonMenuWindowBarAlways").toggle(nil, true)
-    Check(next(HUD_SCENE.fragments) ~= nil, "the without-the-cursor box did not keep the sidebar on screen")
-    GetControl("FurysAddonMenuWindowBarAlways").toggle(nil, false)
-    Check(next(HUD_SCENE.fragments) == nil, "turning the without-the-cursor box off did not hide the sidebar again")
-    GetControl("FurysAddonMenuWindowBarShown").toggle(nil, false)
-    Check(bar:IsHidden(), "the Show box did not hide the sidebar")
-    GetControl("FurysAddonMenuWindowOpen1").handlers.OnClicked()
-    Check(menuWindow:IsHidden(), "Open did not close the Fury addons list")
+-- The Fury sidebar and addons list (the library Fury's Addons Menu). The sidebar starts turned
+-- off; /fury shows it, its icon opens the board, and the list's buttons and boxes work.
+local bar, menu = GetControl("FurysAddonMenuBar"), FurysAddonMenu
+Check(menu.entries["Fury's Character Tracker"] ~= nil, "the tracker is not on the Fury addons list")
+Check(bar:IsHidden(), "the Fury sidebar is not off on a new install")
+SLASH_COMMANDS["/fury"]("")
+Check(not bar:IsHidden(), "/fury did not show the Fury sidebar")
+FurysCharacterTracker_Window:SetHidden(true)
+GetControl("FurysAddonMenuBarIcon1").handlers.OnClicked(nil, 1)
+Check(not FurysCharacterTracker_Window:IsHidden(), "the sidebar's icon did not open the board")
+SLASH_COMMANDS["/fury"]("menu")
+local menuWindow = GetControl("FurysAddonMenuWindow")
+Check(not menuWindow:IsHidden(), "/fury menu did not open the Fury addons list")
+Check(GetControl("FurysAddonMenuWindowBarShown").checked == true, "the list does not show that the sidebar is on")
+GetControl("FurysAddonMenuWindowBarAcross").toggle(nil, true)
+Check(bar.w > bar.h, "the horizontal box did not lay the sidebar out as a row")
+Check(next(HUD_UI_SCENE.fragments) ~= nil, "the sidebar is not shown in cursor mode")
+Check(next(HUD_SCENE.fragments) == nil, "the sidebar shows without the cursor although that box is off")
+GetControl("FurysAddonMenuWindowBarAlways").toggle(nil, true)
+Check(next(HUD_SCENE.fragments) ~= nil, "the without-the-cursor box did not keep the sidebar on screen")
+GetControl("FurysAddonMenuWindowBarAlways").toggle(nil, false)
+Check(next(HUD_SCENE.fragments) == nil, "turning the without-the-cursor box off did not hide the sidebar again")
+GetControl("FurysAddonMenuWindowBarShown").toggle(nil, false)
+Check(bar:IsHidden(), "the Show box did not hide the sidebar")
+GetControl("FurysAddonMenuWindowOpen1").handlers.OnClicked()
+Check(menuWindow:IsHidden(), "Open did not close the Fury addons list")
 
-    -- The other Fury addons in the board's title bar: one icon per other installed Fury addon, not
-    -- one for the tracker itself. (Only the tracker is loaded here, so a made-up second addon stands
-    -- in. The row is built the first time the window shows.)
-    local opened = 0
-    menu.entries["Fury's Other Addon"] = { name = "Fury's Other Addon", open = function() opened = opened + 1 end, settings = function() opened = opened + 10 end }
-    FurysCharacterTracker_Window.handlers.OnEffectivelyShown(FurysCharacterTracker_Window)
-    local other = CONTROLS["FurysCharacterTracker_WindowFuryIcon1"]
-    Check(other ~= nil, "the title bar has no icon for another Fury addon")
-    Check(CONTROLS["FurysCharacterTracker_WindowFuryIcon2"] == nil, "the title bar has an icon for the tracker itself")
-    Check(CONTROLS["FurysCharacterTracker_WindowFuryVersion"] ~= nil, "the version did not move to the right of the title bar icons")
-    if other then
-        other.handlers.OnClicked(nil, 1)
-        other.handlers.OnClicked(nil, MOUSE_BUTTON_INDEX_RIGHT)
-        Check(opened == 11, "the title bar icon did not open the other addon and its settings")
-    end
+-- The other Fury addons in the board's title bar: one icon per other installed Fury addon, not
+-- one for the tracker itself. (Only the tracker is loaded here, so a made-up second addon stands
+-- in. The row is built the first time the window shows.)
+local opened = 0
+menu.entries["Fury's Other Addon"] = { name = "Fury's Other Addon", open = function() opened = opened + 1 end, settings = function() opened = opened + 10 end }
+FurysCharacterTracker_Window.handlers.OnEffectivelyShown(FurysCharacterTracker_Window)
+local other = CONTROLS["FurysCharacterTracker_WindowFuryIcon1"]
+Check(other ~= nil, "the title bar has no icon for another Fury addon")
+Check(CONTROLS["FurysCharacterTracker_WindowFuryIcon2"] == nil, "the title bar has an icon for the tracker itself")
+Check(CONTROLS["FurysCharacterTracker_WindowFuryVersion"] ~= nil, "the version did not move to the right of the title bar icons")
+if other then
+    other.handlers.OnClicked(nil, 1)
+    other.handlers.OnClicked(nil, MOUSE_BUTTON_INDEX_RIGHT)
+    Check(opened == 11, "the title bar icon did not open the other addon and its settings")
 end

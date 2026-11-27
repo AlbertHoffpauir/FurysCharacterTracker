@@ -120,12 +120,10 @@ run_file(read(os.path.join(HERE, "stub.lua")).replace("NOW = 1795600000\n", "", 
 if SAVED != "-":
     lua.execute(read(SAVED))
 
-# The optional library Fury's Addons Menu (FurysAddonMenu), loaded before the addon as the game
-# does (a copy in dev/vendor). FCT_NO_MENU_LIB=1 runs without it, as for a player who has not
-# installed it.
-if os.environ.get("FCT_NO_MENU_LIB") != "1":
-    run_file(read(os.path.join(HERE, "vendor", "FurysAddonMenu.lua")), "@FurysAddonMenu.lua")
-    lua.execute('Fire(EVENT_ADD_ON_LOADED, "FurysAddonMenu")')
+# The required library Fury's Addons Menu (FurysAddonMenu), loaded before the addon as the game
+# does (a copy in dev/vendor).
+run_file(read(os.path.join(HERE, "vendor", "FurysAddonMenu.lua")), "@FurysAddonMenu.lua")
+lua.execute('Fire(EVENT_ADD_ON_LOADED, "FurysAddonMenu")')
 
 files = manifest_files()
 for rel in files:

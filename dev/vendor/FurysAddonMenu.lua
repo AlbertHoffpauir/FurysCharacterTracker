@@ -5,8 +5,7 @@
 -- (open, settings). This library does everything else: it builds the sidebar and the list, keeps
 -- their settings, owns the /fury command and the key "Show or hide the Fury sidebar".
 --
--- It is optional for Fury's addons: without it they work fully, only without the sidebar, the
--- /fury menu and the other addons' icons in their title bars.
+-- Every Fury addon requires it (DependsOn), so it is always loaded before them.
 
 FurysAddonMenu = { version = 130 }
 local M = FurysAddonMenu
