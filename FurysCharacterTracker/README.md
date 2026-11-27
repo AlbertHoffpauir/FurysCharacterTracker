@@ -8,6 +8,8 @@ the game. A brag card, copy for Discord, export to Excel.
 
 **Requires:** LibAddonMenu-2.0 (version 43 or newer). Install it separately; without it the addon will not load.
 
+**Optional:** Fury's Addons Menu (version 1.2.0 or newer) adds a key for the Fury sidebar and remembers the sidebar's settings. Without it, `/fury` and the sidebar still work.
+
 ## Start here
 
 1. Log in on each character once with the addon on. A few seconds is enough: it is read right after

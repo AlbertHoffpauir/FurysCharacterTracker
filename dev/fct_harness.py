@@ -120,6 +120,10 @@ run_file(read(os.path.join(HERE, "stub.lua")).replace("NOW = 1795600000\n", "", 
 if SAVED != "-":
     lua.execute(read(SAVED))
 
+# The optional library Fury's Addons Menu (FurysAddonMenu), when installed, as the game leaves
+# it loaded before the addon: the shared list and the sidebar's saved settings.
+lua.execute("FurysAddonMenu = { entries = {}, lib = 0, Toggle = function() end, sv = {} }")
+
 files = manifest_files()
 for rel in files:
     if rel.endswith(".lua"):

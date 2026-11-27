@@ -6,8 +6,8 @@ An Elder Scrolls Online addon: every character on your account, on one board. Sk
 
 ## Downloads
 
-- **The addon:** get it from ESOUI or Minion. The same files are in [`FurysCharacterTracker/`](FurysCharacterTracker/) here, and as [FurysCharacterTracker-1.8.5.zip](https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-1.8.5.zip).
-- **Windows Tools** (optional): offline viewer and Excel export. **[Download FurysCharacterTracker-WindowsTools-1.8.5.zip](https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-WindowsTools-1.8.5.zip)**. Unzip it into any folder, for example Documents\Elder Scrolls Online. Source: [`WindowsTools/`](WindowsTools/), and [README.txt](WindowsTools/README.txt) says what every file does. Use tools 1.5.0 or newer with addon 1.5.0 or newer; older tools cannot read what 1.5.0 saves.
+- **The addon:** get it from ESOUI or Minion. The same files are in [`FurysCharacterTracker/`](FurysCharacterTracker/) here, and as [FurysCharacterTracker-1.8.6.zip](https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-1.8.6.zip). It needs LibAddonMenu-2.0; Fury's Addons Menu is optional (it adds a key for the Fury sidebar). Both are free on ESOUI and in Minion.
+- **Windows Tools** (optional): offline viewer and Excel export. **[Download FurysCharacterTracker-WindowsTools-1.8.6.zip](https://github.com/AlbertHoffpauir/FurysCharacterTracker/raw/main/downloads/FurysCharacterTracker-WindowsTools-1.8.6.zip)**. Unzip it into any folder, for example Documents\Elder Scrolls Online. Source: [`WindowsTools/`](WindowsTools/), and [README.txt](WindowsTools/README.txt) says what every file does. Use tools 1.5.0 or newer with addon 1.5.0 or newer; older tools cannot read what 1.5.0 saves.
 
 The tools are plain-text scripts (batch, PowerShell) and one HTML page. They only read the addon's saved data file on your PC and never connect to the internet.
 

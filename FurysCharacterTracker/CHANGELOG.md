@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.8.6
+- **Fury's Addons Menu is now a separate library.** The Fury sidebar's key and saved settings used to ship as a small folder inside every Fury addon. At the request of the ESOUI team it is now its own download, Fury's Addons Menu. It is optional: install it to keep the sidebar's key and to have the sidebar remember its settings. Without it, `/fury` and the sidebar still work. Your sidebar settings and your key carry over once it is installed.
+
 ## 1.8.5
 - **Finished writs stay finished.** A writ you hand in now always shows as Done, even when the game doesn't tell the addon about the hand-in. When a writ taken today leaves your journal, the addon counts it as handed in. It also reads your writs again whenever you finish a quest and when you log out or switch characters.
 - **Alchemy writs are read right.** An alchemy writ could be taken for another craft's writ, so its column stayed "-". On an English client the writ's name now decides which craft it is.
