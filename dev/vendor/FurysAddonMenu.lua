@@ -7,7 +7,7 @@
 --
 -- Every Fury addon requires it (DependsOn), so it is always loaded before them.
 
-FurysAddonMenu = { version = 130 }
+FurysAddonMenu = { version = 132 }
 local M = FurysAddonMenu
 
 local NAME = "Fury's Addons"
@@ -420,10 +420,18 @@ end
 local function OnLoaded(_, name)
     if name ~= "FurysAddonMenu" then return end
     EVENT_MANAGER:UnregisterForEvent("FurysAddonMenu", EVENT_ADD_ON_LOADED)
-    -- The game only fills FurysAddonMenu_SV when a saved file already exists, so on a new install
-    -- it starts out empty and this makes the table it will save.
-    FurysAddonMenu_SV = FurysAddonMenu_SV or {}
-    saved = FurysAddonMenu_SV
+    -- The sidebar's settings, the standard way: one set for the whole PC. Up to 1.3.1 they sat at
+    -- the top of the saved file; they are moved into place the first time, so nothing is lost.
+    local old = FurysAddonMenu_SV
+    saved = ZO_SavedVars:NewAccountWide("FurysAddonMenu_SV", 1, nil, nil, nil, "$AllAccounts")
+    if old then
+        for key, value in pairs(old) do
+            if key ~= "Default" then
+                saved[key] = value
+                old[key] = nil
+            end
+        end
+    end
     M.sv = saved
     EVENT_MANAGER:RegisterForEvent("FurysAddonMenu", EVENT_PLAYER_ACTIVATED, OnActivated)
 end

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.0
+- Shared code update: Fury's addons now load their saved settings the standard way. Nothing changes for you.
+
 ## 1.8.9
 - **Fury's Addons Menu is now a required library**, like LibAddonMenu-2.0, so it shows in the game's Required Add-Ons list. Install it from ESOUI or Minion (Minion 3 does not install libraries for you). It gives all of Fury's addons the Fury sidebar and `/fury`.
 

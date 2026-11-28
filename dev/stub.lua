@@ -230,12 +230,14 @@ local function Fill(target, defaults)
     end
 end
 ZO_SavedVars = {
-    NewAccountWide = function(_, name, version, namespace, defaults, profile)
+    NewAccountWide = function(_, name, version, namespace, defaults, profile, displayName)
         _G[name] = rawget(_G, name) or {}
         local root = _G[name]
+        profile = profile or "Default"
+        local who = displayName or HOME_ACCOUNT
         root[profile] = root[profile] or {}
-        root[profile][HOME_ACCOUNT] = root[profile][HOME_ACCOUNT] or {}
-        local acct = root[profile][HOME_ACCOUNT]
+        root[profile][who] = root[profile][who] or {}
+        local acct = root[profile][who]
         acct["$AccountWide"] = acct["$AccountWide"] or { version = version }
         Fill(acct["$AccountWide"], defaults or {})
         return acct["$AccountWide"]
