@@ -3,7 +3,8 @@
 -- addon's place in the Fury sidebar. The same file ships in every Fury addon, so they all
 -- look and behave the same. Only the six lines below differ: it hangs off that addon's own table,
 -- so no Fury addon depends on another Fury addon being installed. The Fury sidebar itself comes
--- from the library Fury's Addons Menu (FurysAddonMenu), which every Fury addon requires.
+-- from Fury's Command Center or the older Fury's Addons Menu, both optional: without them there
+-- is no sidebar, no /fury and no title-bar icons, and the addon works as before.
 
 local A = FurysCharacterTracker
 local GLYPH = "EsoUI/Art/MainMenu/menuBar_character_up.dds"
@@ -50,7 +51,7 @@ end
 -- Which version of this shared file an addon carries. Raise it with every change to the file,
 -- then copy the file into every addon.
 ------------------------------------------------------------------------------
-T.LIB = 16
+T.LIB = 18
 
 ------------------------------------------------------------------------------
 -- Chat: every line an addon prints starts with its name in violet, "[Guild Toolset] text".
@@ -455,19 +456,26 @@ function T.StartPage(win, intro, sections)
 end
 
 ------------------------------------------------------------------------------
--- The Fury sidebar, the Fury addons list (/fury) and the other Fury addons' icons in each window's
--- title bar live in the library Fury's Addons Menu (FurysAddonMenu), which every Fury addon
--- requires. This addon only puts itself on its list.
+-- Fury's Command Center (FurysCommandCenter) and the older Fury's Addons Menu (FurysAddonMenu)
+-- both list the installed Fury addons. Both are optional (LIB 17/18): this addon puts itself on
+-- each one that is installed, and nothing here runs when neither is. The addon's own tiles for
+-- the Command Center are registered in its own file, not here.
 ------------------------------------------------------------------------------
-FurysAddonMenu:Register({ name = MENU_NAME, glyph = GLYPH, open = MenuOpen, settings = MenuSettings })
+local MENU_ENTRY = { name = MENU_NAME, glyph = GLYPH, open = MenuOpen, settings = MenuSettings }
+if FurysCommandCenter then FurysCommandCenter:Register(MENU_ENTRY) end
+if FurysAddonMenu then FurysAddonMenu:Register(MENU_ENTRY) end
+T.MENU_NAME = MENU_NAME
 
 -- The other installed Fury addons as a row of small icons in a window's title bar, between its
 -- name and its version. `rightOf` is the leftmost control on the right side of the title bar,
 -- `reserve` extra width to keep free left of it, `start` the Start here button when T.StartButton
--- did not make it. Call it after T.SetTitle.
+-- did not make it. Call it after T.SetTitle. The Command Center draws them when it is installed,
+-- otherwise Fury's Addons Menu; without either the title stays as it is.
 function T.TitleIcons(win, rightOf, start, reserve)
+    local menuLib = FurysCommandCenter or FurysAddonMenu
+    if not menuLib then return end
     local info = win.furyTitle
-    FurysAddonMenu:TitleIcons(win, {
+    menuLib:TitleIcons(win, {
         skip = MENU_NAME,
         label = info.label,
         version = info.versionLabel,

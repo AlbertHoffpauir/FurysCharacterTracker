@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.9.2
+- **Fury's Command Center** (coming soon, optional): with it installed, this addon shows its writs still open today and the daily endeavors left, on the Command Center's strip and on its card. Without it nothing changes.
+
+## 1.9.1
+- **Fury's Addons Menu is now optional.** This addon no longer needs it to load. With it installed you still get the Fury sidebar, `/fury` and the title-bar icons; without it everything else works the same. Fury's Addons Menu is being replaced by Fury's Command Center soon.
+
 ## 1.9.0
 - Shared code update: Fury's addons now load their saved settings the standard way. Nothing changes for you.
 
